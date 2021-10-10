@@ -1,15 +1,18 @@
-function init(self)
-	-- Add initialization code here
-	-- Learn more: https://defold.com/manuals/script/
-	-- Remove this function if not needed
-	-- Set Animation Delay
-	self.splashBackground = gui.get_node("splashBackground")
-	self.joshuLogo = gui.get_node("joshuLogo")
-	splashScreenAnimate(self)
-	
-end
+-- Joshu Methods
 
-function splashScreenAnimate(self)
+local function hideLogo(self)
+	print("Executing hideLogo")
+	-- Get the current color and set alpha to 0 as a basis for fading up
+	--local from_color = gui.get_color(node)
+	local to_color = gui.get_color(self.joshuLogo)
+	to_color.w = 0
+	local delay = 0.5
+
+	-- Animate the alpha value from 1 to 0
+	gui.animate(self.joshuLogo, gui.PROP_COLOR, to_color, gui.EASING_IN, 0.5, delay)
+end	
+
+local function splashScreenAnimate(self)
 	print("Executing animateLogos")
 	-- Set Animation Delay
 	local d = 0
@@ -29,7 +32,20 @@ function splashScreenAnimate(self)
 	-- Animate the scale up to 135%
 	local s = 1.0
 	gui.animate(self.joshuLogo, gui.PROP_SCALE, vmath.vector4(s, s, s, 0), gui.EASING_IN, 1,
-	d)
+	d, hideLogo)
+end
+
+-- System methods
+
+function init(self)
+	-- Add initialization code here
+	-- Learn more: https://defold.com/manuals/script/
+	-- Remove this function if not needed
+	-- Set Animation Delay
+	self.splashBackground = gui.get_node("splashBackground")
+	self.joshuLogo = gui.get_node("joshuLogo")
+	splashScreenAnimate(self)
+	
 end
 
 function final(self)
