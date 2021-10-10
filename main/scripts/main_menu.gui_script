@@ -2,6 +2,34 @@ function init(self)
 	-- Add initialization code here
 	-- Learn more: https://defold.com/manuals/script/
 	-- Remove this function if not needed
+	-- Set Animation Delay
+	self.splashBackground = gui.get_node("splashBackground")
+	self.joshuLogo = gui.get_node("joshuLogo")
+	splashScreenAnimate(self)
+	
+end
+
+function splashScreenAnimate(self)
+	print("Executing animateLogos")
+	-- Set Animation Delay
+	local d = 0
+	-- Change Scale to reduce size
+	local start_scale = 0.0001
+	gui.set_scale(self.joshuLogo, vmath.vector4(start_scale, start_scale, start_scale, 0))
+
+	-- Get the current color and set alpha to 0 as a basis for fading up
+	local from_color = gui.get_color(self.joshuLogo)
+	local to_color = gui.get_color(self.joshuLogo)
+	from_color.w = 0
+	gui.set_color(self.joshuLogo, from_color)
+
+	-- Animate the alpha value from 0 to 1
+	gui.animate(self.joshuLogo, gui.PROP_COLOR, to_color, gui.EASING_IN, 1, d)
+
+	-- Animate the scale up to 135%
+	local s = 1.0
+	gui.animate(self.joshuLogo, gui.PROP_SCALE, vmath.vector4(s, s, s, 0), gui.EASING_IN, 1,
+	d)
 end
 
 function final(self)
