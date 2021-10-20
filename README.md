@@ -1,13 +1,12 @@
-# Welcome to Defold
+# JOSHU Word Search
 
-This project was created from the "empty" project template.
+Blake Herrera, 2021.
+["www.blakeherrera.com"](http://blakeherrera.com)
 
-The settings in ["game.project"](defold://open?path=/game.project) are all the default. A bootstrap empty ["main.collection"](defold://open?path=/main/main.collection) is included.
+I created this project for the UT Austin Japanese homework website JOSHU (Japanese Online Self-Help Utility.)
 
-Check out [the documentation pages](https://defold.com/learn) for examples, tutorials, manuals and API docs.
+This was my first time working with both Defold and Lua, and I hope to continue to improve my understanding of both with time.
 
-If you run into trouble, help is available in [our forum](https://forum.defold.com).
-
-Happy Defolding!
+I really enjoyed working on this, and I hope you find this helpful!
 
 ---
