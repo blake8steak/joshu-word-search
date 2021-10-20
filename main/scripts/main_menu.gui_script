@@ -77,13 +77,13 @@ function init(self)
 	self.titleText = gui.get_node("titleText")
 	splashScreenAnimate(self)
 	msg.post(".", "acquire_input_focus")
-	
 end
 
 function final(self)
 	-- Add finalization code here
 	-- Learn more: https://defold.com/manuals/script/
 	-- Remove this function if not needed
+	msg.post(".", "release_input_focus")
 end
 
 function update(self, dt)
