@@ -34,8 +34,58 @@ function on_input(self, action_id, action)
 	-- be received regardless of where on the screen it happened.
 	-- Learn more: https://defold.com/manuals/input/
 	-- Remove this function if not needed
-	if action.pressed and gui.pick_node(gui.get_node("tileGrid"), action.x, action.y) then
-		print("Some letter selected")
+	local node1
+	local node2
+	local node1Row
+	local node1Col
+	local node2Row
+	local node2Col
+	local isValid
+	
+	if action.pressed and gui.pick_node(gui.get_node("col0"), action.x, action.y) then
+		print("col0")
+		if action.pressed and gui.pick_node(gui.get_node("tile0-0"), action.x, action.y) then
+			print("tile0-0")
+			if node1 == nil then
+				-- This is the first node selected. Highlight this node, no need for checks.
+				node1 = gui.get_node("tile0-0")
+				node1Col = 0
+				node1Row = 0
+				print("selected char: "..gui.get_text(gui.get_node("letter0")))
+			elseif node1 == gui.get_node("tile0-0") then
+				node1 = nil;
+			else
+				-- This is either node2, or if validity checks fail, will override node1.
+				isValid = check_if_valid_node2(node1Col, node1Row, node2Col, node2Row)
+				if isValid then
+					node2 = gui.get_node("tile0-0")
+					node2Col = 0
+					node2Row = 0
+					print("selected char: "..gui.get_text(gui.get_node("letter0")))
+					-- Highlight all letters in between
+					-- Check if word exists in word bank
+					-- Flash red and unhighlight if word does not exist
+				else
+					node1 = gui.get_node("tile0-0")
+					node1Col = 0
+					node1Row = 0
+			end
+		end
+		if action.pressed and gui.pick_node(gui.get_node("tile0-1"), action.x, action.y) then
+			print("tile0-1")
+		end
+	end
+
+	if node1 ~= nil then
+		if(gui.get_color(node1) == vmath.vector4(1, 1, 0, 1)) then
+			gui.set_color(node1, vmath.vector4(1, 1, 1, 1))
+		else
+			gui.set_color(node1, vmath.vector4(1, 1, 0, 1))
+		end
+	end
+	
+	if action.pressed and gui.pick_node(gui.get_node("tile1-11"), action.x, action.y) then
+		print("tile1-11")
 	end
 	if action.pressed and gui.pick_node(gui.get_node("leftArrow"), action.x, action.y) then
 		print("Left arrow pressed")
@@ -50,3 +100,17 @@ function on_reload(self)
 	-- Learn more: https://defold.com/manuals/hot-reload/
 	-- Remove this function if not needed
 end
+
+-- Blake Methods Start Here --
+function check_if_valid_node2(node1Col, node1Row, node2Col, node2Row)
+	if node1Row == node2Row then
+		return true
+	elseif node1Col == node2Col then
+		return true
+	elseif math.abs(node1Row-node2Row) == math.abs(node1Col-node2Col) then
+		return true
+	else
+		return false
+	end
+end
+-- End Blake Methods --
