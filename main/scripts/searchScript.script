@@ -1,3 +1,14 @@
+local node1
+local node2
+local node1Row
+local node1Col
+local node2Row
+local node2Col
+local isValid
+local countNum = 0
+local wordBankArr = {"ナルト", "ルフィ", "ルルーシュヴィブリタニア", "ライト", "ボボボーボボーボボ", "アラジン", "ゴンフリークス", "コナン", "アレンウォーカー", "シロエ", "エドワードエルリック", "ピカチュウ"}
+
+
 function init(self)
 	-- Add initialization code here
 	-- Learn more: https://defold.com/manuals/script/
@@ -21,11 +32,12 @@ function on_message(self, message_id, message, sender)
 	-- Learn more: https://defold.com/manuals/message-passing/
 	-- Remove this function if not needed
 	if message_id == hash("tile_selected") then
-		print("SEARCH SCRIPT RECIEVED TILE")
-		print(self)
-		print(message_id)
-		print(message.row)
-		print(sender)
+		-- print("SEARCH SCRIPT RECIEVED TILE")
+		-- print(self)
+		-- print(message_id)
+		-- print(message.row)
+		-- print(sender)
+		print("== BOX INFO: "..message.char.." @ ("..message.col..","..message.row..")  == *[col, row]*")
 	end
 end
 

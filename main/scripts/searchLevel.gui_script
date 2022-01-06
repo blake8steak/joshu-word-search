@@ -1,12 +1,12 @@
 local node1
 local node2
-local node1Row
+
 local node1Col
-local node2Row
+local node1Row
+local node1Char
 local node2Col
-local isValid
-local countNum = 0
-local wordBankArr = {"ナルト", "ルフィ", "ルルーシュヴィブリタニア", "ライト", "ボボボーボボーボボ", "アラジン", "ゴンフリークス", "コナン", "アレンウォーカー", "シロエ", "エドワードエルリック", "ピカチュウ"}
+local node2Row
+local node2Char
 
 function init(self)
 	-- Add initialization code here
@@ -44,61 +44,185 @@ function on_input(self, action_id, action)
 	-- be received regardless of where on the screen it happened.
 	-- Learn more: https://defold.com/manuals/input/
 	-- Remove this function if not needed
-	
-	if action.pressed and gui.pick_node(gui.get_node("col0"), action.x, action.y) then
-		print("col0")
+	local boxCol
+	local boxRow
+	if action_id == hash("touch") and action.pressed and gui.pick_node(gui.get_node("col0"), action.x, action.y) then
+		-- == Column 0 ==
+		boxCol = 0
 		if action.pressed and gui.pick_node(gui.get_node("tile0-0"), action.x, action.y) then
-			msg.post("/searchLevel#searchScript", "tile_selected", {col = 0, row = 0})
-			-- print("tile0-0")
-			-- if node1 == nil then
-			-- 	-- This is the first node selected. Highlight this node, no need for checks.
-			-- 	node1 = gui.get_node("tile0-0")
-			-- 	node1Col = 0
-			-- 	node1Row = 0
-			-- 	print("node1 selected char: "..gui.get_text(gui.get_node("letter0")))
-			-- elseif node1 == gui.get_node("tile0-0") then
-			-- 	node1 = nil;
-			-- else
-			-- 	-- This is either node2, or if validity checks fail, will override node1.
-			-- 	node2Col = 0
-			-- 	node2Row = 0
-			-- 	isValid = check_if_valid_node2(node1Col, node1Row, node2Col, node2Row)
-			-- 	if isValid then
-			-- 		node2 = gui.get_node("tile0-0")
-			-- 		print("node2 selected char: "..gui.get_text(gui.get_node("letter0")))
-			-- 		-- Highlight all letters in between
-			-- 		-- Check if word exists in word bank
-			-- 		-- Flash red and unhighlight if word does not exist
-			-- 	else
-			-- 		node1 = gui.get_node("tile0-0")
-			-- 		node1Col = 0
-			-- 		node1Row = 0
-			-- 	end
-			-- end
+			boxRow = 0
+			setBoxData(boxCol, boxRow, gui.get_text(gui.get_node("letter0")), "tile"..boxCol.."-"..boxRow)
+			highlight_boxes()
+		elseif action.pressed and gui.pick_node(gui.get_node("tile0-1"), action.x, action.y) then
+			boxRow = 1
+			setBoxData(boxCol, boxRow, gui.get_text(gui.get_node("letter1")), "tile"..boxCol.."-"..boxRow)
+			highlight_boxes()
+		elseif action.pressed and gui.pick_node(gui.get_node("tile0-2"), action.x, action.y) then
+			boxRow = 2
+			setBoxData(boxCol, boxRow, gui.get_text(gui.get_node("letter2")), "tile"..boxCol.."-"..boxRow)
+			highlight_boxes()
+		elseif action.pressed and gui.pick_node(gui.get_node("tile0-3"), action.x, action.y) then
+			boxRow = 3
+			setBoxData(boxCol, boxRow, gui.get_text(gui.get_node("letter3")), "tile"..boxCol.."-"..boxRow)
+			highlight_boxes()
+		elseif action.pressed and gui.pick_node(gui.get_node("tile0-4"), action.x, action.y) then
+			boxRow = 4
+			setBoxData(boxCol, boxRow, gui.get_text(gui.get_node("letter4")), "tile"..boxCol.."-"..boxRow)
+			highlight_boxes()
+		elseif action.pressed and gui.pick_node(gui.get_node("tile0-5"), action.x, action.y) then
+			boxRow = 5
+			setBoxData(boxCol, boxRow, gui.get_text(gui.get_node("letter5")), "tile"..boxCol.."-"..boxRow)
+			highlight_boxes()
+		elseif action.pressed and gui.pick_node(gui.get_node("tile0-6"), action.x, action.y) then
+			boxRow = 6
+			setBoxData(boxCol, boxRow, gui.get_text(gui.get_node("letter6")), "tile"..boxCol.."-"..boxRow)
+			highlight_boxes()
+		elseif action.pressed and gui.pick_node(gui.get_node("tile0-7"), action.x, action.y) then
+			boxRow = 7
+			setBoxData(boxCol, boxRow, gui.get_text(gui.get_node("letter7")), "tile"..boxCol.."-"..boxRow)
+			highlight_boxes()
+		elseif action.pressed and gui.pick_node(gui.get_node("tile0-8"), action.x, action.y) then
+			boxRow = 8
+			setBoxData(boxCol, boxRow, gui.get_text(gui.get_node("letter8")), "tile"..boxCol.."-"..boxRow)
+			highlight_boxes()
+		elseif action.pressed and gui.pick_node(gui.get_node("tile0-9"), action.x, action.y) then
+			boxRow = 9
+			setBoxData(boxCol, boxRow, gui.get_text(gui.get_node("letter9")), "tile"..boxCol.."-"..boxRow)
+			highlight_boxes()
+		elseif action.pressed and gui.pick_node(gui.get_node("tile0-10"), action.x, action.y) then
+			boxRow = 10
+			setBoxData(boxCol, boxRow, gui.get_text(gui.get_node("letter10")), "tile"..boxCol.."-"..boxRow)
+			highlight_boxes()
+		elseif action.pressed and gui.pick_node(gui.get_node("tile0-11"), action.x, action.y) then
+			boxRow = 11
+			setBoxData(boxCol, boxRow, gui.get_text(gui.get_node("letter11")), "tile"..boxCol.."-"..boxRow)
+			highlight_boxes()
 		end
-		-- 0-1
-		if action.pressed and gui.pick_node(gui.get_node("tile0-1"), action.x, action.y) then
-			msg.post("/searchLevel#searchScript", "tile_selected", {col = 0, row = 1})
-		end
-	end
-
-	if node1 ~= nil then
-		if(gui.get_color(node1) == vmath.vector4(1, 1, 0, 1)) then
-			gui.set_color(node1, vmath.vector4(1, 1, 1, 1))
-		else
-			gui.set_color(node1, vmath.vector4(1, 1, 0, 1))
+	elseif action_id == hash("touch") and action.pressed and gui.pick_node(gui.get_node("col1"), action.x, action.y) then
+		-- == Column 1 ==
+		boxCol = 1
+		if action.pressed and gui.pick_node(gui.get_node("tile1-0"), action.x, action.y) then
+			boxRow = 0
+			setBoxData(boxCol, boxRow, gui.get_text(gui.get_node("letter")), "tile"..boxCol.."-"..boxRow)
+			highlight_boxes()
+		elseif action.pressed and gui.pick_node(gui.get_node("tile1-1"), action.x, action.y) then
+			boxRow = 1
+			setBoxData(boxCol, boxRow, gui.get_text(gui.get_node("letter20")), "tile"..boxCol.."-"..boxRow)
+			highlight_boxes()
+		elseif action.pressed and gui.pick_node(gui.get_node("tile1-2"), action.x, action.y) then
+			boxRow = 2
+			setBoxData(boxCol, boxRow, gui.get_text(gui.get_node("letter18")), "tile"..boxCol.."-"..boxRow)
+			highlight_boxes()
+		elseif action.pressed and gui.pick_node(gui.get_node("tile1-3"), action.x, action.y) then
+			boxRow = 3
+			setBoxData(boxCol, boxRow, gui.get_text(gui.get_node("letter14")), "tile"..boxCol.."-"..boxRow)
+			highlight_boxes()
+		elseif action.pressed and gui.pick_node(gui.get_node("tile1-4"), action.x, action.y) then
+			boxRow = 4
+			setBoxData(boxCol, boxRow, gui.get_text(gui.get_node("letter16")), "tile"..boxCol.."-"..boxRow)
+			highlight_boxes()
+		elseif action.pressed and gui.pick_node(gui.get_node("tile1-5"), action.x, action.y) then
+			boxRow = 5
+			setBoxData(boxCol, boxRow, gui.get_text(gui.get_node("letter17")), "tile"..boxCol.."-"..boxRow)
+			highlight_boxes()
+		elseif action.pressed and gui.pick_node(gui.get_node("tile1-6"), action.x, action.y) then
+			boxRow = 6
+			setBoxData(boxCol, boxRow, gui.get_text(gui.get_node("letter15")), "tile"..boxCol.."-"..boxRow)
+			highlight_boxes()
+		elseif action.pressed and gui.pick_node(gui.get_node("tile1-7"), action.x, action.y) then
+			boxRow = 7
+			setBoxData(boxCol, boxRow, gui.get_text(gui.get_node("letter22")), "tile"..boxCol.."-"..boxRow)
+			highlight_boxes()
+		elseif action.pressed and gui.pick_node(gui.get_node("tile1-8"), action.x, action.y) then
+			boxRow = 8
+			setBoxData(boxCol, boxRow, gui.get_text(gui.get_node("letter19")), "tile"..boxCol.."-"..boxRow)
+			highlight_boxes()
+		elseif action.pressed and gui.pick_node(gui.get_node("tile1-9"), action.x, action.y) then
+			boxRow = 9
+			setBoxData(boxCol, boxRow, gui.get_text(gui.get_node("letter12")), "tile"..boxCol.."-"..boxRow)
+			highlight_boxes()
+		elseif action.pressed and gui.pick_node(gui.get_node("tile1-10"), action.x, action.y) then
+			boxRow = 10
+			setBoxData(boxCol, boxRow, gui.get_text(gui.get_node("letter13")), "tile"..boxCol.."-"..boxRow)
+			highlight_boxes()
+		elseif action.pressed and gui.pick_node(gui.get_node("tile1-11"), action.x, action.y) then
+			boxRow = 11
+			setBoxData(boxCol, boxRow, gui.get_text(gui.get_node("letter21")), "tile"..boxCol.."-"..boxRow)
+			highlight_boxes()
 		end
 	end
 	
-	if action.pressed and gui.pick_node(gui.get_node("tile1-11"), action.x, action.y) then
-		print("tile1-11")
-	end
 	if action.pressed and gui.pick_node(gui.get_node("leftArrow"), action.x, action.y) then
-		countNum = countNum + 1
-		print("Left arrow pressed: "..countNum)
+		print("Left arrow pressed: ")
 	end
 	if action.pressed and gui.pick_node(gui.get_node("rightArrow"), action.x, action.y) then
 		print("Right arrow pressed")
+	end
+end
+
+function highlight_boxes()
+	if node1 ~= nil then
+		if node2 ~= nil then
+			-- Both nodes selected, need to do validity checks here
+			if check_if_valid_nodes() == true then
+				if(gui.get_color(node2) == vmath.vector4(1, 1, 1, 1)) then
+					--print("HIGHLIGHTING NODE2")
+					highlight_box(node2)
+				else
+					-- need to handle case here where node1 is deselected
+					-- node1 and node2 both have values
+					-- node1 is deselected
+					-- but node1 becomes overwritten with node2! (maybe?)
+
+					--print("UNHIGHLIGHTING NODE2")
+					unhighlight_box(node2)
+					node1 = node2
+					node1Col = node2Col
+					node1Row = node2Row
+					node2 = nil
+				end
+			else
+				node1 = node2
+				node1Col = node2Col
+				node1Row = node2Row
+				node2 = nil
+			end
+		else
+			if(gui.get_color(node1) == vmath.vector4(1, 1, 1, 1)) then
+				--print("HIGHLIGHTING NODE1")
+				highlight_box(node1)
+			else
+				--print("UNHIGHLIGHTING NODE1")
+				unhighlight_box(node1)
+			end
+		end
+	end
+end
+
+function highlight_box(node)
+	local color = vmath.vector4(1, 1, 0, 1)
+	color.w = 0.5
+	gui.animate(node, gui.PROP_COLOR, color, gui.EASING_LINEAR, 0.1)
+end
+
+function unhighlight_box(node)
+	local color = vmath.vector4(1, 1, 1, 1)
+	color.w = 1
+	gui.animate(node, gui.PROP_COLOR, color, gui.EASING_LINEAR, 0.1)
+end
+
+function setBoxData(boxCol, boxRow, boxChar, boxName)
+	msg.post("/searchLevel#searchScript", "tile_selected", {col = boxCol, row = boxRow, char = boxChar})
+	if node1 == nil then
+		node1 = gui.get_node(boxName)
+		node1Col = boxCol
+		node1Row = boxRow
+		node1Char = boxChar
+	else
+		node2 = gui.get_node(boxName)
+		node2Col = boxCol
+		node2Row = boxRow
+		node2Char = boxChar
 	end
 end
 
@@ -109,7 +233,7 @@ function on_reload(self)
 end
 
 -- Blake Methods Start Here --
-function check_if_valid_node2(node1Col, node1Row, node2Col, node2Row)
+function check_if_valid_nodes()
 	if node1Row == node2Row then
 		return true
 	elseif node1Col == node2Col then
