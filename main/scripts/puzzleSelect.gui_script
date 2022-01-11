@@ -1,0 +1,46 @@
+local wordBank
+
+function init(self)
+	-- Add initialization code here
+	-- Learn more: https://defold.com/manuals/script/
+	-- Remove this function if not needed
+	print("PUZZLE SELECT INIT")
+	msg.post(".", "acquire_input_focus")
+	wordBank = {"ナルト", "ルフィ", "ルルーシュヴィブリタニア", "ライト", "ボボボーボボーボボ", "アラジン", "ゴンフリークス", "コナン", "アレンウォーカー", "シロエ", "エドワードエルリック", "ピカチュウ"}
+	-- ナルト ルフィ ルルーシュヴィブリタニア ライト ボボボーボボーボボ アラジン ゴンフリークス コナン アレンウォーカー シロエ エドワードエルリック ピカチュウ
+end
+
+function final(self)
+	-- Add finalization code here
+	-- Learn more: https://defold.com/manuals/script/
+	-- Remove this function if not needed
+end
+
+function update(self, dt)
+	-- Add update code here
+	-- Learn more: https://defold.com/manuals/script/
+	-- Remove this function if not needed
+end
+
+function on_message(self, message_id, message, sender)
+	-- Add message-handling code here
+	-- Learn more: https://defold.com/manuals/message-passing/
+	-- Remove this function if not needed
+end
+
+function on_input(self, action_id, action)
+	if action.pressed and gui.pick_node(gui.get_node("selectPuzzle"), action.x, action.y) then
+		
+		print("Puzzle selected")
+		--msg.post("/mainMenu#main", "start_searchLevel")
+		msg.post("/puzzleSelect#puzzleSelect1", "start_searchLevel")
+		print("IN GUISCRIPT, WORDS: "..wordBank[1])
+		msg.post("/puzzleSelect#puzzleSelect1", "set_word_bank", {words = wordBank})
+	end
+end
+
+function on_reload(self)
+	-- Add reload-handling code here
+	-- Learn more: https://defold.com/manuals/hot-reload/
+	-- Remove this function if not needed
+end

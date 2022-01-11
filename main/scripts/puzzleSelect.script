@@ -1,0 +1,51 @@
+local wordBank = require("main.scripts.wordBank")
+
+function init(self)
+	-- Add initialization code here
+	-- Learn more: https://defold.com/manuals/script/
+	-- Remove this function if not needed
+	self.state = "PUZZLE_SELECT"
+end
+
+function final(self)
+	-- Add finalization code here
+	-- Learn more: https://defold.com/manuals/script/
+	-- Remove this function if not needed
+end
+
+function update(self, dt)
+	-- Add update code here
+	-- Learn more: https://defold.com/manuals/script/
+	-- Remove this function if not needed
+end
+
+function on_message(self, message_id, message, sender)
+	if message_id == hash("set_word_bank") then
+		wordBank.words = message.words
+	end
+	if message_id == hash("start_searchLevel") then
+		print("CHANGING TO SEARCH LEVEL (currently on "..self.state..")")
+		if self.state == "PUZZLE_SELECT" then
+			msg.post("#searchLevelProxy", "load")
+			msg.post("#puzzleSelect", "disable")
+			self.state = "SEARCH_LEVEL"
+		end
+	elseif message_id == hash("proxy_loaded") then
+		if sender == msg.url("#searchLevelProxy") then
+			msg.post(sender, "enable")
+			print("IN PUZZLESELECT, WORDS: "..wordBank.words[1])
+			-- msg.post("searchLevel#searchScript", "set_word_bank", wordBank.words)
+			-- msg.post(sender, "set_word_bank", wordBank)
+		end
+	end
+end
+
+function on_input(self, action_id, action)
+	
+end
+
+function on_reload(self)
+	-- Add reload-handling code here
+	-- Learn more: https://defold.com/manuals/hot-reload/
+	-- Remove this function if not needed
+end

@@ -25,16 +25,30 @@ function on_message(self, message_id, message, sender)
 	-- Add message-handling code here
 	-- Learn more: https://defold.com/manuals/message-passing/
 	-- Remove this function if not needed
-	if message_id == hash("start_searchLevel") then
-		print("CHANGING TO SEARCH LEVEL")
+	
+	-- if message_id == hash("start_searchLevel") then
+	-- 	print("CHANGING TO SEARCH LEVEL")
+	-- 	if self.state == "MAIN_MENU" then
+	-- 		msg.post("#searchLevelProxy", "load")
+	-- 		msg.post("#main_menu", "disable")
+	-- 		self.state = "SEARCH_LEVEL"
+	-- 	end
+	
+	if message_id == hash("start_puzzleSelect") then
+		print("CHANGING TO PUZZLE SELECT")
 		if self.state == "MAIN_MENU" then
-			msg.post("#searchLevelProxy", "load")
+			msg.post("#puzzleSelectProxy", "load")
 			msg.post("#main_menu", "disable")
-			self.state = "SEARCH_LEVEL"
+			self.state = "PUZZLE_SELECT"
 		end
+	-- elseif message_id == hash("proxy_loaded") then
+	-- 	if sender == msg.url("#searchLevelProxy") then
+	-- 		--msg.post(sender, "init")
+	-- 		msg.post(sender, "enable")
+	-- 	end
+	-- end
 	elseif message_id == hash("proxy_loaded") then
-		if sender == msg.url("#searchLevelProxy") then
-			--msg.post(sender, "init")
+		if sender == msg.url("#puzzleSelectProxy") then
 			msg.post(sender, "enable")
 		end
 	end
