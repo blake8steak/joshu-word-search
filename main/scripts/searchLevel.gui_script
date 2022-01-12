@@ -29,9 +29,10 @@ function update(self, dt)
 end
 
 function on_message(self, message_id, message, sender)
-	-- Add message-handling code here
-	-- Learn more: https://defold.com/manuals/message-passing/
-	-- Remove this function if not needed
+	-- Add level details here 
+	if message_id == hash("tile_selected") then
+
+	end
 end
 
 function on_input(self, action_id, action)
@@ -51,51 +52,51 @@ function on_input(self, action_id, action)
 		boxCol = 0
 		if action.pressed and gui.pick_node(gui.get_node("tile0-0"), action.x, action.y) then
 			boxRow = 0
-			setBoxData(boxCol, boxRow, gui.get_text(gui.get_node("letter0")), "tile"..boxCol.."-"..boxRow)
+			setBoxData(boxCol, boxRow, gui.get_text(gui.get_node("letter"..boxCol.."-"..boxRow)), "tile"..boxCol.."-"..boxRow)
 			highlight_boxes()
 		elseif action.pressed and gui.pick_node(gui.get_node("tile0-1"), action.x, action.y) then
 			boxRow = 1
-			setBoxData(boxCol, boxRow, gui.get_text(gui.get_node("letter1")), "tile"..boxCol.."-"..boxRow)
+			setBoxData(boxCol, boxRow, gui.get_text(gui.get_node("letter"..boxCol.."-"..boxRow)), "tile"..boxCol.."-"..boxRow)
 			highlight_boxes()
 		elseif action.pressed and gui.pick_node(gui.get_node("tile0-2"), action.x, action.y) then
 			boxRow = 2
-			setBoxData(boxCol, boxRow, gui.get_text(gui.get_node("letter2")), "tile"..boxCol.."-"..boxRow)
+			setBoxData(boxCol, boxRow, gui.get_text(gui.get_node("letter"..boxCol.."-"..boxRow)), "tile"..boxCol.."-"..boxRow)
 			highlight_boxes()
 		elseif action.pressed and gui.pick_node(gui.get_node("tile0-3"), action.x, action.y) then
 			boxRow = 3
-			setBoxData(boxCol, boxRow, gui.get_text(gui.get_node("letter3")), "tile"..boxCol.."-"..boxRow)
+			setBoxData(boxCol, boxRow, gui.get_text(gui.get_node("letter"..boxCol.."-"..boxRow)), "tile"..boxCol.."-"..boxRow)
 			highlight_boxes()
 		elseif action.pressed and gui.pick_node(gui.get_node("tile0-4"), action.x, action.y) then
 			boxRow = 4
-			setBoxData(boxCol, boxRow, gui.get_text(gui.get_node("letter4")), "tile"..boxCol.."-"..boxRow)
+			setBoxData(boxCol, boxRow, gui.get_text(gui.get_node("letter"..boxCol.."-"..boxRow)), "tile"..boxCol.."-"..boxRow)
 			highlight_boxes()
 		elseif action.pressed and gui.pick_node(gui.get_node("tile0-5"), action.x, action.y) then
 			boxRow = 5
-			setBoxData(boxCol, boxRow, gui.get_text(gui.get_node("letter5")), "tile"..boxCol.."-"..boxRow)
+			setBoxData(boxCol, boxRow, gui.get_text(gui.get_node("letter"..boxCol.."-"..boxRow)), "tile"..boxCol.."-"..boxRow)
 			highlight_boxes()
 		elseif action.pressed and gui.pick_node(gui.get_node("tile0-6"), action.x, action.y) then
 			boxRow = 6
-			setBoxData(boxCol, boxRow, gui.get_text(gui.get_node("letter6")), "tile"..boxCol.."-"..boxRow)
+			setBoxData(boxCol, boxRow, gui.get_text(gui.get_node("letter"..boxCol.."-"..boxRow)), "tile"..boxCol.."-"..boxRow)
 			highlight_boxes()
 		elseif action.pressed and gui.pick_node(gui.get_node("tile0-7"), action.x, action.y) then
 			boxRow = 7
-			setBoxData(boxCol, boxRow, gui.get_text(gui.get_node("letter7")), "tile"..boxCol.."-"..boxRow)
+			setBoxData(boxCol, boxRow, gui.get_text(gui.get_node("letter"..boxCol.."-"..boxRow)), "tile"..boxCol.."-"..boxRow)
 			highlight_boxes()
 		elseif action.pressed and gui.pick_node(gui.get_node("tile0-8"), action.x, action.y) then
 			boxRow = 8
-			setBoxData(boxCol, boxRow, gui.get_text(gui.get_node("letter8")), "tile"..boxCol.."-"..boxRow)
+			setBoxData(boxCol, boxRow, gui.get_text(gui.get_node("letter"..boxCol.."-"..boxRow)), "tile"..boxCol.."-"..boxRow)
 			highlight_boxes()
 		elseif action.pressed and gui.pick_node(gui.get_node("tile0-9"), action.x, action.y) then
 			boxRow = 9
-			setBoxData(boxCol, boxRow, gui.get_text(gui.get_node("letter9")), "tile"..boxCol.."-"..boxRow)
+			setBoxData(boxCol, boxRow, gui.get_text(gui.get_node("letter"..boxCol.."-"..boxRow)), "tile"..boxCol.."-"..boxRow)
 			highlight_boxes()
 		elseif action.pressed and gui.pick_node(gui.get_node("tile0-10"), action.x, action.y) then
 			boxRow = 10
-			setBoxData(boxCol, boxRow, gui.get_text(gui.get_node("letter10")), "tile"..boxCol.."-"..boxRow)
+			setBoxData(boxCol, boxRow, gui.get_text(gui.get_node("letter"..boxCol.."-"..boxRow)), "tile"..boxCol.."-"..boxRow)
 			highlight_boxes()
 		elseif action.pressed and gui.pick_node(gui.get_node("tile0-11"), action.x, action.y) then
 			boxRow = 11
-			setBoxData(boxCol, boxRow, gui.get_text(gui.get_node("letter11")), "tile"..boxCol.."-"..boxRow)
+			setBoxData(boxCol, boxRow, gui.get_text(gui.get_node("letter"..boxCol.."-"..boxRow)), "tile"..boxCol.."-"..boxRow)
 			highlight_boxes()
 		end
 	elseif action_id == hash("touch") and action.pressed and gui.pick_node(gui.get_node("col1"), action.x, action.y) then
@@ -103,51 +104,571 @@ function on_input(self, action_id, action)
 		boxCol = 1
 		if action.pressed and gui.pick_node(gui.get_node("tile1-0"), action.x, action.y) then
 			boxRow = 0
-			setBoxData(boxCol, boxRow, gui.get_text(gui.get_node("letter")), "tile"..boxCol.."-"..boxRow)
+			setBoxData(boxCol, boxRow, gui.get_text(gui.get_node("letter"..boxCol.."-"..boxRow)), "tile"..boxCol.."-"..boxRow)
 			highlight_boxes()
 		elseif action.pressed and gui.pick_node(gui.get_node("tile1-1"), action.x, action.y) then
 			boxRow = 1
-			setBoxData(boxCol, boxRow, gui.get_text(gui.get_node("letter20")), "tile"..boxCol.."-"..boxRow)
+			setBoxData(boxCol, boxRow, gui.get_text(gui.get_node("letter"..boxCol.."-"..boxRow)), "tile"..boxCol.."-"..boxRow)
 			highlight_boxes()
 		elseif action.pressed and gui.pick_node(gui.get_node("tile1-2"), action.x, action.y) then
 			boxRow = 2
-			setBoxData(boxCol, boxRow, gui.get_text(gui.get_node("letter18")), "tile"..boxCol.."-"..boxRow)
+			setBoxData(boxCol, boxRow, gui.get_text(gui.get_node("letter"..boxCol.."-"..boxRow)), "tile"..boxCol.."-"..boxRow)
 			highlight_boxes()
 		elseif action.pressed and gui.pick_node(gui.get_node("tile1-3"), action.x, action.y) then
 			boxRow = 3
-			setBoxData(boxCol, boxRow, gui.get_text(gui.get_node("letter14")), "tile"..boxCol.."-"..boxRow)
+			setBoxData(boxCol, boxRow, gui.get_text(gui.get_node("letter"..boxCol.."-"..boxRow)), "tile"..boxCol.."-"..boxRow)
 			highlight_boxes()
 		elseif action.pressed and gui.pick_node(gui.get_node("tile1-4"), action.x, action.y) then
 			boxRow = 4
-			setBoxData(boxCol, boxRow, gui.get_text(gui.get_node("letter16")), "tile"..boxCol.."-"..boxRow)
+			setBoxData(boxCol, boxRow, gui.get_text(gui.get_node("letter"..boxCol.."-"..boxRow)), "tile"..boxCol.."-"..boxRow)
 			highlight_boxes()
 		elseif action.pressed and gui.pick_node(gui.get_node("tile1-5"), action.x, action.y) then
 			boxRow = 5
-			setBoxData(boxCol, boxRow, gui.get_text(gui.get_node("letter17")), "tile"..boxCol.."-"..boxRow)
+			setBoxData(boxCol, boxRow, gui.get_text(gui.get_node("letter"..boxCol.."-"..boxRow)), "tile"..boxCol.."-"..boxRow)
 			highlight_boxes()
 		elseif action.pressed and gui.pick_node(gui.get_node("tile1-6"), action.x, action.y) then
 			boxRow = 6
-			setBoxData(boxCol, boxRow, gui.get_text(gui.get_node("letter15")), "tile"..boxCol.."-"..boxRow)
+			setBoxData(boxCol, boxRow, gui.get_text(gui.get_node("letter"..boxCol.."-"..boxRow)), "tile"..boxCol.."-"..boxRow)
 			highlight_boxes()
 		elseif action.pressed and gui.pick_node(gui.get_node("tile1-7"), action.x, action.y) then
 			boxRow = 7
-			setBoxData(boxCol, boxRow, gui.get_text(gui.get_node("letter22")), "tile"..boxCol.."-"..boxRow)
+			setBoxData(boxCol, boxRow, gui.get_text(gui.get_node("letter"..boxCol.."-"..boxRow)), "tile"..boxCol.."-"..boxRow)
 			highlight_boxes()
 		elseif action.pressed and gui.pick_node(gui.get_node("tile1-8"), action.x, action.y) then
 			boxRow = 8
-			setBoxData(boxCol, boxRow, gui.get_text(gui.get_node("letter19")), "tile"..boxCol.."-"..boxRow)
+			setBoxData(boxCol, boxRow, gui.get_text(gui.get_node("letter"..boxCol.."-"..boxRow)), "tile"..boxCol.."-"..boxRow)
 			highlight_boxes()
 		elseif action.pressed and gui.pick_node(gui.get_node("tile1-9"), action.x, action.y) then
 			boxRow = 9
-			setBoxData(boxCol, boxRow, gui.get_text(gui.get_node("letter12")), "tile"..boxCol.."-"..boxRow)
+			setBoxData(boxCol, boxRow, gui.get_text(gui.get_node("letter"..boxCol.."-"..boxRow)), "tile"..boxCol.."-"..boxRow)
 			highlight_boxes()
 		elseif action.pressed and gui.pick_node(gui.get_node("tile1-10"), action.x, action.y) then
 			boxRow = 10
-			setBoxData(boxCol, boxRow, gui.get_text(gui.get_node("letter13")), "tile"..boxCol.."-"..boxRow)
+			setBoxData(boxCol, boxRow, gui.get_text(gui.get_node("letter"..boxCol.."-"..boxRow)), "tile"..boxCol.."-"..boxRow)
 			highlight_boxes()
 		elseif action.pressed and gui.pick_node(gui.get_node("tile1-11"), action.x, action.y) then
 			boxRow = 11
-			setBoxData(boxCol, boxRow, gui.get_text(gui.get_node("letter21")), "tile"..boxCol.."-"..boxRow)
+			setBoxData(boxCol, boxRow, gui.get_text(gui.get_node("letter"..boxCol.."-"..boxRow)), "tile"..boxCol.."-"..boxRow)
+			highlight_boxes()
+		end
+	elseif action_id == hash("touch") and action.pressed and gui.pick_node(gui.get_node("col2"), action.x, action.y) then
+		-- == Column 2 ==
+		boxCol = 2
+		if action.pressed and gui.pick_node(gui.get_node("tile2-0"), action.x, action.y) then
+			boxRow = 0
+			setBoxData(boxCol, boxRow, gui.get_text(gui.get_node("letter"..boxCol.."-"..boxRow)), "tile"..boxCol.."-"..boxRow)
+			highlight_boxes()
+		elseif action.pressed and gui.pick_node(gui.get_node("tile2-1"), action.x, action.y) then
+			boxRow = 1
+			setBoxData(boxCol, boxRow, gui.get_text(gui.get_node("letter"..boxCol.."-"..boxRow)), "tile"..boxCol.."-"..boxRow)
+			highlight_boxes()
+		elseif action.pressed and gui.pick_node(gui.get_node("tile2-2"), action.x, action.y) then
+			boxRow = 2
+			setBoxData(boxCol, boxRow, gui.get_text(gui.get_node("letter"..boxCol.."-"..boxRow)), "tile"..boxCol.."-"..boxRow)
+			highlight_boxes()
+		elseif action.pressed and gui.pick_node(gui.get_node("tile2-3"), action.x, action.y) then
+			boxRow = 3
+			setBoxData(boxCol, boxRow, gui.get_text(gui.get_node("letter"..boxCol.."-"..boxRow)), "tile"..boxCol.."-"..boxRow)
+			highlight_boxes()
+		elseif action.pressed and gui.pick_node(gui.get_node("tile2-4"), action.x, action.y) then
+			boxRow = 4
+			setBoxData(boxCol, boxRow, gui.get_text(gui.get_node("letter"..boxCol.."-"..boxRow)), "tile"..boxCol.."-"..boxRow)
+			highlight_boxes()
+		elseif action.pressed and gui.pick_node(gui.get_node("tile2-5"), action.x, action.y) then
+			boxRow = 5
+			setBoxData(boxCol, boxRow, gui.get_text(gui.get_node("letter"..boxCol.."-"..boxRow)), "tile"..boxCol.."-"..boxRow)
+			highlight_boxes()
+		elseif action.pressed and gui.pick_node(gui.get_node("tile2-6"), action.x, action.y) then
+			boxRow = 6
+			setBoxData(boxCol, boxRow, gui.get_text(gui.get_node("letter"..boxCol.."-"..boxRow)), "tile"..boxCol.."-"..boxRow)
+			highlight_boxes()
+		elseif action.pressed and gui.pick_node(gui.get_node("tile2-7"), action.x, action.y) then
+			boxRow = 7
+			setBoxData(boxCol, boxRow, gui.get_text(gui.get_node("letter"..boxCol.."-"..boxRow)), "tile"..boxCol.."-"..boxRow)
+			highlight_boxes()
+		elseif action.pressed and gui.pick_node(gui.get_node("tile2-8"), action.x, action.y) then
+			boxRow = 8
+			setBoxData(boxCol, boxRow, gui.get_text(gui.get_node("letter"..boxCol.."-"..boxRow)), "tile"..boxCol.."-"..boxRow)
+			highlight_boxes()
+		elseif action.pressed and gui.pick_node(gui.get_node("tile2-9"), action.x, action.y) then
+			boxRow = 9
+			setBoxData(boxCol, boxRow, gui.get_text(gui.get_node("letter"..boxCol.."-"..boxRow)), "tile"..boxCol.."-"..boxRow)
+			highlight_boxes()
+		elseif action.pressed and gui.pick_node(gui.get_node("tile2-10"), action.x, action.y) then
+			boxRow = 10
+			setBoxData(boxCol, boxRow, gui.get_text(gui.get_node("letter"..boxCol.."-"..boxRow)), "tile"..boxCol.."-"..boxRow)
+			highlight_boxes()
+		elseif action.pressed and gui.pick_node(gui.get_node("tile2-11"), action.x, action.y) then
+			boxRow = 11
+			setBoxData(boxCol, boxRow, gui.get_text(gui.get_node("letter"..boxCol.."-"..boxRow)), "tile"..boxCol.."-"..boxRow)
+			highlight_boxes()
+		end
+	elseif action_id == hash("touch") and action.pressed and gui.pick_node(gui.get_node("col3"), action.x, action.y) then
+		-- == Column 3 ==
+		boxCol = 3
+		if action.pressed and gui.pick_node(gui.get_node("tile3-0"), action.x, action.y) then
+			boxRow = 0
+			setBoxData(boxCol, boxRow, gui.get_text(gui.get_node("letter"..boxCol.."-"..boxRow)), "tile"..boxCol.."-"..boxRow)
+			highlight_boxes()
+		elseif action.pressed and gui.pick_node(gui.get_node("tile3-1"), action.x, action.y) then
+			boxRow = 1
+			setBoxData(boxCol, boxRow, gui.get_text(gui.get_node("letter"..boxCol.."-"..boxRow)), "tile"..boxCol.."-"..boxRow)
+			highlight_boxes()
+		elseif action.pressed and gui.pick_node(gui.get_node("tile3-2"), action.x, action.y) then
+			boxRow = 2
+			setBoxData(boxCol, boxRow, gui.get_text(gui.get_node("letter"..boxCol.."-"..boxRow)), "tile"..boxCol.."-"..boxRow)
+			highlight_boxes()
+		elseif action.pressed and gui.pick_node(gui.get_node("tile3-3"), action.x, action.y) then
+			boxRow = 3
+			setBoxData(boxCol, boxRow, gui.get_text(gui.get_node("letter"..boxCol.."-"..boxRow)), "tile"..boxCol.."-"..boxRow)
+			highlight_boxes()
+		elseif action.pressed and gui.pick_node(gui.get_node("tile3-4"), action.x, action.y) then
+			boxRow = 4
+			setBoxData(boxCol, boxRow, gui.get_text(gui.get_node("letter"..boxCol.."-"..boxRow)), "tile"..boxCol.."-"..boxRow)
+			highlight_boxes()
+		elseif action.pressed and gui.pick_node(gui.get_node("tile3-5"), action.x, action.y) then
+			boxRow = 5
+			setBoxData(boxCol, boxRow, gui.get_text(gui.get_node("letter"..boxCol.."-"..boxRow)), "tile"..boxCol.."-"..boxRow)
+			highlight_boxes()
+		elseif action.pressed and gui.pick_node(gui.get_node("tile3-6"), action.x, action.y) then
+			boxRow = 6
+			setBoxData(boxCol, boxRow, gui.get_text(gui.get_node("letter"..boxCol.."-"..boxRow)), "tile"..boxCol.."-"..boxRow)
+			highlight_boxes()
+		elseif action.pressed and gui.pick_node(gui.get_node("tile3-7"), action.x, action.y) then
+			boxRow = 7
+			setBoxData(boxCol, boxRow, gui.get_text(gui.get_node("letter"..boxCol.."-"..boxRow)), "tile"..boxCol.."-"..boxRow)
+			highlight_boxes()
+		elseif action.pressed and gui.pick_node(gui.get_node("tile3-8"), action.x, action.y) then
+			boxRow = 8
+			setBoxData(boxCol, boxRow, gui.get_text(gui.get_node("letter"..boxCol.."-"..boxRow)), "tile"..boxCol.."-"..boxRow)
+			highlight_boxes()
+		elseif action.pressed and gui.pick_node(gui.get_node("tile3-9"), action.x, action.y) then
+			boxRow = 9
+			setBoxData(boxCol, boxRow, gui.get_text(gui.get_node("letter"..boxCol.."-"..boxRow)), "tile"..boxCol.."-"..boxRow)
+			highlight_boxes()
+		elseif action.pressed and gui.pick_node(gui.get_node("tile3-10"), action.x, action.y) then
+			boxRow = 10
+			setBoxData(boxCol, boxRow, gui.get_text(gui.get_node("letter"..boxCol.."-"..boxRow)), "tile"..boxCol.."-"..boxRow)
+			highlight_boxes()
+		elseif action.pressed and gui.pick_node(gui.get_node("tile3-11"), action.x, action.y) then
+			boxRow = 11
+			setBoxData(boxCol, boxRow, gui.get_text(gui.get_node("letter"..boxCol.."-"..boxRow)), "tile"..boxCol.."-"..boxRow)
+			highlight_boxes()
+		end
+	elseif action_id == hash("touch") and action.pressed and gui.pick_node(gui.get_node("col4"), action.x, action.y) then
+		-- == Column 4 ==
+		boxCol = 4
+		if action.pressed and gui.pick_node(gui.get_node("tile4-0"), action.x, action.y) then
+			boxRow = 0
+			setBoxData(boxCol, boxRow, gui.get_text(gui.get_node("letter"..boxCol.."-"..boxRow)), "tile"..boxCol.."-"..boxRow)
+			highlight_boxes()
+		elseif action.pressed and gui.pick_node(gui.get_node("tile4-1"), action.x, action.y) then
+			boxRow = 1
+			setBoxData(boxCol, boxRow, gui.get_text(gui.get_node("letter"..boxCol.."-"..boxRow)), "tile"..boxCol.."-"..boxRow)
+			highlight_boxes()
+		elseif action.pressed and gui.pick_node(gui.get_node("tile4-2"), action.x, action.y) then
+			boxRow = 2
+			setBoxData(boxCol, boxRow, gui.get_text(gui.get_node("letter"..boxCol.."-"..boxRow)), "tile"..boxCol.."-"..boxRow)
+			highlight_boxes()
+		elseif action.pressed and gui.pick_node(gui.get_node("tile4-3"), action.x, action.y) then
+			boxRow = 3
+			setBoxData(boxCol, boxRow, gui.get_text(gui.get_node("letter"..boxCol.."-"..boxRow)), "tile"..boxCol.."-"..boxRow)
+			highlight_boxes()
+		elseif action.pressed and gui.pick_node(gui.get_node("tile4-4"), action.x, action.y) then
+			boxRow = 4
+			setBoxData(boxCol, boxRow, gui.get_text(gui.get_node("letter"..boxCol.."-"..boxRow)), "tile"..boxCol.."-"..boxRow)
+			highlight_boxes()
+		elseif action.pressed and gui.pick_node(gui.get_node("tile4-5"), action.x, action.y) then
+			boxRow = 5
+			setBoxData(boxCol, boxRow, gui.get_text(gui.get_node("letter"..boxCol.."-"..boxRow)), "tile"..boxCol.."-"..boxRow)
+			highlight_boxes()
+		elseif action.pressed and gui.pick_node(gui.get_node("tile4-6"), action.x, action.y) then
+			boxRow = 6
+			setBoxData(boxCol, boxRow, gui.get_text(gui.get_node("letter"..boxCol.."-"..boxRow)), "tile"..boxCol.."-"..boxRow)
+			highlight_boxes()
+		elseif action.pressed and gui.pick_node(gui.get_node("tile4-7"), action.x, action.y) then
+			boxRow = 7
+			setBoxData(boxCol, boxRow, gui.get_text(gui.get_node("letter"..boxCol.."-"..boxRow)), "tile"..boxCol.."-"..boxRow)
+			highlight_boxes()
+		elseif action.pressed and gui.pick_node(gui.get_node("tile4-8"), action.x, action.y) then
+			boxRow = 8
+			setBoxData(boxCol, boxRow, gui.get_text(gui.get_node("letter"..boxCol.."-"..boxRow)), "tile"..boxCol.."-"..boxRow)
+			highlight_boxes()
+		elseif action.pressed and gui.pick_node(gui.get_node("tile4-9"), action.x, action.y) then
+			boxRow = 9
+			setBoxData(boxCol, boxRow, gui.get_text(gui.get_node("letter"..boxCol.."-"..boxRow)), "tile"..boxCol.."-"..boxRow)
+			highlight_boxes()
+		elseif action.pressed and gui.pick_node(gui.get_node("tile4-10"), action.x, action.y) then
+			boxRow = 10
+			setBoxData(boxCol, boxRow, gui.get_text(gui.get_node("letter"..boxCol.."-"..boxRow)), "tile"..boxCol.."-"..boxRow)
+			highlight_boxes()
+		elseif action.pressed and gui.pick_node(gui.get_node("tile4-11"), action.x, action.y) then
+			boxRow = 11
+			setBoxData(boxCol, boxRow, gui.get_text(gui.get_node("letter"..boxCol.."-"..boxRow)), "tile"..boxCol.."-"..boxRow)
+			highlight_boxes()
+		end
+	elseif action_id == hash("touch") and action.pressed and gui.pick_node(gui.get_node("col5"), action.x, action.y) then
+		-- == Column 5 ==
+		boxCol = 5
+		if action.pressed and gui.pick_node(gui.get_node("tile5-0"), action.x, action.y) then
+			boxRow = 0
+			setBoxData(boxCol, boxRow, gui.get_text(gui.get_node("letter"..boxCol.."-"..boxRow)), "tile"..boxCol.."-"..boxRow)
+			highlight_boxes()
+		elseif action.pressed and gui.pick_node(gui.get_node("tile5-1"), action.x, action.y) then
+			boxRow = 1
+			setBoxData(boxCol, boxRow, gui.get_text(gui.get_node("letter"..boxCol.."-"..boxRow)), "tile"..boxCol.."-"..boxRow)
+			highlight_boxes()
+		elseif action.pressed and gui.pick_node(gui.get_node("tile5-2"), action.x, action.y) then
+			boxRow = 2
+			setBoxData(boxCol, boxRow, gui.get_text(gui.get_node("letter"..boxCol.."-"..boxRow)), "tile"..boxCol.."-"..boxRow)
+			highlight_boxes()
+		elseif action.pressed and gui.pick_node(gui.get_node("tile5-3"), action.x, action.y) then
+			boxRow = 3
+			setBoxData(boxCol, boxRow, gui.get_text(gui.get_node("letter"..boxCol.."-"..boxRow)), "tile"..boxCol.."-"..boxRow)
+			highlight_boxes()
+		elseif action.pressed and gui.pick_node(gui.get_node("tile5-4"), action.x, action.y) then
+			boxRow = 4
+			setBoxData(boxCol, boxRow, gui.get_text(gui.get_node("letter"..boxCol.."-"..boxRow)), "tile"..boxCol.."-"..boxRow)
+			highlight_boxes()
+		elseif action.pressed and gui.pick_node(gui.get_node("tile5-5"), action.x, action.y) then
+			boxRow = 5
+			setBoxData(boxCol, boxRow, gui.get_text(gui.get_node("letter"..boxCol.."-"..boxRow)), "tile"..boxCol.."-"..boxRow)
+			highlight_boxes()
+		elseif action.pressed and gui.pick_node(gui.get_node("tile5-6"), action.x, action.y) then
+			boxRow = 6
+			setBoxData(boxCol, boxRow, gui.get_text(gui.get_node("letter"..boxCol.."-"..boxRow)), "tile"..boxCol.."-"..boxRow)
+			highlight_boxes()
+		elseif action.pressed and gui.pick_node(gui.get_node("tile5-7"), action.x, action.y) then
+			boxRow = 7
+			setBoxData(boxCol, boxRow, gui.get_text(gui.get_node("letter"..boxCol.."-"..boxRow)), "tile"..boxCol.."-"..boxRow)
+			highlight_boxes()
+		elseif action.pressed and gui.pick_node(gui.get_node("tile5-8"), action.x, action.y) then
+			boxRow = 8
+			setBoxData(boxCol, boxRow, gui.get_text(gui.get_node("letter"..boxCol.."-"..boxRow)), "tile"..boxCol.."-"..boxRow)
+			highlight_boxes()
+		elseif action.pressed and gui.pick_node(gui.get_node("tile5-9"), action.x, action.y) then
+			boxRow = 9
+			setBoxData(boxCol, boxRow, gui.get_text(gui.get_node("letter"..boxCol.."-"..boxRow)), "tile"..boxCol.."-"..boxRow)
+			highlight_boxes()
+		elseif action.pressed and gui.pick_node(gui.get_node("tile5-10"), action.x, action.y) then
+			boxRow = 10
+			setBoxData(boxCol, boxRow, gui.get_text(gui.get_node("letter"..boxCol.."-"..boxRow)), "tile"..boxCol.."-"..boxRow)
+			highlight_boxes()
+		elseif action.pressed and gui.pick_node(gui.get_node("tile5-11"), action.x, action.y) then
+			boxRow = 11
+			setBoxData(boxCol, boxRow, gui.get_text(gui.get_node("letter"..boxCol.."-"..boxRow)), "tile"..boxCol.."-"..boxRow)
+			highlight_boxes()
+		end
+	elseif action_id == hash("touch") and action.pressed and gui.pick_node(gui.get_node("col6"), action.x, action.y) then
+		-- == Column 6 ==
+		boxCol = 6
+		if action.pressed and gui.pick_node(gui.get_node("tile6-0"), action.x, action.y) then
+			boxRow = 0
+			setBoxData(boxCol, boxRow, gui.get_text(gui.get_node("letter"..boxCol.."-"..boxRow)), "tile"..boxCol.."-"..boxRow)
+			highlight_boxes()
+		elseif action.pressed and gui.pick_node(gui.get_node("tile6-1"), action.x, action.y) then
+			boxRow = 1
+			setBoxData(boxCol, boxRow, gui.get_text(gui.get_node("letter"..boxCol.."-"..boxRow)), "tile"..boxCol.."-"..boxRow)
+			highlight_boxes()
+		elseif action.pressed and gui.pick_node(gui.get_node("tile6-2"), action.x, action.y) then
+			boxRow = 2
+			setBoxData(boxCol, boxRow, gui.get_text(gui.get_node("letter"..boxCol.."-"..boxRow)), "tile"..boxCol.."-"..boxRow)
+			highlight_boxes()
+		elseif action.pressed and gui.pick_node(gui.get_node("tile6-3"), action.x, action.y) then
+			boxRow = 3
+			setBoxData(boxCol, boxRow, gui.get_text(gui.get_node("letter"..boxCol.."-"..boxRow)), "tile"..boxCol.."-"..boxRow)
+			highlight_boxes()
+		elseif action.pressed and gui.pick_node(gui.get_node("tile6-4"), action.x, action.y) then
+			boxRow = 4
+			setBoxData(boxCol, boxRow, gui.get_text(gui.get_node("letter"..boxCol.."-"..boxRow)), "tile"..boxCol.."-"..boxRow)
+			highlight_boxes()
+		elseif action.pressed and gui.pick_node(gui.get_node("tile6-5"), action.x, action.y) then
+			boxRow = 5
+			setBoxData(boxCol, boxRow, gui.get_text(gui.get_node("letter"..boxCol.."-"..boxRow)), "tile"..boxCol.."-"..boxRow)
+			highlight_boxes()
+		elseif action.pressed and gui.pick_node(gui.get_node("tile6-6"), action.x, action.y) then
+			boxRow = 6
+			setBoxData(boxCol, boxRow, gui.get_text(gui.get_node("letter"..boxCol.."-"..boxRow)), "tile"..boxCol.."-"..boxRow)
+			highlight_boxes()
+		elseif action.pressed and gui.pick_node(gui.get_node("tile6-7"), action.x, action.y) then
+			boxRow = 7
+			setBoxData(boxCol, boxRow, gui.get_text(gui.get_node("letter"..boxCol.."-"..boxRow)), "tile"..boxCol.."-"..boxRow)
+			highlight_boxes()
+		elseif action.pressed and gui.pick_node(gui.get_node("tile6-8"), action.x, action.y) then
+			boxRow = 8
+			setBoxData(boxCol, boxRow, gui.get_text(gui.get_node("letter"..boxCol.."-"..boxRow)), "tile"..boxCol.."-"..boxRow)
+			highlight_boxes()
+		elseif action.pressed and gui.pick_node(gui.get_node("tile6-9"), action.x, action.y) then
+			boxRow = 9
+			setBoxData(boxCol, boxRow, gui.get_text(gui.get_node("letter"..boxCol.."-"..boxRow)), "tile"..boxCol.."-"..boxRow)
+			highlight_boxes()
+		elseif action.pressed and gui.pick_node(gui.get_node("tile6-10"), action.x, action.y) then
+			boxRow = 10
+			setBoxData(boxCol, boxRow, gui.get_text(gui.get_node("letter"..boxCol.."-"..boxRow)), "tile"..boxCol.."-"..boxRow)
+			highlight_boxes()
+		elseif action.pressed and gui.pick_node(gui.get_node("tile6-11"), action.x, action.y) then
+			boxRow = 11
+			setBoxData(boxCol, boxRow, gui.get_text(gui.get_node("letter"..boxCol.."-"..boxRow)), "tile"..boxCol.."-"..boxRow)
+			highlight_boxes()
+		end
+	elseif action_id == hash("touch") and action.pressed and gui.pick_node(gui.get_node("col7"), action.x, action.y) then
+		-- == Column 7 ==
+		boxCol = 7
+		if action.pressed and gui.pick_node(gui.get_node("tile7-0"), action.x, action.y) then
+			boxRow = 0
+			setBoxData(boxCol, boxRow, gui.get_text(gui.get_node("letter"..boxCol.."-"..boxRow)), "tile"..boxCol.."-"..boxRow)
+			highlight_boxes()
+		elseif action.pressed and gui.pick_node(gui.get_node("tile7-1"), action.x, action.y) then
+			boxRow = 1
+			setBoxData(boxCol, boxRow, gui.get_text(gui.get_node("letter"..boxCol.."-"..boxRow)), "tile"..boxCol.."-"..boxRow)
+			highlight_boxes()
+		elseif action.pressed and gui.pick_node(gui.get_node("tile7-2"), action.x, action.y) then
+			boxRow = 2
+			setBoxData(boxCol, boxRow, gui.get_text(gui.get_node("letter"..boxCol.."-"..boxRow)), "tile"..boxCol.."-"..boxRow)
+			highlight_boxes()
+		elseif action.pressed and gui.pick_node(gui.get_node("tile7-3"), action.x, action.y) then
+			boxRow = 3
+			setBoxData(boxCol, boxRow, gui.get_text(gui.get_node("letter"..boxCol.."-"..boxRow)), "tile"..boxCol.."-"..boxRow)
+			highlight_boxes()
+		elseif action.pressed and gui.pick_node(gui.get_node("tile7-4"), action.x, action.y) then
+			boxRow = 4
+			setBoxData(boxCol, boxRow, gui.get_text(gui.get_node("letter"..boxCol.."-"..boxRow)), "tile"..boxCol.."-"..boxRow)
+			highlight_boxes()
+		elseif action.pressed and gui.pick_node(gui.get_node("tile7-5"), action.x, action.y) then
+			boxRow = 5
+			setBoxData(boxCol, boxRow, gui.get_text(gui.get_node("letter"..boxCol.."-"..boxRow)), "tile"..boxCol.."-"..boxRow)
+			highlight_boxes()
+		elseif action.pressed and gui.pick_node(gui.get_node("tile7-6"), action.x, action.y) then
+			boxRow = 6
+			setBoxData(boxCol, boxRow, gui.get_text(gui.get_node("letter"..boxCol.."-"..boxRow)), "tile"..boxCol.."-"..boxRow)
+			highlight_boxes()
+		elseif action.pressed and gui.pick_node(gui.get_node("tile7-7"), action.x, action.y) then
+			boxRow = 7
+			setBoxData(boxCol, boxRow, gui.get_text(gui.get_node("letter"..boxCol.."-"..boxRow)), "tile"..boxCol.."-"..boxRow)
+			highlight_boxes()
+		elseif action.pressed and gui.pick_node(gui.get_node("tile7-8"), action.x, action.y) then
+			boxRow = 8
+			setBoxData(boxCol, boxRow, gui.get_text(gui.get_node("letter"..boxCol.."-"..boxRow)), "tile"..boxCol.."-"..boxRow)
+			highlight_boxes()
+		elseif action.pressed and gui.pick_node(gui.get_node("tile7-9"), action.x, action.y) then
+			boxRow = 9
+			setBoxData(boxCol, boxRow, gui.get_text(gui.get_node("letter"..boxCol.."-"..boxRow)), "tile"..boxCol.."-"..boxRow)
+			highlight_boxes()
+		elseif action.pressed and gui.pick_node(gui.get_node("tile7-10"), action.x, action.y) then
+			boxRow = 10
+			setBoxData(boxCol, boxRow, gui.get_text(gui.get_node("letter"..boxCol.."-"..boxRow)), "tile"..boxCol.."-"..boxRow)
+			highlight_boxes()
+		elseif action.pressed and gui.pick_node(gui.get_node("tile7-11"), action.x, action.y) then
+			boxRow = 11
+			setBoxData(boxCol, boxRow, gui.get_text(gui.get_node("letter"..boxCol.."-"..boxRow)), "tile"..boxCol.."-"..boxRow)
+			highlight_boxes()
+		end
+	elseif action_id == hash("touch") and action.pressed and gui.pick_node(gui.get_node("col8"), action.x, action.y) then
+		-- == Column 8 ==
+		boxCol = 8
+		if action.pressed and gui.pick_node(gui.get_node("tile8-0"), action.x, action.y) then
+			boxRow = 0
+			setBoxData(boxCol, boxRow, gui.get_text(gui.get_node("letter"..boxCol.."-"..boxRow)), "tile"..boxCol.."-"..boxRow)
+			highlight_boxes()
+		elseif action.pressed and gui.pick_node(gui.get_node("tile8-1"), action.x, action.y) then
+			boxRow = 1
+			setBoxData(boxCol, boxRow, gui.get_text(gui.get_node("letter"..boxCol.."-"..boxRow)), "tile"..boxCol.."-"..boxRow)
+			highlight_boxes()
+		elseif action.pressed and gui.pick_node(gui.get_node("tile8-2"), action.x, action.y) then
+			boxRow = 2
+			setBoxData(boxCol, boxRow, gui.get_text(gui.get_node("letter"..boxCol.."-"..boxRow)), "tile"..boxCol.."-"..boxRow)
+			highlight_boxes()
+		elseif action.pressed and gui.pick_node(gui.get_node("tile8-3"), action.x, action.y) then
+			boxRow = 3
+			setBoxData(boxCol, boxRow, gui.get_text(gui.get_node("letter"..boxCol.."-"..boxRow)), "tile"..boxCol.."-"..boxRow)
+			highlight_boxes()
+		elseif action.pressed and gui.pick_node(gui.get_node("tile8-4"), action.x, action.y) then
+			boxRow = 4
+			setBoxData(boxCol, boxRow, gui.get_text(gui.get_node("letter"..boxCol.."-"..boxRow)), "tile"..boxCol.."-"..boxRow)
+			highlight_boxes()
+		elseif action.pressed and gui.pick_node(gui.get_node("tile8-5"), action.x, action.y) then
+			boxRow = 5
+			setBoxData(boxCol, boxRow, gui.get_text(gui.get_node("letter"..boxCol.."-"..boxRow)), "tile"..boxCol.."-"..boxRow)
+			highlight_boxes()
+		elseif action.pressed and gui.pick_node(gui.get_node("tile8-6"), action.x, action.y) then
+			boxRow = 6
+			setBoxData(boxCol, boxRow, gui.get_text(gui.get_node("letter"..boxCol.."-"..boxRow)), "tile"..boxCol.."-"..boxRow)
+			highlight_boxes()
+		elseif action.pressed and gui.pick_node(gui.get_node("tile8-7"), action.x, action.y) then
+			boxRow = 7
+			setBoxData(boxCol, boxRow, gui.get_text(gui.get_node("letter"..boxCol.."-"..boxRow)), "tile"..boxCol.."-"..boxRow)
+			highlight_boxes()
+		elseif action.pressed and gui.pick_node(gui.get_node("tile8-8"), action.x, action.y) then
+			boxRow = 8
+			setBoxData(boxCol, boxRow, gui.get_text(gui.get_node("letter"..boxCol.."-"..boxRow)), "tile"..boxCol.."-"..boxRow)
+			highlight_boxes()
+		elseif action.pressed and gui.pick_node(gui.get_node("tile8-9"), action.x, action.y) then
+			boxRow = 9
+			setBoxData(boxCol, boxRow, gui.get_text(gui.get_node("letter"..boxCol.."-"..boxRow)), "tile"..boxCol.."-"..boxRow)
+			highlight_boxes()
+		elseif action.pressed and gui.pick_node(gui.get_node("tile8-10"), action.x, action.y) then
+			boxRow = 10
+			setBoxData(boxCol, boxRow, gui.get_text(gui.get_node("letter"..boxCol.."-"..boxRow)), "tile"..boxCol.."-"..boxRow)
+			highlight_boxes()
+		elseif action.pressed and gui.pick_node(gui.get_node("tile8-11"), action.x, action.y) then
+			boxRow = 11
+			setBoxData(boxCol, boxRow, gui.get_text(gui.get_node("letter"..boxCol.."-"..boxRow)), "tile"..boxCol.."-"..boxRow)
+			highlight_boxes()
+		end
+	elseif action_id == hash("touch") and action.pressed and gui.pick_node(gui.get_node("col9"), action.x, action.y) then
+		-- == Column 9 ==
+		boxCol = 9
+		if action.pressed and gui.pick_node(gui.get_node("tile9-0"), action.x, action.y) then
+			boxRow = 0
+			setBoxData(boxCol, boxRow, gui.get_text(gui.get_node("letter"..boxCol.."-"..boxRow)), "tile"..boxCol.."-"..boxRow)
+			highlight_boxes()
+		elseif action.pressed and gui.pick_node(gui.get_node("tile9-1"), action.x, action.y) then
+			boxRow = 1
+			setBoxData(boxCol, boxRow, gui.get_text(gui.get_node("letter"..boxCol.."-"..boxRow)), "tile"..boxCol.."-"..boxRow)
+			highlight_boxes()
+		elseif action.pressed and gui.pick_node(gui.get_node("tile9-2"), action.x, action.y) then
+			boxRow = 2
+			setBoxData(boxCol, boxRow, gui.get_text(gui.get_node("letter"..boxCol.."-"..boxRow)), "tile"..boxCol.."-"..boxRow)
+			highlight_boxes()
+		elseif action.pressed and gui.pick_node(gui.get_node("tile9-3"), action.x, action.y) then
+			boxRow = 3
+			setBoxData(boxCol, boxRow, gui.get_text(gui.get_node("letter"..boxCol.."-"..boxRow)), "tile"..boxCol.."-"..boxRow)
+			highlight_boxes()
+		elseif action.pressed and gui.pick_node(gui.get_node("tile9-4"), action.x, action.y) then
+			boxRow = 4
+			setBoxData(boxCol, boxRow, gui.get_text(gui.get_node("letter"..boxCol.."-"..boxRow)), "tile"..boxCol.."-"..boxRow)
+			highlight_boxes()
+		elseif action.pressed and gui.pick_node(gui.get_node("tile9-5"), action.x, action.y) then
+			boxRow = 5
+			setBoxData(boxCol, boxRow, gui.get_text(gui.get_node("letter"..boxCol.."-"..boxRow)), "tile"..boxCol.."-"..boxRow)
+			highlight_boxes()
+		elseif action.pressed and gui.pick_node(gui.get_node("tile9-6"), action.x, action.y) then
+			boxRow = 6
+			setBoxData(boxCol, boxRow, gui.get_text(gui.get_node("letter"..boxCol.."-"..boxRow)), "tile"..boxCol.."-"..boxRow)
+			highlight_boxes()
+		elseif action.pressed and gui.pick_node(gui.get_node("tile9-7"), action.x, action.y) then
+			boxRow = 7
+			setBoxData(boxCol, boxRow, gui.get_text(gui.get_node("letter"..boxCol.."-"..boxRow)), "tile"..boxCol.."-"..boxRow)
+			highlight_boxes()
+		elseif action.pressed and gui.pick_node(gui.get_node("tile9-8"), action.x, action.y) then
+			boxRow = 8
+			setBoxData(boxCol, boxRow, gui.get_text(gui.get_node("letter"..boxCol.."-"..boxRow)), "tile"..boxCol.."-"..boxRow)
+			highlight_boxes()
+		elseif action.pressed and gui.pick_node(gui.get_node("tile9-9"), action.x, action.y) then
+			boxRow = 9
+			setBoxData(boxCol, boxRow, gui.get_text(gui.get_node("letter"..boxCol.."-"..boxRow)), "tile"..boxCol.."-"..boxRow)
+			highlight_boxes()
+		elseif action.pressed and gui.pick_node(gui.get_node("tile9-10"), action.x, action.y) then
+			boxRow = 10
+			setBoxData(boxCol, boxRow, gui.get_text(gui.get_node("letter"..boxCol.."-"..boxRow)), "tile"..boxCol.."-"..boxRow)
+			highlight_boxes()
+		elseif action.pressed and gui.pick_node(gui.get_node("tile9-11"), action.x, action.y) then
+			boxRow = 11
+			setBoxData(boxCol, boxRow, gui.get_text(gui.get_node("letter"..boxCol.."-"..boxRow)), "tile"..boxCol.."-"..boxRow)
+			highlight_boxes()
+		end
+	elseif action_id == hash("touch") and action.pressed and gui.pick_node(gui.get_node("col10"), action.x, action.y) then
+		-- == Column 10 ==
+		boxCol = 10
+		if action.pressed and gui.pick_node(gui.get_node("tile10-0"), action.x, action.y) then
+			boxRow = 0
+			setBoxData(boxCol, boxRow, gui.get_text(gui.get_node("letter"..boxCol.."-"..boxRow)), "tile"..boxCol.."-"..boxRow)
+			highlight_boxes()
+		elseif action.pressed and gui.pick_node(gui.get_node("tile10-1"), action.x, action.y) then
+			boxRow = 1
+			setBoxData(boxCol, boxRow, gui.get_text(gui.get_node("letter"..boxCol.."-"..boxRow)), "tile"..boxCol.."-"..boxRow)
+			highlight_boxes()
+		elseif action.pressed and gui.pick_node(gui.get_node("tile10-2"), action.x, action.y) then
+			boxRow = 2
+			setBoxData(boxCol, boxRow, gui.get_text(gui.get_node("letter"..boxCol.."-"..boxRow)), "tile"..boxCol.."-"..boxRow)
+			highlight_boxes()
+		elseif action.pressed and gui.pick_node(gui.get_node("tile10-3"), action.x, action.y) then
+			boxRow = 3
+			setBoxData(boxCol, boxRow, gui.get_text(gui.get_node("letter"..boxCol.."-"..boxRow)), "tile"..boxCol.."-"..boxRow)
+			highlight_boxes()
+		elseif action.pressed and gui.pick_node(gui.get_node("tile10-4"), action.x, action.y) then
+			boxRow = 4
+			setBoxData(boxCol, boxRow, gui.get_text(gui.get_node("letter"..boxCol.."-"..boxRow)), "tile"..boxCol.."-"..boxRow)
+			highlight_boxes()
+		elseif action.pressed and gui.pick_node(gui.get_node("tile10-5"), action.x, action.y) then
+			boxRow = 5
+			setBoxData(boxCol, boxRow, gui.get_text(gui.get_node("letter"..boxCol.."-"..boxRow)), "tile"..boxCol.."-"..boxRow)
+			highlight_boxes()
+		elseif action.pressed and gui.pick_node(gui.get_node("tile10-6"), action.x, action.y) then
+			boxRow = 6
+			setBoxData(boxCol, boxRow, gui.get_text(gui.get_node("letter"..boxCol.."-"..boxRow)), "tile"..boxCol.."-"..boxRow)
+			highlight_boxes()
+		elseif action.pressed and gui.pick_node(gui.get_node("tile10-7"), action.x, action.y) then
+			boxRow = 7
+			setBoxData(boxCol, boxRow, gui.get_text(gui.get_node("letter"..boxCol.."-"..boxRow)), "tile"..boxCol.."-"..boxRow)
+			highlight_boxes()
+		elseif action.pressed and gui.pick_node(gui.get_node("tile10-8"), action.x, action.y) then
+			boxRow = 8
+			setBoxData(boxCol, boxRow, gui.get_text(gui.get_node("letter"..boxCol.."-"..boxRow)), "tile"..boxCol.."-"..boxRow)
+			highlight_boxes()
+		elseif action.pressed and gui.pick_node(gui.get_node("tile10-9"), action.x, action.y) then
+			boxRow = 9
+			setBoxData(boxCol, boxRow, gui.get_text(gui.get_node("letter"..boxCol.."-"..boxRow)), "tile"..boxCol.."-"..boxRow)
+			highlight_boxes()
+		elseif action.pressed and gui.pick_node(gui.get_node("tile10-10"), action.x, action.y) then
+			boxRow = 10
+			setBoxData(boxCol, boxRow, gui.get_text(gui.get_node("letter"..boxCol.."-"..boxRow)), "tile"..boxCol.."-"..boxRow)
+			highlight_boxes()
+		elseif action.pressed and gui.pick_node(gui.get_node("tile10-11"), action.x, action.y) then
+			boxRow = 11
+			setBoxData(boxCol, boxRow, gui.get_text(gui.get_node("letter"..boxCol.."-"..boxRow)), "tile"..boxCol.."-"..boxRow)
+			highlight_boxes()
+		end
+	elseif action_id == hash("touch") and action.pressed and gui.pick_node(gui.get_node("col11"), action.x, action.y) then
+		-- == Column 11 ==
+		boxCol = 11
+		if action.pressed and gui.pick_node(gui.get_node("tile11-0"), action.x, action.y) then
+			boxRow = 0
+			setBoxData(boxCol, boxRow, gui.get_text(gui.get_node("letter"..boxCol.."-"..boxRow)), "tile"..boxCol.."-"..boxRow)
+			highlight_boxes()
+		elseif action.pressed and gui.pick_node(gui.get_node("tile11-1"), action.x, action.y) then
+			boxRow = 1
+			setBoxData(boxCol, boxRow, gui.get_text(gui.get_node("letter"..boxCol.."-"..boxRow)), "tile"..boxCol.."-"..boxRow)
+			highlight_boxes()
+		elseif action.pressed and gui.pick_node(gui.get_node("tile11-2"), action.x, action.y) then
+			boxRow = 2
+			setBoxData(boxCol, boxRow, gui.get_text(gui.get_node("letter"..boxCol.."-"..boxRow)), "tile"..boxCol.."-"..boxRow)
+			highlight_boxes()
+		elseif action.pressed and gui.pick_node(gui.get_node("tile11-3"), action.x, action.y) then
+			boxRow = 3
+			setBoxData(boxCol, boxRow, gui.get_text(gui.get_node("letter"..boxCol.."-"..boxRow)), "tile"..boxCol.."-"..boxRow)
+			highlight_boxes()
+		elseif action.pressed and gui.pick_node(gui.get_node("tile11-4"), action.x, action.y) then
+			boxRow = 4
+			setBoxData(boxCol, boxRow, gui.get_text(gui.get_node("letter"..boxCol.."-"..boxRow)), "tile"..boxCol.."-"..boxRow)
+			highlight_boxes()
+		elseif action.pressed and gui.pick_node(gui.get_node("tile11-5"), action.x, action.y) then
+			boxRow = 5
+			setBoxData(boxCol, boxRow, gui.get_text(gui.get_node("letter"..boxCol.."-"..boxRow)), "tile"..boxCol.."-"..boxRow)
+			highlight_boxes()
+		elseif action.pressed and gui.pick_node(gui.get_node("tile11-6"), action.x, action.y) then
+			boxRow = 6
+			setBoxData(boxCol, boxRow, gui.get_text(gui.get_node("letter"..boxCol.."-"..boxRow)), "tile"..boxCol.."-"..boxRow)
+			highlight_boxes()
+		elseif action.pressed and gui.pick_node(gui.get_node("tile11-7"), action.x, action.y) then
+			boxRow = 7
+			setBoxData(boxCol, boxRow, gui.get_text(gui.get_node("letter"..boxCol.."-"..boxRow)), "tile"..boxCol.."-"..boxRow)
+			highlight_boxes()
+		elseif action.pressed and gui.pick_node(gui.get_node("tile11-8"), action.x, action.y) then
+			boxRow = 8
+			setBoxData(boxCol, boxRow, gui.get_text(gui.get_node("letter"..boxCol.."-"..boxRow)), "tile"..boxCol.."-"..boxRow)
+			highlight_boxes()
+		elseif action.pressed and gui.pick_node(gui.get_node("tile11-9"), action.x, action.y) then
+			boxRow = 9
+			setBoxData(boxCol, boxRow, gui.get_text(gui.get_node("letter"..boxCol.."-"..boxRow)), "tile"..boxCol.."-"..boxRow)
+			highlight_boxes()
+		elseif action.pressed and gui.pick_node(gui.get_node("tile11-10"), action.x, action.y) then
+			boxRow = 10
+			setBoxData(boxCol, boxRow, gui.get_text(gui.get_node("letter"..boxCol.."-"..boxRow)), "tile"..boxCol.."-"..boxRow)
+			highlight_boxes()
+		elseif action.pressed and gui.pick_node(gui.get_node("tile11-11"), action.x, action.y) then
+			boxRow = 11
+			setBoxData(boxCol, boxRow, gui.get_text(gui.get_node("letter"..boxCol.."-"..boxRow)), "tile"..boxCol.."-"..boxRow)
 			highlight_boxes()
 		end
 	end
@@ -161,39 +682,79 @@ function on_input(self, action_id, action)
 end
 
 function highlight_boxes()
-	if node1 ~= nil then
-		if node2 ~= nil then
-			-- Both nodes selected, need to do validity checks here
-			if check_if_valid_nodes() == true then
-				if(gui.get_color(node2) == vmath.vector4(1, 1, 1, 1)) then
-					--print("HIGHLIGHTING NODE2")
-					highlight_box(node2)
-				else
-					-- need to handle case here where node1 is deselected
-					-- node1 and node2 both have values
-					-- node1 is deselected
-					-- but node1 becomes overwritten with node2! (maybe?)
+	-- if node1 ~= nil then
+	-- 	if node2 ~= nil then
+	-- 		-- Both nodes selected, need to do validity checks here
+	-- 		if check_if_valid_nodes() == true then
+	-- 			if(gui.get_color(node2) == vmath.vector4(1, 1, 1, 1)) then
+	-- 				print("HIGHLIGHTING NODE2")
+	-- 				highlight_box(node2)
+	-- 			end
+	-- 		end
+	-- 	else
+	-- 		if(gui.get_color(node1) == vmath.vector4(1, 1, 1, 1)) then
+	-- 			print("HIGHLIGHTING NODE1")
+	-- 			highlight_box(node1)
+	-- 		end
+	-- 	end
+	-- end
+end
 
-					--print("UNHIGHLIGHTING NODE2")
-					unhighlight_box(node2)
-					node1 = node2
-					node1Col = node2Col
-					node1Row = node2Row
-					node2 = nil
-				end
-			else
-				node1 = node2
-				node1Col = node2Col
-				node1Row = node2Row
-				node2 = nil
+function highlight_valid()
+	local highCol = math.max(node1Col, node2Col)
+	local lowCol = math.min(node1Col, node2Col)
+	local highRow = math.max(node1Row, node2Row)
+	local lowRow = math.min(node1Row, node2Row)
+	local numIter = math.max(highCol-lowCol, highRow-lowRow)
+	local nodeName = ""
+
+	if highRow == lowRow then
+		-- same row
+		for i = lowCol, highCol do
+			highlight_box(gui.get_node("tile"..i.."-"..lowRow))
+		end
+	elseif highCol == lowCol then
+		-- same col
+		for i = lowRow, highRow do
+			highlight_box(gui.get_node("tile"..lowCol.."-"..i))
+		end
+	else
+		-- must be a verified diagonal
+		if node1Col < node2Col and node1Row < node2Row then
+			-- c1 < c2
+			-- r1 < r2
+			-- [1][ ][ ]
+			-- [ ][X][ ]
+			-- [ ][ ][2]
+			for i=0, numIter do
+				highlight_box(gui.get_node("tile"..(lowCol+i).."-"..(lowRow+i)))
 			end
-		else
-			if(gui.get_color(node1) == vmath.vector4(1, 1, 1, 1)) then
-				--print("HIGHLIGHTING NODE1")
-				highlight_box(node1)
-			else
-				--print("UNHIGHLIGHTING NODE1")
-				unhighlight_box(node1)
+		elseif node1Col > node2Col and node1Row > node2Row then
+			-- c1 > c2
+			-- r1 > r2
+			-- [2][ ][ ]
+			-- [ ][X][ ]
+			-- [ ][ ][1]
+			for i=0, numIter do
+				highlight_box(gui.get_node("tile"..(highCol-i).."-"..(highRow-i)))
+			end
+		elseif  node1Col < node2Col and node1Row > node2Row then
+			-- c1 < c2
+			-- r1 > r2
+			-- [ ][ ][2]
+			-- [ ][X][ ]
+			-- [1][ ][ ]
+			for i=0, numIter do
+				highlight_box(gui.get_node("tile"..(lowCol+i).."-"..(highRow-i)))
+			end
+		elseif  node1Col > node2Col and node1Row < node2Row then
+			-- c1 > c2
+			-- r1 < r2
+			-- [ ][ ][1]
+			-- [ ][X][ ]
+			-- [2][ ][ ]
+			for i=0, numIter do
+				highlight_box(gui.get_node("tile"..(highCol-i).."-"..(lowRow+i)))
 			end
 		end
 	end
@@ -218,11 +779,40 @@ function setBoxData(boxCol, boxRow, boxChar, boxName)
 		node1Col = boxCol
 		node1Row = boxRow
 		node1Char = boxChar
+		highlight_box(node1)
 	else
-		node2 = gui.get_node(boxName)
-		node2Col = boxCol
-		node2Row = boxRow
-		node2Char = boxChar
+		if node2 == nil then
+			node2 = gui.get_node(boxName)
+			node2Col = boxCol
+			node2Row = boxRow
+			node2Char = boxChar
+			if check_if_valid_nodes() == true then 
+				-- if in word bank
+				--       | highlight all boxes in between these two
+				--       | mark word as found
+
+				-- highlight_box(node2)
+				highlight_valid()
+			else
+				-- unhighlight both
+				-- null both
+				unhighlight_box(node1)
+				unhighlight_box(node2)
+				node1 = nil
+				node2 = nil
+			end
+		else
+			-- both node1 and node2 set
+			--
+			-- would not be a normal case, highlights are nulled
+			-- upon node2 selection and checks 
+			-- (either word exists and marked green, or it doesn't - both are nulled)
+			unhighlight_box(node1)
+			unhighlight_box(node2)
+			node1 = nil
+			node2 = nil
+			setBoxData(boxCol, boxRow, boxChar, boxName)
+		end
 	end
 end
 
