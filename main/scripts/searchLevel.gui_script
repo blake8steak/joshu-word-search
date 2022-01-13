@@ -7,6 +7,7 @@ local node1Char
 local node2Col
 local node2Row
 local node2Char
+local wordBank
 
 function init(self)
 	-- Add initialization code here
@@ -14,6 +15,7 @@ function init(self)
 	-- Remove this function if not needed
 	print("searchLevelInit")
 	msg.post(".", "acquire_input_focus")
+	clear_board()
 end
 
 function final(self)
@@ -30,6 +32,11 @@ end
 
 function on_message(self, message_id, message, sender)
 	-- Add level details here 
+	if message_id == hash("init_tiles") then
+		print("Initializing tiles...")
+		wordBank = message
+		place_word(0)
+	end
 	if message_id == hash("tile_selected") then
 
 	end
@@ -893,6 +900,290 @@ function check_if_valid_nodes()
 		return true
 	else
 		return false
+	end
+end
+
+function clear_board()
+	for c=0, 11 do
+		for r=0, 11 do
+			-- print("letter"..c.."-"..r)
+			gui.set_text(gui.get_node("letter"..c.."-"..r), " ")
+			gui.set_color(gui.get_node("tile"..c.."-"..r), vmath.vector4(0.9, 0.9, 0.9, 1))
+		end
+	end
+end
+
+function place_word(wordIndex)
+	-- WORD PLACEMENT ALGO  (recursive)
+	-- place word in random spot where enough room exists (randomize diag, horiz, vert)
+	-- if no place found, go back and re-place previous words
+	-- if found, advance to next word
+
+	-- == STEP ONE == first, try to place word
+	local currentWord = wordBank.words[wordIndex]
+	local currentWordLength = string.len(currentWord)
+	local tryCol
+	local tryRow
+	local placed = false
+
+	-- for extra randomness, start at random col/row (don't always start at 0/11)
+	-- create tables for both, randomize order of elements
+	local colArrIndeces = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11}
+	local rowArrIndeces = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11}
+
+	colArrIndeces = shuffle(colArrIndeces)
+	rowArrIndeces = shuffle(rowArrIndeces)
+
+	for c=0, 11 do
+		for r=0, 11 do
+			local result = check_all_direction_for_placement(c, r, currentWord)
+			if result == false then
+				-- run next iter
+			else
+				write_word(currentWord, result)
+				-- do recursive call to new word
+				-- if recursive call returns false, clear word placement
+				-- else do nothing
+			end
+		end
+	end
+end
+
+function write_word(word, direction)
+	if direction == "colLeft" then
+		-- place
+	elseif direction == "colRight" then
+		-- place
+	elseif direction == "rowUp" then
+		-- place
+	elseif direction == "rowDown" then
+		-- place
+	elseif direction == "upRight" then
+		-- place
+	elseif direction == "upLeft" then
+		-- place
+	elseif direction == "dnRight" then
+		-- place
+	elseif direction == "dnLeft" then
+		-- place
+	else
+		print("Unexpected param for \"direction\" received in function place_word.")
+	end
+end
+
+function check_all_direction_for_placement(col, row, word)
+	-- check if word has enough room in a direction
+	-- OR if intersection matches up with word
+	local existingString = ""
+	-- check col ( <--- left)
+	::colLeft::
+	for i=0, currentWordLength do
+		if col < 0 or col > 11 then
+			-- end process, go to next - this check failed
+			goto colRight
+		elseif row < 0 or row > 11 then
+			-- end process, go to next - this check failed
+			goto colRight
+		else
+			existingString = existingString..gui.get_text(gui.get_node("letter"..col-i.."-"..row))
+		end
+	end
+	-- check if strings fit together, if so return true
+	if words_match(word, existingString) then
+		return "colLeft"
+	end
+	-- check col ( ---> right)
+	::colRight::
+	existingString = ""
+	for i=0, currentWordLength do
+		if col < 0 or col > 11 then
+			-- end process, this check failed
+			goto rowUp
+		elseif row < 0 or row > 11 then
+			-- end process, this check failed
+			goto rowUp
+		else
+			existingString = existingString..gui.get_text(gui.get_node("letter"..col+i.."-"..row))
+		end
+	end
+	-- check if strings fit together, if so return true
+	if words_match(word, existingString) then
+		return "colRight"
+	end
+	-- check row (^^ up ^^)
+	::rowUp::
+	existingString = ""
+	for i=0, currentWordLength do
+		if col < 0 or col > 11 then
+			-- end process, this check failed
+			goto rowDown
+		elseif row < 0 or row > 11 then
+			-- end process, this check failed
+			goto rowDown
+		else
+			existingString = existingString..gui.get_text(gui.get_node("letter"..col.."-"..row-i))
+		end
+	end
+	-- check if strings fit together, if so return true
+	if words_match(word, existingString) then
+		return "rowUp"
+	end
+	-- check row (vv down vv)
+	::rowDown::
+	existingString = ""
+	for i=0, currentWordLength do
+		if col < 0 or col > 11 then
+			-- end process, this check failed
+			goto upRight
+		elseif row < 0 or row > 11 then
+			-- end process, this check failed
+			goto upRight
+		else
+			existingString = existingString..gui.get_text(gui.get_node("letter"..col.."-"..row+i))
+		end
+	end
+	-- check if strings fit together, if so return true
+	if words_match(word, existingString) then
+		return "rowDown"
+	end
+	-- upRight /^
+	-- (1 is beginning of line, 3 is end)
+	-- [ ][ ][3]
+	-- [ ][2][ ]
+	-- [1][ ][ ]
+	::upRight::
+	existingString = ""
+	for i=0, currentWordLength do
+		if col < 0 or col > 11 then
+			-- end process, this check failed
+			goto upLeft
+		elseif row < 0 or row > 11 then
+			-- end process, this check failed
+			goto upLeft
+		else
+			existingString = existingString..gui.get_text(gui.get_node("letter"..col+i.."-"..row-i))
+		end
+	end
+	-- check if strings fit together, if so return true
+	if words_match(word, existingString) then
+		return "upRight"
+	end
+	-- upLeft ^\
+	-- (1 is beginning of line, 3 is end)
+	-- [3][ ][ ]
+	-- [ ][2][ ]
+	-- [ ][ ][1]
+	::upLeft::
+	existingString = ""
+	for i=0, currentWordLength do
+		if col < 0 or col > 11 then
+			-- end process, this check failed
+			goto dnLeft
+		elseif row < 0 or row > 11 then
+			-- end process, this check failed
+			goto dnLeft
+		else
+			existingString = existingString..gui.get_text(gui.get_node("letter"..col-i.."-"..row-i))
+		end
+	end
+	-- check if strings fit together, if so return true
+	if words_match(word, existingString) then
+		return "upLeft"
+	end
+	-- dnLeft v/
+	-- (1 is beginning of line, 3 is end)
+	-- [ ][ ][1]
+	-- [ ][2][ ]
+	-- [3][ ][ ]
+	::dnLeft::
+	existingString = ""
+	for i=0, currentWordLength do
+		if col < 0 or col > 11 then
+			-- end process, this check failed
+			goto dnRight
+		elseif row < 0 or row > 11 then
+			-- end process, this check failed
+			goto dnRight
+		else
+			existingString = existingString..gui.get_text(gui.get_node("letter"..col-i.."-"..row+i))
+		end
+	end
+	-- check if strings fit together, if so return true
+	if words_match(word, existingString) then
+		return "dnLeft"
+	end
+	-- dnRight \v
+	-- (1 is beginning of line, 3 is end)
+	-- [ ][ ][1]
+	-- [ ][2][ ]
+	-- [3][ ][ ]
+	::dnRight::
+	existingString = ""
+	for i=0, currentWordLength do
+		if col < 0 or col > 11 then
+			-- end process, this check failed
+			goto checkFailed
+		elseif row < 0 or row > 11 then
+			-- end process, this check failed
+			goto checkFailed
+		else
+			existingString = existingString..gui.get_text(gui.get_node("letter"..col+i.."-"..row+i))
+		end
+	end
+	-- check if strings fit together, if so return true
+	if words_match(word, existingString) then
+		return "dnRight"
+	end
+	-- all checks have run
+	-- if true has not yet been returned, no possible placement
+	::checkFailed::
+	return false
+end
+
+-- if word is empty (all spaces), return true
+-- if word letters match up (i.e. "cat", "_a_"), return true
+function words_match(word, existing)
+	if string.len(word) ~= string.len(existing) then
+		return false
+	else
+		local length = string.len(word)
+		for i=0, length do
+			if string.sub(existing, i, i) == " "  then
+				goto continue
+			elseif string.sub(word, i, i) == string.sub(existing, i, i) then
+				goto continue
+			else
+				return false
+			end
+			::continue::
+		end
+	end
+	return true
+end
+
+function shuffle(t)
+	local tbl = {}
+	for i = 1, #t do
+		tbl[i] = t[i]
+	end
+	for i = #tbl, 2, -1 do
+		local j = math.random(i)
+		tbl[i], tbl[j] = tbl[j], tbl[i]
+	end
+	return tbl
+end
+
+-- for debugging tables
+function dump(o)
+	if type(o) == 'table' then
+		local s = '{ '
+		for k,v in pairs(o) do
+			if type(k) ~= 'number' then k = '"'..k..'"' end
+			s = s .. '['..k..'] = ' .. dump(v) .. ','
+		end
+		return s .. '} '
+	else
+		return tostring(o)
 	end
 end
 -- End Blake Methods --

@@ -13,6 +13,19 @@ function init(self)
 	-- Add initialization code here
 	-- Learn more: https://defold.com/manuals/script/
 	-- Remove this function if not needed
+
+	-- populate search tiles with given word bank
+	-- msg.post("/searchLevel#searchScript", "tile_selected", {col = boxCol, row = boxRow, char = boxChar})
+
+	-- string.len("string here") is used for string length
+
+	-- WORD PLACEMENT ALGO
+	-- place word in random spot where enough room exists (randomize diag, horiz, vert)
+	-- if no place found, go back and re-place previous words
+	-- if found, advance to next word
+	
+
+	msg.post("searchLevel#searchLevelControls", "init_tiles", words)
 end
 
 function final(self)
@@ -34,7 +47,9 @@ function on_message(self, message_id, message, sender)
 		-- print(message_id)
 		-- print(message.row)
 		-- print(sender)
-		print("IN SEARCH, WORDS: "..words.words[2])
+		
+		-- print("IN SEARCH, WORDS: "..words.words[2])
+		
 		print("== BOX INFO: "..message.char.." @ ("..message.col..","..message.row..")  == *[col, row]*")
 	end
 end
