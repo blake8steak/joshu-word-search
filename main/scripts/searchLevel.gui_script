@@ -760,6 +760,66 @@ function highlight_valid()
 	end
 end
 
+function unhighlight_valid()
+	local highCol = math.max(node1Col, node2Col)
+	local lowCol = math.min(node1Col, node2Col)
+	local highRow = math.max(node1Row, node2Row)
+	local lowRow = math.min(node1Row, node2Row)
+	local numIter = math.max(highCol-lowCol, highRow-lowRow)
+	local nodeName = ""
+
+	if highRow == lowRow then
+		-- same row
+		for i = lowCol, highCol do
+			unhighlight_box(gui.get_node("tile"..i.."-"..lowRow))
+		end
+	elseif highCol == lowCol then
+		-- same col
+		for i = lowRow, highRow do
+			unhighlight_box(gui.get_node("tile"..lowCol.."-"..i))
+		end
+	else
+		-- must be a verified diagonal
+		if node1Col < node2Col and node1Row < node2Row then
+			-- c1 < c2
+			-- r1 < r2
+			-- [1][ ][ ]
+			-- [ ][X][ ]
+			-- [ ][ ][2]
+			for i=0, numIter do
+				unhighlight_box(gui.get_node("tile"..(lowCol+i).."-"..(lowRow+i)))
+			end
+		elseif node1Col > node2Col and node1Row > node2Row then
+			-- c1 > c2
+			-- r1 > r2
+			-- [2][ ][ ]
+			-- [ ][X][ ]
+			-- [ ][ ][1]
+			for i=0, numIter do
+				unhighlight_box(gui.get_node("tile"..(highCol-i).."-"..(highRow-i)))
+			end
+		elseif  node1Col < node2Col and node1Row > node2Row then
+			-- c1 < c2
+			-- r1 > r2
+			-- [ ][ ][2]
+			-- [ ][X][ ]
+			-- [1][ ][ ]
+			for i=0, numIter do
+				unhighlight_box(gui.get_node("tile"..(lowCol+i).."-"..(highRow-i)))
+			end
+		elseif  node1Col > node2Col and node1Row < node2Row then
+			-- c1 > c2
+			-- r1 < r2
+			-- [ ][ ][1]
+			-- [ ][X][ ]
+			-- [2][ ][ ]
+			for i=0, numIter do
+				unhighlight_box(gui.get_node("tile"..(highCol-i).."-"..(lowRow+i)))
+			end
+		end
+	end
+end
+
 function highlight_box(node)
 	local color = vmath.vector4(1, 1, 0, 1)
 	color.w = 0.5
@@ -807,8 +867,9 @@ function setBoxData(boxCol, boxRow, boxChar, boxName)
 			-- would not be a normal case, highlights are nulled
 			-- upon node2 selection and checks 
 			-- (either word exists and marked green, or it doesn't - both are nulled)
-			unhighlight_box(node1)
-			unhighlight_box(node2)
+			unhighlight_valid()
+			-- unhighlight_box(node1)
+			-- unhighlight_box(node2)
 			node1 = nil
 			node2 = nil
 			setBoxData(boxCol, boxRow, boxChar, boxName)
