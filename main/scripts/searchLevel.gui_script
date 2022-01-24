@@ -8,6 +8,7 @@ local node2Col
 local node2Row
 local node2Char
 local wordBank
+local wordBankSize = 0
 
 function init(self)
 	-- Add initialization code here
@@ -35,7 +36,10 @@ function on_message(self, message_id, message, sender)
 	if message_id == hash("init_tiles") then
 		print("Initializing tiles...")
 		wordBank = message
-		place_word(0)
+		for k in pairs(wordBank.words) do 
+			wordBankSize = wordBankSize + 1
+		end
+		place_word(1)
 	end
 	if message_id == hash("tile_selected") then
 
@@ -919,11 +923,18 @@ function place_word(wordIndex)
 	-- if no place found, go back and re-place previous words
 	-- if found, advance to next word
 
+	-- == BASE CASE == all words placed
+	if wordIndex > wordBankSize then
+		print("Index: "..wordIndex)
+		print("Size of word bank: "..wordBankSize)
+		return true
+	end
+	
 	-- == STEP ONE == first, try to place word
 	local currentWord = wordBank.words[wordIndex]
 	local currentWordLength = string.len(currentWord)
-	local tryCol
-	local tryRow
+	local tryCol = 0
+	local tryRow = 0
 	local placed = false
 
 	-- for extra randomness, start at random col/row (don't always start at 0/11)
@@ -934,38 +945,180 @@ function place_word(wordIndex)
 	colArrIndeces = shuffle(colArrIndeces)
 	rowArrIndeces = shuffle(rowArrIndeces)
 
-	for c=0, 11 do
-		for r=0, 11 do
-			local result = check_all_direction_for_placement(c, r, currentWord)
+	for c=1, 12 do
+		tryCol = colArrIndeces[c]
+		for r=1, 12 do
+			tryRow = rowArrIndeces[r]
+			local result = check_all_direction_for_placement(tryCol, tryRow, currentWord)
+			print("Result for word \""..currentWord.."\" @ ("..tryCol..", "..tryRow.."): "..tostring(result))
 			if result == false then
 				-- run next iter
+				goto nextCoordinates
 			else
-				write_word(currentWord, result)
+				print("Attempting to write word: \""..currentWord.."\" @ ("..tryCol..", "..tryRow..")")
+				write_word(currentWord, result, tryCol, tryRow)
 				-- do recursive call to new word
 				-- if recursive call returns false, clear word placement
-				-- else do nothing
+				-- else return true
+				if place_word(wordIndex+1) == false then
+					unwrite_word(currentWord, result, tryCol, tryRow)
+					goto nextCoordinates
+				else
+					print("Word placed! \""..currentWord.."\" @ ("..tryCol..", "..tryRow..")")
+					return true
+				end
 			end
+			::nextCoordinates::
 		end
 	end
 end
 
-function write_word(word, direction)
+function write_word(word, direction, col, row)
+	local wordLen = string.len(word) - 1
+	local newLetter;
+
+	-- for c in word:gmatch(".[\128-\191]*") do
+	-- 	print("Printing letter: "..c)
+	-- end
+	local i = 0
 	if direction == "colLeft" then
-		-- place
+		-- place (col--, row stays same)
+		-- for i=0, wordLen do
+		-- 	print("Writing letter \""..string.sub(word, i+1, i+1).."\"")
+		-- 	gui.set_text(gui.get_node("letter"..col-i.."-"..row), string.sub(word, i+1, i+1))
+		-- end
+
+		--.[\128-\191]*
+		for c in word:gmatch("[%z\1-\127\194-\244][\128-\191]*") do
+			print("Writing letter \""..c.."\"")
+			gui.set_text(gui.get_node("letter"..col-i.."-"..row), c)
+			i = i+1
+		end
 	elseif direction == "colRight" then
-		-- place
+		-- place (col++, row stays same)
+		-- for i=0, wordLen do
+		-- 	print("Writing letter \""..string.sub(word, i+1, i+1).."\"")
+		-- 	gui.set_text(gui.get_node("letter"..col+i.."-"..row), string.sub(word, i+1, i+1))
+		-- end
+
+		for c in word:gmatch("[%z\1-\127\194-\244][\128-\191]*") do
+			print("Writing letter \""..c.."\"")
+			gui.set_text(gui.get_node("letter"..col+i.."-"..row), c)
+			i = i+1
+		end
 	elseif direction == "rowUp" then
-		-- place
+		-- place (col stays same, row--)
+		-- for i=0, wordLen do
+		-- 	print("Writing letter \""..string.sub(word, i+1, i+1).."\"")
+		-- 	gui.set_text(gui.get_node("letter"..col.."-"..row-i), string.sub(word, i+1, i+1))
+		-- end
+		for c in word:gmatch("[%z\1-\127\194-\244][\128-\191]*") do
+			print("Writing letter \""..c.."\"")
+			gui.set_text(gui.get_node("letter"..col.."-"..row-i), c)
+			i = i+1
+		end
 	elseif direction == "rowDown" then
-		-- place
+		-- place (col stays same, row++)
+		-- for i=0, wordLen do
+		-- 	print("Writing letter \""..string.sub(word, i+1, i+1).."\"")
+		-- 	gui.set_text(gui.get_node("letter"..col.."-"..row+i), string.sub(word, i+1, i+1))
+		-- end
+		for c in word:gmatch("[%z\1-\127\194-\244][\128-\191]*") do
+			print("Writing letter \""..c.."\"")
+			gui.set_text(gui.get_node("letter"..col.."-"..row+i), c)
+			i = i+1
+		end
 	elseif direction == "upRight" then
-		-- place
+		-- place (col++, row--)
+		-- for i=0, wordLen do
+		-- 	print("Writing letter \""..string.sub(word, i+1, i+1).."\"")
+		-- 	gui.set_text(gui.get_node("letter"..col+i.."-"..row-i), string.sub(word, i+1, i+1))
+		-- end
+		for c in word:gmatch("[%z\1-\127\194-\244][\128-\191]*") do
+			print("Writing letter \""..c.."\"")
+			gui.set_text(gui.get_node("letter"..col+i.."-"..row-i), c)
+			i = i+1
+		end
 	elseif direction == "upLeft" then
-		-- place
+		-- place (col--, row--)
+		-- for i=0, wordLen do
+		-- 	print("Writing letter \""..string.sub(word, i+1, i+1).."\"")
+		-- 	gui.set_text(gui.get_node("letter"..col-i.."-"..row-i), string.sub(word, i+1, i+1))
+		-- end
+		for c in word:gmatch("[%z\1-\127\194-\244][\128-\191]*") do
+			print("Writing letter \""..c.."\"")
+			gui.set_text(gui.get_node("letter"..col-i.."-"..row-i), c)
+			i = i+1
+		end
 	elseif direction == "dnRight" then
-		-- place
+		-- place (col++, row++)
+		-- for i=0, wordLen do
+		-- 	print("Writing letter \""..string.sub(word, i+1, i+1).."\"")
+		-- 	gui.set_text(gui.get_node("letter"..col+i.."-"..row+i), string.sub(word, i+1, i+1))
+		-- end
+		for c in word:gmatch("[%z\1-\127\194-\244][\128-\191]*") do
+			print("Writing letter \""..c.."\"")
+			gui.set_text(gui.get_node("letter"..col+i.."-"..row+i), c)
+			i = i+1
+		end
 	elseif direction == "dnLeft" then
-		-- place
+		-- place (col--, row++)
+		-- for i=0, wordLen do
+		-- 	print("Writing letter \""..string.sub(word, i+1, i+1).."\"")
+		-- 	gui.set_text(gui.get_node("letter"..col-i.."-"..row+i), string.sub(word, i+1, i+1))
+		-- end
+		for c in word:gmatch("[%z\1-\127\194-\244][\128-\191]*") do
+			print("Writing letter \""..c.."\"")
+			gui.set_text(gui.get_node("letter"..col-i.."-"..row+i), c)
+			i = i+1
+		end
+	else
+		print("Unexpected param for \"direction\" received in function place_word.")
+	end
+end
+
+function unwrite_word(word, direction, col, row)
+	local wordLen = string.len(word) - 1
+	if direction == "colLeft" then
+		-- place (col--, row stays same)
+		for i=0, wordLen do
+			gui.set_text(gui.get_node("letter"..col-i.."-"..row), " ")
+		end
+	elseif direction == "colRight" then
+		-- place (col++, row stays same)
+		for i=0, wordLen do
+			gui.set_text(gui.get_node("letter"..col+i.."-"..row), " ")
+		end
+	elseif direction == "rowUp" then
+		-- place (col stays same, row--)
+		for i=0, wordLen do
+			gui.set_text(gui.get_node("letter"..col.."-"..row-i), " ")
+		end
+	elseif direction == "rowDown" then
+		-- place (col stays same, row++)
+		for i=0, wordLen do
+			gui.set_text(gui.get_node("letter"..col.."-"..row+i), " ")
+		end
+	elseif direction == "upRight" then
+		-- place (col++, row--)
+		for i=0, wordLen do
+			gui.set_text(gui.get_node("letter"..col+i.."-"..row-i), " ")
+		end
+	elseif direction == "upLeft" then
+		-- place (col--, row--)
+		for i=0, wordLen do
+			gui.set_text(gui.get_node("letter"..col-i.."-"..row-i), " ")
+		end
+	elseif direction == "dnRight" then
+		-- place (col++, row++)
+		for i=0, wordLen do
+			gui.set_text(gui.get_node("letter"..col+i.."-"..row+i), " ")
+		end
+	elseif direction == "dnLeft" then
+		-- place (col--, row++)
+		for i=0, wordLen do
+			gui.set_text(gui.get_node("letter"..col-i.."-"..row+i), " ")
+		end
 	else
 		print("Unexpected param for \"direction\" received in function place_word.")
 	end
@@ -975,14 +1128,13 @@ function check_all_direction_for_placement(col, row, word)
 	-- check if word has enough room in a direction
 	-- OR if intersection matches up with word
 	local existingString = ""
+	local currentWordLength = string.len(word) - 1
 	-- check col ( <--- left)
 	::colLeft::
 	for i=0, currentWordLength do
-		if col < 0 or col > 11 then
+		if (col-i) < 0 then
 			-- end process, go to next - this check failed
-			goto colRight
-		elseif row < 0 or row > 11 then
-			-- end process, go to next - this check failed
+			print("=== Failed check for colLeft: reached position ("..col-i..", "..row..")")
 			goto colRight
 		else
 			existingString = existingString..gui.get_text(gui.get_node("letter"..col-i.."-"..row))
@@ -996,11 +1148,10 @@ function check_all_direction_for_placement(col, row, word)
 	::colRight::
 	existingString = ""
 	for i=0, currentWordLength do
-		if col < 0 or col > 11 then
-			-- end process, this check failed
-			goto rowUp
-		elseif row < 0 or row > 11 then
-			-- end process, this check failed
+		if col+i > 11 then
+			-- incrementing columns (traveling right), col++
+			-- end process, go to next - this check failed
+			print("=== Failed check for colRight: reached position ("..col+i..", "..row..")")
 			goto rowUp
 		else
 			existingString = existingString..gui.get_text(gui.get_node("letter"..col+i.."-"..row))
@@ -1014,11 +1165,10 @@ function check_all_direction_for_placement(col, row, word)
 	::rowUp::
 	existingString = ""
 	for i=0, currentWordLength do
-		if col < 0 or col > 11 then
+		if row-i < 0 then
+			-- row decreasing (going up), row--
 			-- end process, this check failed
-			goto rowDown
-		elseif row < 0 or row > 11 then
-			-- end process, this check failed
+			print("=== Failed check for rowUp: reached position ("..col..", "..row-i..")")
 			goto rowDown
 		else
 			existingString = existingString..gui.get_text(gui.get_node("letter"..col.."-"..row-i))
@@ -1032,11 +1182,10 @@ function check_all_direction_for_placement(col, row, word)
 	::rowDown::
 	existingString = ""
 	for i=0, currentWordLength do
-		if col < 0 or col > 11 then
+		if row+i > 11 then
+			-- row increasing (going down), row++
 			-- end process, this check failed
-			goto upRight
-		elseif row < 0 or row > 11 then
-			-- end process, this check failed
+			print("=== Failed check for rowDown: reached position ("..col..", "..row+i..")")
 			goto upRight
 		else
 			existingString = existingString..gui.get_text(gui.get_node("letter"..col.."-"..row+i))
@@ -1054,11 +1203,10 @@ function check_all_direction_for_placement(col, row, word)
 	::upRight::
 	existingString = ""
 	for i=0, currentWordLength do
-		if col < 0 or col > 11 then
+		if col+i > 11 or row-i < 0 then
 			-- end process, this check failed
-			goto upLeft
-		elseif row < 0 or row > 11 then
-			-- end process, this check failed
+			-- up right /^, col++ row--
+			print("=== Failed check for upRight: reached position ("..col+i..", "..row-i..")")
 			goto upLeft
 		else
 			existingString = existingString..gui.get_text(gui.get_node("letter"..col+i.."-"..row-i))
@@ -1076,11 +1224,9 @@ function check_all_direction_for_placement(col, row, word)
 	::upLeft::
 	existingString = ""
 	for i=0, currentWordLength do
-		if col < 0 or col > 11 then
+		if col-i < 0 or row-i < 0 then
 			-- end process, this check failed
-			goto dnLeft
-		elseif row < 0 or row > 11 then
-			-- end process, this check failed
+			print("=== Failed check for upLeft: reached position ("..col-i..", "..row-i..")")
 			goto dnLeft
 		else
 			existingString = existingString..gui.get_text(gui.get_node("letter"..col-i.."-"..row-i))
@@ -1098,11 +1244,9 @@ function check_all_direction_for_placement(col, row, word)
 	::dnLeft::
 	existingString = ""
 	for i=0, currentWordLength do
-		if col < 0 or col > 11 then
+		if col-i < 0 or row+i > 11 then
 			-- end process, this check failed
-			goto dnRight
-		elseif row < 0 or row > 11 then
-			-- end process, this check failed
+			print("=== Failed check for dnLeft: reached position ("..col+i..", "..row-i..")")
 			goto dnRight
 		else
 			existingString = existingString..gui.get_text(gui.get_node("letter"..col-i.."-"..row+i))
@@ -1120,11 +1264,9 @@ function check_all_direction_for_placement(col, row, word)
 	::dnRight::
 	existingString = ""
 	for i=0, currentWordLength do
-		if col < 0 or col > 11 then
+		if col+i > 11 or row+i > 11 then
 			-- end process, this check failed
-			goto checkFailed
-		elseif row < 0 or row > 11 then
-			-- end process, this check failed
+			print("=== Failed check for dnRight: reached position ("..col+i..", "..row-i..")")
 			goto checkFailed
 		else
 			existingString = existingString..gui.get_text(gui.get_node("letter"..col+i.."-"..row+i))
@@ -1147,7 +1289,7 @@ function words_match(word, existing)
 		return false
 	else
 		local length = string.len(word)
-		for i=0, length do
+		for i=1, length do
 			if string.sub(existing, i, i) == " "  then
 				goto continue
 			elseif string.sub(word, i, i) == string.sub(existing, i, i) then

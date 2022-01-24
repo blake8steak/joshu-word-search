@@ -1,12 +1,16 @@
 local wordBank
 
+-- == THIS IS WHERE THE WORD BANKS ARE --
+
 function init(self)
 	-- Add initialization code here
 	-- Learn more: https://defold.com/manuals/script/
 	-- Remove this function if not needed
 	print("PUZZLE SELECT INIT")
 	msg.post(".", "acquire_input_focus")
-	wordBank = {"ナルト", "ルフィ", "ルルーシュヴィブリタニア", "ライト", "ボボボーボボーボボ", "アラジン", "ゴンフリークス", "コナン", "アレンウォーカー", "シロエ", "エドワードエルリック", "ピカチュウ"}
+	-- Working words: "ナルト", "ルフィ", "ライト", "アラジン", "コナン", "シロエ"
+	wordBank = {"ナルト", "ルフィ", "ライト", "アラジン", "コナン", "シロエ"}
+	-- wordBank = {"ナルト", "ルフィ", "ルルーシュヴィブリタニア", "ライト", "ボボボーボボーボボ", "アラジン", "ゴンフリークス", "コナン", "アレンウォーカー", "シロエ", "エドワードエルリック", "ピカチュウ"}
 	-- ナルト ルフィ ルルーシュヴィブリタニア ライト ボボボーボボーボボ アラジン ゴンフリークス コナン アレンウォーカー シロエ エドワードエルリック ピカチュウ
 end
 

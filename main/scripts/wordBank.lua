@@ -4,7 +4,9 @@
 -- in any script using the functions.
 local M = {} -- creates a new table in the local scope
 
-M.words = {"ナルト", "ルフィ", "ルルーシュヴィブリタニア", "ライト", "ボボボーボボーボボ", "アラジン", "ゴンフリークス", "コナン", "アレンウォーカー", "シロエ", "エドワードエルリック", "ピカチュウ"}
+--"ルルーシュヴィブリタニア",
+
+M.words = {"ナルト", "ルフィ", "ライト", "ボボボーボボーボボ", "アラジン", "ゴンフリークス", "コナン", "アレンウォーカー", "シロエ", "エドワードエルリック", "ピカチュウ"}
 -- 
 -- function M.setWords(newWords)
 -- 	M.words = newWords
