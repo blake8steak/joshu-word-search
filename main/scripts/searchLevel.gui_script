@@ -1128,10 +1128,21 @@ function check_all_direction_for_placement(col, row, word)
 	-- check if word has enough room in a direction
 	-- OR if intersection matches up with word
 	local existingString = ""
-	local currentWordLength = string.len(word) - 1
+	local currentWordLength = 0
+	-- This does NOT work: string.len(word) - 1
+	-- Word length using stock string.len method with Japanese chars produces unpredictable results
+	-- This works:
+	for c in word:gmatch("[%z\1-\127\194-\244][\128-\191]*") do
+		currentWordLength = currentWordLength+1
+	end
+	-- loops should start at one (go from init value to equal value)
+	-- do this to set this properly
+	currentWordLength = currentWordLength-1
+	print("Length of word \""..word.."\": "..currentWordLength)
 	-- check col ( <--- left)
 	::colLeft::
 	for i=0, currentWordLength do
+		print("Checking colLeft")
 		if (col-i) < 0 then
 			-- end process, go to next - this check failed
 			print("=== Failed check for colLeft: reached position ("..col-i..", "..row..")")
@@ -1142,6 +1153,7 @@ function check_all_direction_for_placement(col, row, word)
 	end
 	-- check if strings fit together, if so return true
 	if words_match(word, existingString) then
+		print("colLeft valid!!")
 		return "colLeft"
 	end
 	-- check col ( ---> right)
@@ -1285,20 +1297,60 @@ end
 -- if word is empty (all spaces), return true
 -- if word letters match up (i.e. "cat", "_a_"), return true
 function words_match(word, existing)
-	if string.len(word) ~= string.len(existing) then
+	-- Japanese chars using string.len produces unpredicatble results
+	-- Do it this way
+	local wordLength = 0
+	local existingLength = 0
+	for c in word:gmatch("[%z\1-\127\194-\244][\128-\191]*") do
+		wordLength = wordLength+1
+	end
+	for c in existing:gmatch("[%z\1-\127\194-\244][\128-\191]*") do
+		existingLength = existingLength+1
+	end
+	if wordLength ~= existingLength then
+		print("Word and existing not equal length. Word: "..wordLength..", Existing: "..existingLength)
 		return false
 	else
-		local length = string.len(word)
-		for i=1, length do
-			if string.sub(existing, i, i) == " "  then
-				goto continue
-			elseif string.sub(word, i, i) == string.sub(existing, i, i) then
-				goto continue
-			else
-				return false
+		-- super mega janky
+		-- but has to be done, gmatch is only way I know to work around
+		-- lua string methods not supporting japanese chars
+		local wordCurrChar = 0
+		local existCurrChar = 0
+		for c in word:gmatch("[%z\1-\127\194-\244][\128-\191]*") do
+			wordCurrChar = wordCurrChar+1
+			for d in existing:gmatch("[%z\1-\127\194-\244][\128-\191]*") do
+				existCurrChar = existCurrChar+1
+				if wordCurrChar > existCurrChar then 
+					-- haven't reached same char yet
+					-- do nothing
+				elseif wordCurrChar == existCurrChar then
+					--these chars should match
+					if c == d then
+						-- do nothing, break and keep going
+						break
+					elseif d == " " then
+						-- this space is free, and can be used by this char
+						break
+					else
+						-- words do not match, return false
+						print("Letters do not match @ char position "..wordCurrChar..": "..c..", "..d)
+						return false
+					end
+				end
 			end
-			::continue::
-		end
+			
+		end	
+		-- local length = wordLength
+		-- for i=1, length do
+		-- 	if string.sub(existing, i, i) == " "  then
+		-- 		goto continue
+		-- 	elseif string.sub(word, i, i) == string.sub(existing, i, i) then
+		-- 		goto continue
+		-- 	else
+		-- 		return false
+		-- 	end
+		-- 	::continue::
+		-- end
 	end
 	return true
 end
