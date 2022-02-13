@@ -14,8 +14,8 @@ function init(self)
 	-- wordBank = {"apple6789098", "pear56789098", "forest789098", "cat484836789", "hellopi87654", "alamohgd98fp", "longhornh721", "howdy82aplsm", "blake091posd", "texaslskjdmu", "austin052lsm", "football2005"}
 
 	-- "longhorn", "royal", "football", "texas", "vince", "mccoy", "applewhite", "basketball", "baseball", "jester", "duren", "kinsolving", "littlefield", "horns", "dobie", "cowboys", "smokey", "bevo", "campbell", "williams", "howdy"
-	-- wordBank = {"longhorn", "royal", "football", "texas", "vince", "mccoy", "applewhite", "basketball", "baseball", "jester", "duren", "kinsolving", "littlefield", "horns", "dobie", "cowboys", "smokey", "bevo", "campbell", "williams", "howdy"}
-	wordBank = {"ナルト", "ルフィ", "ルルーシュヴィブリタニア", "ライト", "ボボボーボボーボボ", "アラジン", "ゴンフリークス", "コナン", "アレンウォーカー", "シロエ", "エドワードエルリック", "ピカチュウ"}
+	wordBank = {"longhorn", "royal", "football", "texas", "vince", "mccoy", "applewhite", "basketball", "baseball", "jester", "duren", "kinsolving"}
+	-- wordBank = {"ナルト", "ルフィ", "ルルーシュヴィブリタニア", "ライト", "ボボボーボボーボボ", "アラジン", "ゴンフリークス", "コナン", "アレンウォーカー", "シロエ", "エドワードエルリック", "ピカチュウ"}
 	-- ナルト ルフィ ルルーシュヴィブリタニア ライト ボボボーボボーボボ アラジン ゴンフリークス コナン アレンウォーカー シロエ エドワードエルリック ピカチュウ
 end
 

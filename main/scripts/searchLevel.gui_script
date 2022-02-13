@@ -10,6 +10,11 @@ local node2Char
 local wordBank
 local wordBankSize = 0
 
+-- KNOWN ISSUES
+-- words_match(word, existing) does not work properly
+--      - sometimes, on overlapping words, the equal comparisions aren't equal
+--         but they're treated as such
+
 function init(self)
 	-- Add initialization code here
 	-- Learn more: https://defold.com/manuals/script/
@@ -39,7 +44,7 @@ function on_message(self, message_id, message, sender)
 		for k in pairs(wordBank.words) do 
 			wordBankSize = wordBankSize + 1
 		end
-		place_word(1)
+		place_word(0)
 	end
 	if message_id == hash("tile_selected") then
 
@@ -922,6 +927,8 @@ function place_word(wordIndex)
 	-- place word in random spot where enough room exists (randomize diag, horiz, vert)
 	-- if no place found, go back and re-place previous words
 	-- if found, advance to next word
+	::placeAnotherWord::
+	wordIndex = wordIndex+1
 
 	-- == BASE CASE == all words placed
 	if wordIndex > wordBankSize then
@@ -933,8 +940,8 @@ function place_word(wordIndex)
 	-- == STEP ONE == first, try to place word
 	local currentWord = wordBank.words[wordIndex]
 	local currentWordLength = string.len(currentWord)
-	local tryCol = 0
-	local tryRow = 0
+	local tryCol = 1
+	local tryRow = 1
 	local placed = false
 
 	-- for extra randomness, start at random col/row (don't always start at 0/11)
@@ -960,13 +967,14 @@ function place_word(wordIndex)
 				-- do recursive call to new word
 				-- if recursive call returns false, clear word placement
 				-- else return true
-				if place_word(wordIndex+1) == false then
-					unwrite_word(currentWord, result, tryCol, tryRow)
-					goto nextCoordinates
-				else
-					print("Word placed! \""..currentWord.."\" @ ("..tryCol..", "..tryRow..")")
-					return true
-				end
+				-- if place_word(wordIndex+1) == false then
+				-- 	print("Calling unwrite_word()...")
+				-- 	unwrite_word(currentWord, result, tryCol, tryRow)
+				-- 	goto nextCoordinates
+				-- else
+				print("Word placed! \""..currentWord.."\" @ ("..tryCol..", "..tryRow..")")
+				goto placeAnotherWord
+				--end
 			end
 			::nextCoordinates::
 		end
@@ -1124,6 +1132,32 @@ function unwrite_word(word, direction, col, row)
 	end
 end
 
+function GetTableLng(tbl)
+	local getN = 0
+	for n in pairs(tbl) do 
+		getN = getN + 1 
+	end
+	return getN
+end
+
+function removebyKey(tab, val)
+	--print("REMOVING FROM OPTIONS TABLE...")
+	for k,v in pairs(tab) do
+		--print(v)
+		if val == v then
+			--print("!== FOUND VALUE!!")
+			tab[k] = nil
+		end  
+	end
+end
+
+function DumpTable(o)
+	print("DUMPING TABLE...")
+	for k,v in pairs(o) do
+		print(v)  
+	end
+end
+
 function check_all_direction_for_placement(col, row, word)
 	-- check if word has enough room in a direction
 	-- OR if intersection matches up with word
@@ -1139,22 +1173,82 @@ function check_all_direction_for_placement(col, row, word)
 	-- do this to set this properly
 	currentWordLength = currentWordLength-1
 	print("Length of word \""..word.."\": "..currentWordLength)
+
+
+	-- random order of placement
+	-- this further randomizes the order of options checked, to produce different puzzles
+	-- every time
+	local randomIndex = 0
+	local alreadyCompletedTable = {}
+	local optionsTable = {"colLeft", "colRight", "rowUp", "rowDown","upRight", "upLeft", "dnLeft", "dnRight"}
+	local newOption = ""
+	
+	::checkAnother::
+	newOption = ""
+	existingString = ""
+	-- check to see if all options have been checked
+	if GetTableLng(alreadyCompletedTable) == 8 then
+		return false
+	end
+
+	if GetTableLng(optionsTable) == 0 then
+		return false
+	end
+	
+	-- this I think enables randomness for a bunch of stuff I'm pretty sure
+	math.randomseed(os.clock()*100000000000)
+	-- generate random num from 1 to optionTable size
+	randomIndex = math.random(1, GetTableLng(optionsTable))
+	newOption = optionsTable[randomIndex]
+	for key,value in pairs(alreadyCompletedTable) do
+		if alreadyCompletedTable[key] == newOption then
+			-- option has already been checked (and it failed)
+			-- give it a new option, start over
+			-- print("==== ALREADY CHECKED "..newOption..", retrying...")
+			removebyKey(optionsTable, newOption)
+			-- DumpTable(optionsTable)
+			goto checkAnother
+		end
+	end
+	
+	-- interpret result
+	if newOption == "colLeft" then
+		goto colLeft
+	elseif newOption == "colRight" then
+		goto colRight
+	elseif newOption == "rowUp" then
+		goto rowUp
+	elseif newOption == "rowDown" then
+		goto rowDown
+	elseif newOption == "upRight" then
+		goto upRight
+	elseif newOption == "upLeft" then
+		goto upLeft
+	elseif newOption == "dnLeft" then
+		goto dnLeft
+	elseif newOption == "dnRight" then
+		goto dnRight
+	end
+	
 	-- check col ( <--- left)
 	::colLeft::
 	for i=0, currentWordLength do
-		print("Checking colLeft")
 		if (col-i) < 0 then
 			-- end process, go to next - this check failed
 			print("=== Failed check for colLeft: reached position ("..col-i..", "..row..")")
-			goto colRight
+			-- add to alreadyCompletedTable
+			table.insert(alreadyCompletedTable, "colLeft")
+			goto checkAnother
 		else
 			existingString = existingString..gui.get_text(gui.get_node("letter"..col-i.."-"..row))
 		end
 	end
 	-- check if strings fit together, if so return true
 	if words_match(word, existingString) then
-		print("colLeft valid!!")
 		return "colLeft"
+	else
+		table.insert(alreadyCompletedTable, "colLeft")
+		goto checkAnother
 	end
 	-- check col ( ---> right)
 	::colRight::
@@ -1164,7 +1258,9 @@ function check_all_direction_for_placement(col, row, word)
 			-- incrementing columns (traveling right), col++
 			-- end process, go to next - this check failed
 			print("=== Failed check for colRight: reached position ("..col+i..", "..row..")")
-			goto rowUp
+			-- add to alreadyCompletedTable
+			table.insert(alreadyCompletedTable, "colRight")
+			goto checkAnother
 		else
 			existingString = existingString..gui.get_text(gui.get_node("letter"..col+i.."-"..row))
 		end
@@ -1172,6 +1268,9 @@ function check_all_direction_for_placement(col, row, word)
 	-- check if strings fit together, if so return true
 	if words_match(word, existingString) then
 		return "colRight"
+	else
+		table.insert(alreadyCompletedTable, "colRight")
+		goto checkAnother
 	end
 	-- check row (^^ up ^^)
 	::rowUp::
@@ -1181,7 +1280,9 @@ function check_all_direction_for_placement(col, row, word)
 			-- row decreasing (going up), row--
 			-- end process, this check failed
 			print("=== Failed check for rowUp: reached position ("..col..", "..row-i..")")
-			goto rowDown
+			-- add to alreadyCompletedTable
+			table.insert(alreadyCompletedTable, "rowUp")
+			goto checkAnother
 		else
 			existingString = existingString..gui.get_text(gui.get_node("letter"..col.."-"..row-i))
 		end
@@ -1189,6 +1290,9 @@ function check_all_direction_for_placement(col, row, word)
 	-- check if strings fit together, if so return true
 	if words_match(word, existingString) then
 		return "rowUp"
+	else
+		table.insert(alreadyCompletedTable, "rowUp")
+		goto checkAnother
 	end
 	-- check row (vv down vv)
 	::rowDown::
@@ -1198,7 +1302,9 @@ function check_all_direction_for_placement(col, row, word)
 			-- row increasing (going down), row++
 			-- end process, this check failed
 			print("=== Failed check for rowDown: reached position ("..col..", "..row+i..")")
-			goto upRight
+			-- add to alreadyCompletedTable
+			table.insert(alreadyCompletedTable, "rowDown")
+			goto checkAnother
 		else
 			existingString = existingString..gui.get_text(gui.get_node("letter"..col.."-"..row+i))
 		end
@@ -1206,6 +1312,9 @@ function check_all_direction_for_placement(col, row, word)
 	-- check if strings fit together, if so return true
 	if words_match(word, existingString) then
 		return "rowDown"
+	else
+		table.insert(alreadyCompletedTable, "rowDown")
+		goto checkAnother
 	end
 	-- upRight /^
 	-- (1 is beginning of line, 3 is end)
@@ -1219,7 +1328,9 @@ function check_all_direction_for_placement(col, row, word)
 			-- end process, this check failed
 			-- up right /^, col++ row--
 			print("=== Failed check for upRight: reached position ("..col+i..", "..row-i..")")
-			goto upLeft
+			-- add to alreadyCompletedTable
+			table.insert(alreadyCompletedTable, "upRight")
+			goto checkAnother
 		else
 			existingString = existingString..gui.get_text(gui.get_node("letter"..col+i.."-"..row-i))
 		end
@@ -1227,6 +1338,9 @@ function check_all_direction_for_placement(col, row, word)
 	-- check if strings fit together, if so return true
 	if words_match(word, existingString) then
 		return "upRight"
+	else
+		table.insert(alreadyCompletedTable, "upRight")
+		goto checkAnother
 	end
 	-- upLeft ^\
 	-- (1 is beginning of line, 3 is end)
@@ -1239,7 +1353,9 @@ function check_all_direction_for_placement(col, row, word)
 		if col-i < 0 or row-i < 0 then
 			-- end process, this check failed
 			print("=== Failed check for upLeft: reached position ("..col-i..", "..row-i..")")
-			goto dnLeft
+			-- add to alreadyCompletedTable
+			table.insert(alreadyCompletedTable, "upLeft")
+			goto checkAnother
 		else
 			existingString = existingString..gui.get_text(gui.get_node("letter"..col-i.."-"..row-i))
 		end
@@ -1247,6 +1363,9 @@ function check_all_direction_for_placement(col, row, word)
 	-- check if strings fit together, if so return true
 	if words_match(word, existingString) then
 		return "upLeft"
+	else
+		table.insert(alreadyCompletedTable, "upLeft")
+		goto checkAnother
 	end
 	-- dnLeft v/
 	-- (1 is beginning of line, 3 is end)
@@ -1259,7 +1378,9 @@ function check_all_direction_for_placement(col, row, word)
 		if col-i < 0 or row+i > 11 then
 			-- end process, this check failed
 			print("=== Failed check for dnLeft: reached position ("..col+i..", "..row-i..")")
-			goto dnRight
+			-- add to alreadyCompletedTable
+			table.insert(alreadyCompletedTable, "dnLeft")
+			goto checkAnother
 		else
 			existingString = existingString..gui.get_text(gui.get_node("letter"..col-i.."-"..row+i))
 		end
@@ -1267,6 +1388,9 @@ function check_all_direction_for_placement(col, row, word)
 	-- check if strings fit together, if so return true
 	if words_match(word, existingString) then
 		return "dnLeft"
+	else
+		table.insert(alreadyCompletedTable, "dnLeft")
+		goto checkAnother
 	end
 	-- dnRight \v
 	-- (1 is beginning of line, 3 is end)
@@ -1279,7 +1403,9 @@ function check_all_direction_for_placement(col, row, word)
 		if col+i > 11 or row+i > 11 then
 			-- end process, this check failed
 			print("=== Failed check for dnRight: reached position ("..col+i..", "..row-i..")")
-			goto checkFailed
+			-- add to alreadyCompletedTable
+			table.insert(alreadyCompletedTable, "dnRight")
+			goto checkAnother
 		else
 			existingString = existingString..gui.get_text(gui.get_node("letter"..col+i.."-"..row+i))
 		end
@@ -1287,6 +1413,9 @@ function check_all_direction_for_placement(col, row, word)
 	-- check if strings fit together, if so return true
 	if words_match(word, existingString) then
 		return "dnRight"
+	else
+		table.insert(alreadyCompletedTable, "dnRight")
+		goto checkAnother
 	end
 	-- all checks have run
 	-- if true has not yet been returned, no possible placement
@@ -1311,13 +1440,23 @@ function words_match(word, existing)
 		print("Word and existing not equal length. Word: "..wordLength..", Existing: "..existingLength)
 		return false
 	else
+		print("NOW CHECKING WORD: "..word..", EXISTING: "..existing)
 		-- super mega janky
 		-- but has to be done, gmatch is only way I know to work around
 		-- lua string methods not supporting japanese chars
 		local wordCurrChar = 0
 		local existCurrChar = 0
+
+		-- start at 0 index of existing 
+		-- loop until not an empty character
+		-- chack same index of word 
+		--   if it matches keep looking to next charcater in existing 
+		--   else return false 
+
+		
 		for c in word:gmatch("[%z\1-\127\194-\244][\128-\191]*") do
 			wordCurrChar = wordCurrChar+1
+			existCurrChar = 0
 			for d in existing:gmatch("[%z\1-\127\194-\244][\128-\191]*") do
 				existCurrChar = existCurrChar+1
 				if wordCurrChar > existCurrChar then 
@@ -1325,17 +1464,25 @@ function words_match(word, existing)
 					-- do nothing
 				elseif wordCurrChar == existCurrChar then
 					--these chars should match
+					print("")
 					if c == d then
+						print("EQUAL LETTERS DETECTED @ position "..wordCurrChar.." ("..word..", "..existing.."): "..c..", "..d)
+						-- in theory, here is where chars can overlap
+						-- not working for some reason
 						-- do nothing, break and keep going
+						--return false
 						break
 					elseif d == " " then
 						-- this space is free, and can be used by this char
 						break
 					else
 						-- words do not match, return false
-						print("Letters do not match @ char position "..wordCurrChar..": "..c..", "..d)
+						print("MISMATCH LETTERS DETECTED @ position "..wordCurrChar.." ("..word..", "..existing.."): "..c..", "..d)
 						return false
 					end
+				else
+					-- loop has passed character needed to check 
+					break
 				end
 			end
 			
@@ -1352,6 +1499,7 @@ function words_match(word, existing)
 		-- 	::continue::
 		-- end
 	end
+	
 	return true
 end
 
