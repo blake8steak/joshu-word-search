@@ -41,6 +41,7 @@ function on_message(self, message_id, message, sender)
 	if message_id == hash("init_tiles") then
 		print("Initializing tiles...")
 		wordBank = message
+		-- print("=== DEFINITION: "..wordBank.def[wordBank.words[1]])
 		for k in pairs(wordBank.words) do 
 			wordBankSize = wordBankSize + 1
 		end
@@ -900,7 +901,95 @@ function on_reload(self)
 end
 
 -- Blake Methods Start Here --
+-- Checks if selected boxes are
+--		1. a valid selection
+--		2. a valid word
 function check_if_valid_nodes()
+	-- now, check if valid word
+	local nodeStringOne = ""
+	local nodeStringTwo = ""
+	-- these both exist b/c we need to check both backward and forwards
+
+	-- WHAT WAS I DOING?
+	-- WHAT I WAS DOING HERE:
+	-- i am now successfully pulling selected strings from wordsearch gui! (i think)
+	-- need to now work on highlighting, comparing against word bank, etc
+	-- after that, start working on definition UI
+	
+	if node1Row > node2Row then 
+		-- word starts low, moves up
+		-- row doesn't say anything about column
+		--    (could increase, stay same, decrease)
+		if node1Col > node2Col then
+			-- col moves left ^\
+			for i=node2Row, node1Row do
+				-- i is getting bigger
+				print("===LETTER: "..gui.get_text(gui.get_node("letter"..(node2Col+(i-node2Row)).."-"..i)))
+				nodeStringOne = nodeStringOne..gui.get_text(gui.get_node("letter"..(node2Col+(i-node2Row)).."-"..i))
+			end
+			--print("=== SELECTED WORD: "..nodeStringOne)
+		elseif node1Col == node2Col then
+			for i=node2Row, node1Row do
+				-- i is getting bigger
+				print("===LETTER: "..gui.get_text(gui.get_node("letter"..(node2Col).."-"..i)))
+				nodeStringOne = nodeStringOne..gui.get_text(gui.get_node("letter"..(node2Col).."-"..i))
+			end
+		else
+			-- col moves right /^
+			for i=node2Row, node1Row do
+				-- i is getting bigger
+				print("===LETTER: "..gui.get_text(gui.get_node("letter"..(node2Col-(i-node2Row)).."-"..i)))
+				nodeStringOne = nodeStringOne..gui.get_text(gui.get_node("letter"..(node2Col-(i-node2Row)).."-"..i))
+			end
+		end
+	elseif node1Row == node2Row then
+		-- figure out if col moves left or right
+		if node1Col > node2Col then
+			for i=node2Col, node1Col do
+				-- i is getting bigger
+				print("===LETTER: "..gui.get_text(gui.get_node("letter"..i.."-"..node1Row)))
+				nodeStringOne = nodeStringOne..gui.get_text(gui.get_node("letter"..i.."-"..node1Row))
+			end
+		else
+			for i=node1Col, node2Col do
+				-- i is getting bigger
+				print("===LETTER: "..gui.get_text(gui.get_node("letter"..i.."-"..node1Row)))
+				nodeStringOne = nodeStringOne..gui.get_text(gui.get_node("letter"..i.."-"..node1Row))
+			end
+		end
+	else
+		-- word starts high, moves down
+		-- row doesn't say anything about column
+		--    (could increase, stay same, decrease)
+		if node1Col > node2Col then
+			-- col moves left ^\
+			for i=node1Row, node2Row do
+				-- i is getting bigger
+				print("===LETTER: "..gui.get_text(gui.get_node("letter"..(node1Col-(i-node1Row)).."-"..i)))
+				nodeStringOne = nodeStringOne..gui.get_text(gui.get_node("letter"..(node1Col-(i-node1Row)).."-"..i))
+			end
+			--print("=== SELECTED WORD: "..nodeStringOne)
+		elseif node1Col == node2Col then
+			for i=node1Row, node2Row do
+				-- i is getting bigger
+				print("===LETTER: "..gui.get_text(gui.get_node("letter"..(node1Col).."-"..i)))
+				nodeStringOne = nodeStringOne..gui.get_text(gui.get_node("letter"..(node1Col).."-"..i))
+			end
+		else
+			-- col moves right /^
+			for i=node1Row, node2Row do
+				-- i is getting bigger
+				print("===LETTER: "..gui.get_text(gui.get_node("letter"..(node1Col+(i-node1Row)).."-"..i)))
+				nodeStringOne = nodeStringOne..gui.get_text(gui.get_node("letter"..(node1Col+(i-node1Row)).."-"..i))
+			end
+		end
+
+	end
+
+	for k,v in pairs(wordBank.words) do 
+		--print("=== DEFINITION OF WORD: "..wordBank.def[v])
+	end
+	-- first, check if valid click
 	if node1Row == node2Row then
 		return true
 	elseif node1Col == node2Col then

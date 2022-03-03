@@ -1,4 +1,5 @@
 local wordBank = require("main.scripts.wordBank")
+local wordDef = require("main.scripts.wordBank")
 
 function init(self)
 	-- Add initialization code here
@@ -22,6 +23,9 @@ end
 function on_message(self, message_id, message, sender)
 	if message_id == hash("set_word_bank") then
 		wordBank.words = message.words
+	end
+	if message_id == hash("set_word_def") then
+		wordBank.def = message.def
 	end
 	if message_id == hash("start_searchLevel") then
 		print("CHANGING TO SEARCH LEVEL (currently on "..self.state..")")

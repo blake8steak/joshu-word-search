@@ -5,8 +5,9 @@
 local M = {} -- creates a new table in the local scope
 
 --"ルルーシュヴィブリタニア",
-
-M.words = {"ナルト", "ルフィ", "ライト", "ボボボーボボーボボ", "アラジン", "ゴンフリークス", "コナン", "アレンウォーカー", "シロエ", "エドワードエルリック", "ピカチュウ"}
+-- "ナルト", "ルフィ", "ライト", "ボボボーボボーボボ", "アラジン", "ゴンフリークス", "コナン", "アレンウォーカー", "シロエ", "エドワードエルリック", "ピカチュウ"
+M.words = {"error"}
+M.def = {["error"]="error: sorry, please refresh this page and try again."}
 -- 
 -- function M.setWords(newWords)
 -- 	M.words = newWords

@@ -15,6 +15,20 @@ function init(self)
 
 	-- "longhorn", "royal", "football", "texas", "vince", "mccoy", "applewhite", "basketball", "baseball", "jester", "duren", "kinsolving", "littlefield", "horns", "dobie", "cowboys", "smokey", "bevo", "campbell", "williams", "howdy"
 	wordBank = {"longhorn", "royal", "football", "texas", "vince", "mccoy", "applewhite", "basketball", "baseball", "jester", "duren", "kinsolving"}
+	wordDef = {
+				["longhorn"]="a bovine animal native to texas", 
+				["royal"]="former coach of texas longhorns football",
+				["football"]="an american sport played with a brown ball with laces",
+				["texas"]="the greatest state in the usa",
+				["vince"]="led the 2005 texas longhorn football team to a historic national championship win against usc",
+				["mccoy"]="led the 2009 texas longhorn football team to an appearance in a national championship against alabama",
+				["applewhite"]="texas qb when ricky williams won the heisman trophy",
+				["basketball"]="sport played with an orange ball, rims, backboards, and nets",
+				["baseball"]="known as \"america\'s pastime\"",
+				["jester"]="name of what used to be the largest dorm in the united states",
+				["duren"]="name of a dorm in north campus, named after a woman who played a big role in integrating different races at ut",
+				["kinsolving"]="name of an all-girls dorm in north campus"
+			}
 	-- wordBank = {"ナルト", "ルフィ", "ルルーシュヴィブリタニア", "ライト", "ボボボーボボーボボ", "アラジン", "ゴンフリークス", "コナン", "アレンウォーカー", "シロエ", "エドワードエルリック", "ピカチュウ"}
 	-- ナルト ルフィ ルルーシュヴィブリタニア ライト ボボボーボボーボボ アラジン ゴンフリークス コナン アレンウォーカー シロエ エドワードエルリック ピカチュウ
 end
@@ -45,6 +59,7 @@ function on_input(self, action_id, action)
 		msg.post("/puzzleSelect#puzzleSelect1", "start_searchLevel")
 		print("IN GUISCRIPT, WORDS: "..wordBank[1])
 		msg.post("/puzzleSelect#puzzleSelect1", "set_word_bank", {words = wordBank})
+		msg.post("/puzzleSelect#puzzleSelect1", "set_word_def", {def = wordDef})
 	end
 end
 
