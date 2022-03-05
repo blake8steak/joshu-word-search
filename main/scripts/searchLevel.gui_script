@@ -777,7 +777,7 @@ function highlight_valid()
 	end
 end
 
-function unhighlight_valid()
+function unhighlight_valid(nodesAreValid)
 	local highCol = math.max(node1Col, node2Col)
 	local lowCol = math.min(node1Col, node2Col)
 	local highRow = math.max(node1Row, node2Row)
@@ -788,15 +788,25 @@ function unhighlight_valid()
 	if highRow == lowRow then
 		-- same row
 		for i = lowCol, highCol do
-			unhighlight_box(gui.get_node("tile"..i.."-"..lowRow))
+			unhighlight_box(gui.get_node("tile"..i.."-"..lowRow), nodesAreValid)
 		end
 	elseif highCol == lowCol then
 		-- same col
 		for i = lowRow, highRow do
-			unhighlight_box(gui.get_node("tile"..lowCol.."-"..i))
+			unhighlight_box(gui.get_node("tile"..lowCol.."-"..i), nodesAreValid)
 		end
 	else
-		-- must be a verified diagonal
+		-- TODO: fix bug where non verified diagonals don't default to here
+		-- right now, this assumes anything that gets here must be a verified diagonal
+		if math.abs(node1Row-node2Row) ~= math.abs(node1Col-node2Col) then 
+			-- this isn't a valid diagonal
+			-- unhighlight boxes individually
+			unhighlight_box(node1, nodesAreValid)
+			unhighlight_box(node2, nodesAreValid)
+			return;
+		end
+			
+		
 		if node1Col < node2Col and node1Row < node2Row then
 			-- c1 < c2
 			-- r1 < r2
@@ -804,7 +814,7 @@ function unhighlight_valid()
 			-- [ ][X][ ]
 			-- [ ][ ][2]
 			for i=0, numIter do
-				unhighlight_box(gui.get_node("tile"..(lowCol+i).."-"..(lowRow+i)))
+				unhighlight_box(gui.get_node("tile"..(lowCol+i).."-"..(lowRow+i)), nodesAreValid)
 			end
 		elseif node1Col > node2Col and node1Row > node2Row then
 			-- c1 > c2
@@ -813,7 +823,7 @@ function unhighlight_valid()
 			-- [ ][X][ ]
 			-- [ ][ ][1]
 			for i=0, numIter do
-				unhighlight_box(gui.get_node("tile"..(highCol-i).."-"..(highRow-i)))
+				unhighlight_box(gui.get_node("tile"..(highCol-i).."-"..(highRow-i)), nodesAreValid)
 			end
 		elseif  node1Col < node2Col and node1Row > node2Row then
 			-- c1 < c2
@@ -822,7 +832,7 @@ function unhighlight_valid()
 			-- [ ][X][ ]
 			-- [1][ ][ ]
 			for i=0, numIter do
-				unhighlight_box(gui.get_node("tile"..(lowCol+i).."-"..(highRow-i)))
+				unhighlight_box(gui.get_node("tile"..(lowCol+i).."-"..(highRow-i)), nodesAreValid)
 			end
 		elseif  node1Col > node2Col and node1Row < node2Row then
 			-- c1 > c2
@@ -831,7 +841,7 @@ function unhighlight_valid()
 			-- [ ][X][ ]
 			-- [2][ ][ ]
 			for i=0, numIter do
-				unhighlight_box(gui.get_node("tile"..(highCol-i).."-"..(lowRow+i)))
+				unhighlight_box(gui.get_node("tile"..(highCol-i).."-"..(lowRow+i)), nodesAreValid)
 			end
 		end
 	end
@@ -843,13 +853,104 @@ function highlight_box(node)
 	gui.animate(node, gui.PROP_COLOR, color, gui.EASING_LINEAR, 0.1)
 end
 
-function unhighlight_box(node)
-	local color = vmath.vector4(1, 1, 1, 1)
+function unhighlight_box(node, success)
+	local defaultGray = vmath.vector4(0.9, 0.9, 0.9, 1)
+	local green = vmath.vector4(0.1, 1, 0.1, 1)
+	local red = vmath.vector4(1, 0.1, 0.1, 1)
+	local color = nil
+	print("=== NODE VALIDITY STATUS: "..tostring(success))
+	if success then 
+		color = green
+	else
+		color = red
+	end
 	color.w = 1
-	gui.animate(node, gui.PROP_COLOR, color, gui.EASING_LINEAR, 0.1)
+	
+	if not success then
+		gui.animate(node, gui.PROP_COLOR, color, gui.EASING_LINEAR, 0.1, 0.1, resetBoxesToDefaultColor)
+	else
+		gui.animate(node, gui.PROP_COLOR, color, gui.EASING_LINEAR, 0.1, 0.2)
+	end
+end
+
+function boxToDefaultColor(node, nodesAreValid)
+	print("=== boxToDefaultColor SETTING NODE:"..tostring(node))
+	local defaultGray = vmath.vector4(0.9, 0.9, 0.9, 1)
+	gui.animate(node, gui.PROP_COLOR, defaultGray, gui.EASING_LINEAR, 0.3)
+end
+
+function resetBoxesToDefaultColor()
+	local highCol = math.max(node1Col, node2Col)
+	local lowCol = math.min(node1Col, node2Col)
+	local highRow = math.max(node1Row, node2Row)
+	local lowRow = math.min(node1Row, node2Row)
+	local numIter = math.max(highCol-lowCol, highRow-lowRow)
+	local nodeName = ""
+
+	if highRow == lowRow then
+		-- same row
+		for i = lowCol, highCol do
+			boxToDefaultColor(gui.get_node("tile"..i.."-"..lowRow), nodesAreValid)
+		end
+	elseif highCol == lowCol then
+		-- same col
+		for i = lowRow, highRow do
+			boxToDefaultColor(gui.get_node("tile"..lowCol.."-"..i), nodesAreValid)
+		end
+	else
+		-- TODO: fix bug where non verified diagonals don't default to here
+		-- right now, this assumes anything that gets here must be a verified diagonal
+		if math.abs(node1Row-node2Row) ~= math.abs(node1Col-node2Col) then 
+			-- this isn't a valid diagonal
+			-- unhighlight boxes individually
+			boxToDefaultColor(gui.get_node("tile"..node1Col.."-"..node1Row), nodesAreValid)
+			boxToDefaultColor(gui.get_node("tile"..node2Col.."-"..node2Row), nodesAreValid)
+			return;
+		end
+
+
+		if node1Col < node2Col and node1Row < node2Row then
+			-- c1 < c2
+			-- r1 < r2
+			-- [1][ ][ ]
+			-- [ ][X][ ]
+			-- [ ][ ][2]
+			for i=0, numIter do
+				boxToDefaultColor(gui.get_node("tile"..(lowCol+i).."-"..(lowRow+i)), nodesAreValid)
+			end
+		elseif node1Col > node2Col and node1Row > node2Row then
+			-- c1 > c2
+			-- r1 > r2
+			-- [2][ ][ ]
+			-- [ ][X][ ]
+			-- [ ][ ][1]
+			for i=0, numIter do
+				boxToDefaultColor(gui.get_node("tile"..(highCol-i).."-"..(highRow-i)), nodesAreValid)
+			end
+		elseif  node1Col < node2Col and node1Row > node2Row then
+			-- c1 < c2
+			-- r1 > r2
+			-- [ ][ ][2]
+			-- [ ][X][ ]
+			-- [1][ ][ ]
+			for i=0, numIter do
+				boxToDefaultColor(gui.get_node("tile"..(lowCol+i).."-"..(highRow-i)), nodesAreValid)
+			end
+		elseif  node1Col > node2Col and node1Row < node2Row then
+			-- c1 > c2
+			-- r1 < r2
+			-- [ ][ ][1]
+			-- [ ][X][ ]
+			-- [2][ ][ ]
+			for i=0, numIter do
+				boxToDefaultColor(gui.get_node("tile"..(highCol-i).."-"..(lowRow+i)), nodesAreValid)
+			end
+		end
+	end
 end
 
 function setBoxData(boxCol, boxRow, boxChar, boxName)
+	local nodesAreValid = false
 	msg.post("/searchLevel#searchScript", "tile_selected", {col = boxCol, row = boxRow, char = boxChar})
 	if node1 == nil then
 		node1 = gui.get_node(boxName)
@@ -869,12 +970,17 @@ function setBoxData(boxCol, boxRow, boxChar, boxName)
 				--       | mark word as found
 
 				-- highlight_box(node2)
-				highlight_valid()
+
+				-- highlight_valid()
+				nodesAreValid = true
+				unhighlight_valid(nodesAreValid)
 			else
 				-- unhighlight both
 				-- null both
-				unhighlight_box(node1)
-				unhighlight_box(node2)
+				nodesAreValid = false
+				-- unhighlight_box(node1, nodesAreValid)
+				-- unhighlight_box(node2, nodesAreValid)
+				unhighlight_valid(nodesAreValid)
 				node1 = nil
 				node2 = nil
 			end
@@ -884,9 +990,8 @@ function setBoxData(boxCol, boxRow, boxChar, boxName)
 			-- would not be a normal case, highlights are nulled
 			-- upon node2 selection and checks 
 			-- (either word exists and marked green, or it doesn't - both are nulled)
-			unhighlight_valid()
-			-- unhighlight_box(node1)
-			-- unhighlight_box(node2)
+			nodesAreValid = check_if_valid_nodes()
+			unhighlight_valid(nodesAreValid)
 			node1 = nil
 			node2 = nil
 			setBoxData(boxCol, boxRow, boxChar, boxName)
@@ -900,22 +1005,9 @@ function on_reload(self)
 	-- Remove this function if not needed
 end
 
--- Blake Methods Start Here --
--- Checks if selected boxes are
---		1. a valid selection
---		2. a valid word
-function check_if_valid_nodes()
-	-- now, check if valid word
+function get_highlighted_string()
 	local nodeStringOne = ""
 	local nodeStringTwo = ""
-	-- these both exist b/c we need to check both backward and forwards
-
-	-- WHAT WAS I DOING?
-	-- WHAT I WAS DOING HERE:
-	-- i am now successfully pulling selected strings from wordsearch gui! (i think)
-	-- need to now work on highlighting, comparing against word bank, etc
-	-- after that, start working on definition UI
-	
 	if node1Row > node2Row then 
 		-- word starts low, moves up
 		-- row doesn't say anything about column
@@ -924,21 +1016,21 @@ function check_if_valid_nodes()
 			-- col moves left ^\
 			for i=node2Row, node1Row do
 				-- i is getting bigger
-				print("===LETTER: "..gui.get_text(gui.get_node("letter"..(node2Col+(i-node2Row)).."-"..i)))
+				--print("===LETTER: "..gui.get_text(gui.get_node("letter"..(node2Col+(i-node2Row)).."-"..i)))
 				nodeStringOne = nodeStringOne..gui.get_text(gui.get_node("letter"..(node2Col+(i-node2Row)).."-"..i))
 			end
 			--print("=== SELECTED WORD: "..nodeStringOne)
 		elseif node1Col == node2Col then
 			for i=node2Row, node1Row do
 				-- i is getting bigger
-				print("===LETTER: "..gui.get_text(gui.get_node("letter"..(node2Col).."-"..i)))
+				--print("===LETTER: "..gui.get_text(gui.get_node("letter"..(node2Col).."-"..i)))
 				nodeStringOne = nodeStringOne..gui.get_text(gui.get_node("letter"..(node2Col).."-"..i))
 			end
 		else
 			-- col moves right /^
 			for i=node2Row, node1Row do
 				-- i is getting bigger
-				print("===LETTER: "..gui.get_text(gui.get_node("letter"..(node2Col-(i-node2Row)).."-"..i)))
+				--print("===LETTER: "..gui.get_text(gui.get_node("letter"..(node2Col-(i-node2Row)).."-"..i)))
 				nodeStringOne = nodeStringOne..gui.get_text(gui.get_node("letter"..(node2Col-(i-node2Row)).."-"..i))
 			end
 		end
@@ -947,13 +1039,13 @@ function check_if_valid_nodes()
 		if node1Col > node2Col then
 			for i=node2Col, node1Col do
 				-- i is getting bigger
-				print("===LETTER: "..gui.get_text(gui.get_node("letter"..i.."-"..node1Row)))
+				--print("===LETTER: "..gui.get_text(gui.get_node("letter"..i.."-"..node1Row)))
 				nodeStringOne = nodeStringOne..gui.get_text(gui.get_node("letter"..i.."-"..node1Row))
 			end
 		else
 			for i=node1Col, node2Col do
 				-- i is getting bigger
-				print("===LETTER: "..gui.get_text(gui.get_node("letter"..i.."-"..node1Row)))
+				--print("===LETTER: "..gui.get_text(gui.get_node("letter"..i.."-"..node1Row)))
 				nodeStringOne = nodeStringOne..gui.get_text(gui.get_node("letter"..i.."-"..node1Row))
 			end
 		end
@@ -965,40 +1057,82 @@ function check_if_valid_nodes()
 			-- col moves left ^\
 			for i=node1Row, node2Row do
 				-- i is getting bigger
-				print("===LETTER: "..gui.get_text(gui.get_node("letter"..(node1Col-(i-node1Row)).."-"..i)))
+				--print("===LETTER: "..gui.get_text(gui.get_node("letter"..(node1Col-(i-node1Row)).."-"..i)))
 				nodeStringOne = nodeStringOne..gui.get_text(gui.get_node("letter"..(node1Col-(i-node1Row)).."-"..i))
 			end
 			--print("=== SELECTED WORD: "..nodeStringOne)
 		elseif node1Col == node2Col then
 			for i=node1Row, node2Row do
 				-- i is getting bigger
-				print("===LETTER: "..gui.get_text(gui.get_node("letter"..(node1Col).."-"..i)))
+				--print("===LETTER: "..gui.get_text(gui.get_node("letter"..(node1Col).."-"..i)))
 				nodeStringOne = nodeStringOne..gui.get_text(gui.get_node("letter"..(node1Col).."-"..i))
 			end
 		else
 			-- col moves right /^
 			for i=node1Row, node2Row do
 				-- i is getting bigger
-				print("===LETTER: "..gui.get_text(gui.get_node("letter"..(node1Col+(i-node1Row)).."-"..i)))
+				--print("===LETTER: "..gui.get_text(gui.get_node("letter"..(node1Col+(i-node1Row)).."-"..i)))
 				nodeStringOne = nodeStringOne..gui.get_text(gui.get_node("letter"..(node1Col+(i-node1Row)).."-"..i))
 			end
 		end
+	end 
+	return nodeStringOne
+end
 
+function handle_valid_highlight()
+	local nodeStringOne = get_highlighted_string()
+	local nodeStringTwo = ""
+	local thisIsRevTable = {}
+	local index = 0
+	-- need to check highlighted word backwards and forwards
+	-- reverse string, make it work with japanese chars
+	for c in nodeStringOne:gmatch("[%z\1-\127\194-\244][\128-\191]*") do
+		thisIsRevTable[#thisIsRevTable+1] = c
 	end
+	for i = #thisIsRevTable, 1, -1 do
+		nodeStringTwo = nodeStringTwo..thisIsRevTable[i]
+	end
+	--print("HIGHLIGHTED WORD: \n"..nodeStringOne.."\n, "..nodeStringTwo)
 
+	-- check if words exist in wordBank
+	local checkWord = ""
+	local foundWord = false
+	for i = 1, #wordBank.words do
+		checkWord = wordBank.words[i]
+		if checkWord == nodeStringOne or checkWord == nodeStringTwo then
+			print("=== FOUND VALID WORD! "..checkWord)
+			foundWord = true
+			-- Handle all found word functionality here
+			return true
+		end
+	end
+	if not foundWord then 
+		print("=== Not a valid word.")
+		-- prevent unhighlight!!
+		return false
+	end
+end
+
+-- Blake Methods Start Here --
+-- Checks if selected boxes are
+--		1. a valid selection
+--		2. a valid word
+function check_if_valid_nodes()
 	for k,v in pairs(wordBank.words) do 
 		--print("=== DEFINITION OF WORD: "..wordBank.def[v])
 	end
 	-- first, check if valid click
 	if node1Row == node2Row then
-		return true
+		return handle_valid_highlight()
 	elseif node1Col == node2Col then
-		return true
+		return handle_valid_highlight()
 	elseif math.abs(node1Row-node2Row) == math.abs(node1Col-node2Col) then
-		return true
+		return handle_valid_highlight()
 	else
 		return false
 	end
+
+	
 end
 
 function clear_board()
