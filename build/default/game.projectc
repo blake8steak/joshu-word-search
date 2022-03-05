@@ -67,7 +67,8 @@ scale_mode = downscale_fit
 set_custom_heap_size = 0
 show_console_banner = 1
 show_fullscreen_button = 1
-show_made_with_defold = 1
+show_made_with_defold = 0
+splash_image = /images/bubbaLogo.png
 
 [iap]
 auto_finish_transactions = 1

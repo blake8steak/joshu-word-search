@@ -10,11 +10,6 @@ local node2Char
 local wordBank
 local wordBankSize = 0
 
--- KNOWN ISSUES
--- words_match(word, existing) does not work properly
---      - sometimes, on overlapping words, the equal comparisions aren't equal
---         but they're treated as such
-
 function init(self)
 	-- Add initialization code here
 	-- Learn more: https://defold.com/manuals/script/
@@ -796,8 +791,6 @@ function unhighlight_valid(nodesAreValid)
 			unhighlight_box(gui.get_node("tile"..lowCol.."-"..i), nodesAreValid)
 		end
 	else
-		-- TODO: fix bug where non verified diagonals don't default to here
-		-- right now, this assumes anything that gets here must be a verified diagonal
 		if math.abs(node1Row-node2Row) ~= math.abs(node1Col-node2Col) then 
 			-- this isn't a valid diagonal
 			-- unhighlight boxes individually
@@ -898,8 +891,6 @@ function resetBoxesToDefaultColor()
 			boxToDefaultColor(gui.get_node("tile"..lowCol.."-"..i), nodesAreValid)
 		end
 	else
-		-- TODO: fix bug where non verified diagonals don't default to here
-		-- right now, this assumes anything that gets here must be a verified diagonal
 		if math.abs(node1Row-node2Row) ~= math.abs(node1Col-node2Col) then 
 			-- this isn't a valid diagonal
 			-- unhighlight boxes individually

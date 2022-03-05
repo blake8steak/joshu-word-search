@@ -15,3 +15,7 @@ input_method = HiddenInputField
 title = JOSHUWordSearch
 publisher = Blake Herrera
 
+[html5]
+show_made_with_defold = 0
+splash_image = /images/bubbaLogo.png
+
