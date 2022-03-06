@@ -1141,7 +1141,10 @@ function place_word(wordIndex)
 	-- place word in random spot where enough room exists (randomize diag, horiz, vert)
 	-- if no place found, go back and re-place previous words
 	-- if found, advance to next word
-	::placeAnotherWord::
+
+	-- GOTO STATEMENTS NOT SUPPORTED IN LUA 5.1 (HTML5 default in Defold)
+	-- ::placeAnotherWord::
+	print("==== WORD INDEX: "..wordIndex)
 	wordIndex = wordIndex+1
 
 	-- == BASE CASE == all words placed
@@ -1174,7 +1177,7 @@ function place_word(wordIndex)
 			print("Result for word \""..currentWord.."\" @ ("..tryCol..", "..tryRow.."): "..tostring(result))
 			if result == false then
 				-- run next iter
-				goto nextCoordinates
+				-- goto nextCoordinates
 			else
 				print("Attempting to write word: \""..currentWord.."\" @ ("..tryCol..", "..tryRow..")")
 				write_word(currentWord, result, tryCol, tryRow)
@@ -1187,10 +1190,12 @@ function place_word(wordIndex)
 				-- 	goto nextCoordinates
 				-- else
 				print("Word placed! \""..currentWord.."\" @ ("..tryCol..", "..tryRow..")")
-				goto placeAnotherWord
+				--goto placeAnotherWord
+				place_word(wordIndex)
+				return true
 				--end
 			end
-			::nextCoordinates::
+			-- ::nextCoordinates::
 		end
 	end
 end
@@ -1372,6 +1377,224 @@ function DumpTable(o)
 	end
 end
 
+function checkOneDirection(direction, existingString, currentWordLength, col, row, word)
+	-- check col ( <--- left)
+	--::colLeft::
+	if direction == "colLeft" then
+		for i=0, currentWordLength do
+			if (col-i) < 0 then
+				-- end process, go to next - this check failed
+				print("=== Failed check for colLeft: reached position ("..col-i..", "..row..")")
+				-- add to alreadyCompletedTable
+				--table.insert(alreadyCompletedTable, "colLeft")
+				--goto checkAnother
+				return false
+			else
+				existingString = existingString..gui.get_text(gui.get_node("letter"..col-i.."-"..row))
+			end
+		end
+		-- check if strings fit together, if so return true
+		if words_match(word, existingString) then
+			return "colLeft"
+		else
+			--table.insert(alreadyCompletedTable, "colLeft")
+			--goto checkAnother
+			return false
+		end
+	elseif direction == "colRight" then
+	-- check col ( ---> right)
+	--::colRight::
+		existingString = ""
+		for i=0, currentWordLength do
+			if col+i > 11 then
+				-- incrementing columns (traveling right), col++
+				-- end process, go to next - this check failed
+				print("=== Failed check for colRight: reached position ("..col+i..", "..row..")")
+				-- add to alreadyCompletedTable
+				--table.insert(alreadyCompletedTable, "colRight")
+				--goto checkAnother
+				return false
+			else
+				existingString = existingString..gui.get_text(gui.get_node("letter"..col+i.."-"..row))
+			end
+		end
+		-- check if strings fit together, if so return true
+		if words_match(word, existingString) then
+			return "colRight"
+		else
+			--table.insert(alreadyCompletedTable, "colRight")
+			--goto checkAnother
+			return false
+		end
+	elseif direction == "rowUp" then
+		-- check row (^^ up ^^)
+		-- ::rowUp::
+		existingString = ""
+		for i=0, currentWordLength do
+			if row-i < 0 then
+				-- row decreasing (going up), row--
+				-- end process, this check failed
+				print("=== Failed check for rowUp: reached position ("..col..", "..row-i..")")
+				-- add to alreadyCompletedTable
+				--table.insert(alreadyCompletedTable, "rowUp")
+				--goto checkAnother
+				return false
+			else
+				existingString = existingString..gui.get_text(gui.get_node("letter"..col.."-"..row-i))
+			end
+		end
+		-- check if strings fit together, if so return true
+		if words_match(word, existingString) then
+			return "rowUp"
+		else
+			--table.insert(alreadyCompletedTable, "rowUp")
+			--goto checkAnother
+			return false
+		end
+	elseif direction == "rowDown" then
+		-- check row (vv down vv)
+		--::rowDown::
+		existingString = ""
+		for i=0, currentWordLength do
+			if row+i > 11 then
+				-- row increasing (going down), row++
+				-- end process, this check failed
+				print("=== Failed check for rowDown: reached position ("..col..", "..row+i..")")
+				-- add to alreadyCompletedTable
+				--table.insert(alreadyCompletedTable, "rowDown")
+				--goto checkAnother
+				return false
+			else
+				existingString = existingString..gui.get_text(gui.get_node("letter"..col.."-"..row+i))
+			end
+		end
+		-- check if strings fit together, if so return true
+		if words_match(word, existingString) then
+			return "rowDown"
+		else
+			--table.insert(alreadyCompletedTable, "rowDown")
+			--goto checkAnother
+			return false
+		end
+	elseif direction == "upRight" then
+		-- upRight /^
+		-- (1 is beginning of line, 3 is end)
+		-- [ ][ ][3]
+		-- [ ][2][ ]
+		-- [1][ ][ ]
+		--::upRight::
+		existingString = ""
+		for i=0, currentWordLength do
+			if col+i > 11 or row-i < 0 then
+				-- end process, this check failed
+				-- up right /^, col++ row--
+				print("=== Failed check for upRight: reached position ("..col+i..", "..row-i..")")
+				-- add to alreadyCompletedTable
+				--table.insert(alreadyCompletedTable, "upRight")
+				--goto checkAnother
+				return false
+			else
+				existingString = existingString..gui.get_text(gui.get_node("letter"..col+i.."-"..row-i))
+			end
+		end
+		-- check if strings fit together, if so return true
+		if words_match(word, existingString) then
+			return "upRight"
+		else
+			--table.insert(alreadyCompletedTable, "upRight")
+			--goto checkAnother
+			return false
+		end
+	elseif direction == "upLeft" then
+		-- upLeft ^\
+		-- (1 is beginning of line, 3 is end)
+		-- [3][ ][ ]
+		-- [ ][2][ ]
+		-- [ ][ ][1]
+		--::upLeft::
+		existingString = ""
+		for i=0, currentWordLength do
+			if col-i < 0 or row-i < 0 then
+				-- end process, this check failed
+				print("=== Failed check for upLeft: reached position ("..col-i..", "..row-i..")")
+				-- add to alreadyCompletedTable
+				--table.insert(alreadyCompletedTable, "upLeft")
+				--goto checkAnother
+				return false
+			else
+				existingString = existingString..gui.get_text(gui.get_node("letter"..col-i.."-"..row-i))
+			end
+		end
+		-- check if strings fit together, if so return true
+		if words_match(word, existingString) then
+			return "upLeft"
+		else
+			--table.insert(alreadyCompletedTable, "upLeft")
+			--goto checkAnother
+			return false
+		end
+	elseif direction == "dnLeft" then
+		-- dnLeft v/
+		-- (1 is beginning of line, 3 is end)
+		-- [ ][ ][1]
+		-- [ ][2][ ]
+		-- [3][ ][ ]
+		--::dnLeft::
+		existingString = ""
+		for i=0, currentWordLength do
+			if col-i < 0 or row+i > 11 then
+				-- end process, this check failed
+				print("=== Failed check for dnLeft: reached position ("..col+i..", "..row-i..")")
+				-- add to alreadyCompletedTable
+				--table.insert(alreadyCompletedTable, "dnLeft")
+				--goto checkAnother
+				return false
+			else
+				existingString = existingString..gui.get_text(gui.get_node("letter"..col-i.."-"..row+i))
+			end
+		end
+		-- check if strings fit together, if so return true
+		if words_match(word, existingString) then
+			return "dnLeft"
+		else
+			--table.insert(alreadyCompletedTable, "dnLeft")
+			--goto checkAnother
+			return false
+		end
+	elseif direction == "dnRight" then
+		-- dnRight \v
+		-- (1 is beginning of line, 3 is end)
+		-- [ ][ ][1]
+		-- [ ][2][ ]
+		-- [3][ ][ ]
+		--::dnRight::
+		existingString = ""
+		for i=0, currentWordLength do
+			if col+i > 11 or row+i > 11 then
+				-- end process, this check failed
+				print("=== Failed check for dnRight: reached position ("..col+i..", "..row-i..")")
+				-- add to alreadyCompletedTable
+				--table.insert(alreadyCompletedTable, "dnRight")
+				--goto checkAnother
+				return false
+			else
+				existingString = existingString..gui.get_text(gui.get_node("letter"..col+i.."-"..row+i))
+			end
+		end
+		-- check if strings fit together, if so return true
+		if words_match(word, existingString) then
+			return "dnRight"
+		else
+			--table.insert(alreadyCompletedTable, "dnRight")
+			--goto checkAnother
+			return false
+		end
+	else
+		print("=== UNKNOWN DIRECTION PASSED TO checkOneDirection(direction)")
+		return false
+	end
+end
+
 function check_all_direction_for_placement(col, row, word)
 	-- check if word has enough room in a direction
 	-- OR if intersection matches up with word
@@ -1392,248 +1615,28 @@ function check_all_direction_for_placement(col, row, word)
 	-- random order of placement
 	-- this further randomizes the order of options checked, to produce different puzzles
 	-- every time
+	math.randomseed(os.clock()*100000000000)
 	local randomIndex = 0
 	local alreadyCompletedTable = {}
-	local optionsTable = {"colLeft", "colRight", "rowUp", "rowDown","upRight", "upLeft", "dnLeft", "dnRight"}
-	local newOption = ""
-	
-	::checkAnother::
-	newOption = ""
-	existingString = ""
-	-- check to see if all options have been checked
-	if GetTableLng(alreadyCompletedTable) == 8 then
-		return false
-	end
+	-- leaving out "dnRight"
+	local optionsTable = {"colLeft", "colRight", "rowUp", "rowDown","upRight", "upLeft", "dnLeft"}
+	--local newOption = ""
+	local direction = ""
 
-	if GetTableLng(optionsTable) == 0 then
-		return false
-	end
+	shuffle(optionsTable)
+
+	-- force there to be at least one diagonal (dnRight)
+	local replaceIndexOne = optionsTable[1]
+	optionsTable[1] = "dnRight"
+	optionsTable[#optionsTable+1] = replaceIndexOne
 	
-	-- this I think enables randomness for a bunch of stuff I'm pretty sure
-	math.randomseed(os.clock()*100000000000)
-	-- generate random num from 1 to optionTable size
-	randomIndex = math.random(1, GetTableLng(optionsTable))
-	newOption = optionsTable[randomIndex]
-	for key,value in pairs(alreadyCompletedTable) do
-		if alreadyCompletedTable[key] == newOption then
-			-- option has already been checked (and it failed)
-			-- give it a new option, start over
-			-- print("==== ALREADY CHECKED "..newOption..", retrying...")
-			removebyKey(optionsTable, newOption)
-			-- DumpTable(optionsTable)
-			goto checkAnother
+	for i=1,8 do
+		direction = optionsTable[i]
+		local result = checkOneDirection(direction, existingString, currentWordLength, col, row, word)
+		if result ~= false then
+			return result
 		end
 	end
-	
-	-- interpret result
-	if newOption == "colLeft" then
-		goto colLeft
-	elseif newOption == "colRight" then
-		goto colRight
-	elseif newOption == "rowUp" then
-		goto rowUp
-	elseif newOption == "rowDown" then
-		goto rowDown
-	elseif newOption == "upRight" then
-		goto upRight
-	elseif newOption == "upLeft" then
-		goto upLeft
-	elseif newOption == "dnLeft" then
-		goto dnLeft
-	elseif newOption == "dnRight" then
-		goto dnRight
-	end
-	
-	-- check col ( <--- left)
-	::colLeft::
-	for i=0, currentWordLength do
-		if (col-i) < 0 then
-			-- end process, go to next - this check failed
-			print("=== Failed check for colLeft: reached position ("..col-i..", "..row..")")
-			-- add to alreadyCompletedTable
-			table.insert(alreadyCompletedTable, "colLeft")
-			goto checkAnother
-		else
-			existingString = existingString..gui.get_text(gui.get_node("letter"..col-i.."-"..row))
-		end
-	end
-	-- check if strings fit together, if so return true
-	if words_match(word, existingString) then
-		return "colLeft"
-	else
-		table.insert(alreadyCompletedTable, "colLeft")
-		goto checkAnother
-	end
-	-- check col ( ---> right)
-	::colRight::
-	existingString = ""
-	for i=0, currentWordLength do
-		if col+i > 11 then
-			-- incrementing columns (traveling right), col++
-			-- end process, go to next - this check failed
-			print("=== Failed check for colRight: reached position ("..col+i..", "..row..")")
-			-- add to alreadyCompletedTable
-			table.insert(alreadyCompletedTable, "colRight")
-			goto checkAnother
-		else
-			existingString = existingString..gui.get_text(gui.get_node("letter"..col+i.."-"..row))
-		end
-	end
-	-- check if strings fit together, if so return true
-	if words_match(word, existingString) then
-		return "colRight"
-	else
-		table.insert(alreadyCompletedTable, "colRight")
-		goto checkAnother
-	end
-	-- check row (^^ up ^^)
-	::rowUp::
-	existingString = ""
-	for i=0, currentWordLength do
-		if row-i < 0 then
-			-- row decreasing (going up), row--
-			-- end process, this check failed
-			print("=== Failed check for rowUp: reached position ("..col..", "..row-i..")")
-			-- add to alreadyCompletedTable
-			table.insert(alreadyCompletedTable, "rowUp")
-			goto checkAnother
-		else
-			existingString = existingString..gui.get_text(gui.get_node("letter"..col.."-"..row-i))
-		end
-	end
-	-- check if strings fit together, if so return true
-	if words_match(word, existingString) then
-		return "rowUp"
-	else
-		table.insert(alreadyCompletedTable, "rowUp")
-		goto checkAnother
-	end
-	-- check row (vv down vv)
-	::rowDown::
-	existingString = ""
-	for i=0, currentWordLength do
-		if row+i > 11 then
-			-- row increasing (going down), row++
-			-- end process, this check failed
-			print("=== Failed check for rowDown: reached position ("..col..", "..row+i..")")
-			-- add to alreadyCompletedTable
-			table.insert(alreadyCompletedTable, "rowDown")
-			goto checkAnother
-		else
-			existingString = existingString..gui.get_text(gui.get_node("letter"..col.."-"..row+i))
-		end
-	end
-	-- check if strings fit together, if so return true
-	if words_match(word, existingString) then
-		return "rowDown"
-	else
-		table.insert(alreadyCompletedTable, "rowDown")
-		goto checkAnother
-	end
-	-- upRight /^
-	-- (1 is beginning of line, 3 is end)
-	-- [ ][ ][3]
-	-- [ ][2][ ]
-	-- [1][ ][ ]
-	::upRight::
-	existingString = ""
-	for i=0, currentWordLength do
-		if col+i > 11 or row-i < 0 then
-			-- end process, this check failed
-			-- up right /^, col++ row--
-			print("=== Failed check for upRight: reached position ("..col+i..", "..row-i..")")
-			-- add to alreadyCompletedTable
-			table.insert(alreadyCompletedTable, "upRight")
-			goto checkAnother
-		else
-			existingString = existingString..gui.get_text(gui.get_node("letter"..col+i.."-"..row-i))
-		end
-	end
-	-- check if strings fit together, if so return true
-	if words_match(word, existingString) then
-		return "upRight"
-	else
-		table.insert(alreadyCompletedTable, "upRight")
-		goto checkAnother
-	end
-	-- upLeft ^\
-	-- (1 is beginning of line, 3 is end)
-	-- [3][ ][ ]
-	-- [ ][2][ ]
-	-- [ ][ ][1]
-	::upLeft::
-	existingString = ""
-	for i=0, currentWordLength do
-		if col-i < 0 or row-i < 0 then
-			-- end process, this check failed
-			print("=== Failed check for upLeft: reached position ("..col-i..", "..row-i..")")
-			-- add to alreadyCompletedTable
-			table.insert(alreadyCompletedTable, "upLeft")
-			goto checkAnother
-		else
-			existingString = existingString..gui.get_text(gui.get_node("letter"..col-i.."-"..row-i))
-		end
-	end
-	-- check if strings fit together, if so return true
-	if words_match(word, existingString) then
-		return "upLeft"
-	else
-		table.insert(alreadyCompletedTable, "upLeft")
-		goto checkAnother
-	end
-	-- dnLeft v/
-	-- (1 is beginning of line, 3 is end)
-	-- [ ][ ][1]
-	-- [ ][2][ ]
-	-- [3][ ][ ]
-	::dnLeft::
-	existingString = ""
-	for i=0, currentWordLength do
-		if col-i < 0 or row+i > 11 then
-			-- end process, this check failed
-			print("=== Failed check for dnLeft: reached position ("..col+i..", "..row-i..")")
-			-- add to alreadyCompletedTable
-			table.insert(alreadyCompletedTable, "dnLeft")
-			goto checkAnother
-		else
-			existingString = existingString..gui.get_text(gui.get_node("letter"..col-i.."-"..row+i))
-		end
-	end
-	-- check if strings fit together, if so return true
-	if words_match(word, existingString) then
-		return "dnLeft"
-	else
-		table.insert(alreadyCompletedTable, "dnLeft")
-		goto checkAnother
-	end
-	-- dnRight \v
-	-- (1 is beginning of line, 3 is end)
-	-- [ ][ ][1]
-	-- [ ][2][ ]
-	-- [3][ ][ ]
-	::dnRight::
-	existingString = ""
-	for i=0, currentWordLength do
-		if col+i > 11 or row+i > 11 then
-			-- end process, this check failed
-			print("=== Failed check for dnRight: reached position ("..col+i..", "..row-i..")")
-			-- add to alreadyCompletedTable
-			table.insert(alreadyCompletedTable, "dnRight")
-			goto checkAnother
-		else
-			existingString = existingString..gui.get_text(gui.get_node("letter"..col+i.."-"..row+i))
-		end
-	end
-	-- check if strings fit together, if so return true
-	if words_match(word, existingString) then
-		return "dnRight"
-	else
-		table.insert(alreadyCompletedTable, "dnRight")
-		goto checkAnother
-	end
-	-- all checks have run
-	-- if true has not yet been returned, no possible placement
-	::checkFailed::
 	return false
 end
 
