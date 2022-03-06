@@ -860,16 +860,27 @@ function unhighlight_box(node, success)
 	color.w = 1
 	
 	if not success then
-		gui.animate(node, gui.PROP_COLOR, color, gui.EASING_LINEAR, 0.1, 0.1, resetBoxesToDefaultColor)
+		if gui.get_color(node) ~= green then
+			gui.animate(node, gui.PROP_COLOR, color, gui.EASING_LINEAR, 0.1, 0.1, resetBoxesToDefaultColor)
+		else 
+			print("== FOUND GREEN BOX")
+			gui.animate(node, gui.PROP_COLOR, green, gui.EASING_LINEAR, 0.3)
+		end
 	else
 		gui.animate(node, gui.PROP_COLOR, color, gui.EASING_LINEAR, 0.1, 0.2)
 	end
 end
 
 function boxToDefaultColor(node, nodesAreValid)
-	print("=== boxToDefaultColor SETTING NODE:"..tostring(node))
 	local defaultGray = vmath.vector4(0.9, 0.9, 0.9, 1)
-	gui.animate(node, gui.PROP_COLOR, defaultGray, gui.EASING_LINEAR, 0.3)
+	local green = vmath.vector4(0.1, 1, 0.1, 1)
+	if gui.get_color(node) ~= green then
+		print("=== boxToDefaultColor SETTING NODE: "..tostring(node))
+		gui.animate(node, gui.PROP_COLOR, defaultGray, gui.EASING_LINEAR, 0.3)
+	else
+		print("== FOUND GREEN BOX: "..tostring(node))
+		gui.animate(node, gui.PROP_COLOR, green, gui.EASING_LINEAR, 0.3)
+	end
 end
 
 function resetBoxesToDefaultColor()
