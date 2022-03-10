@@ -841,8 +841,19 @@ function unhighlight_valid(nodesAreValid)
 end
 
 function highlight_box(node)
+	-- only called to highlight node1 yellow
 	local color = vmath.vector4(1, 1, 0, 1)
 	color.w = 0.5
+	-- print("Highlighting box: "..tostring(gui.get_id(node))..", "..tostring(gui.get_color(node)))
+
+	-- check to see if this node is already green
+	print("*** NEW NODE1 - reset to false.")
+	--if gui.get_color(node) ~= green then
+	if gui.get_color(node).y > 0.95 and gui.get_color(node).x < 0.5 then
+		print("*** bool is now true.")
+	else
+		print("*** bool is now false.")
+	end
 	gui.animate(node, gui.PROP_COLOR, color, gui.EASING_LINEAR, 0.1)
 end
 
