@@ -684,7 +684,7 @@ function on_input(self, action_id, action)
 			highlight_boxes()
 		end
 	end
-	
+
 	if action.pressed and gui.pick_node(gui.get_node("leftArrow"), action.x, action.y) then
 		print("Left arrow pressed: ")
 	end
@@ -798,8 +798,8 @@ function unhighlight_valid(nodesAreValid)
 			unhighlight_box(node2, nodesAreValid)
 			return;
 		end
-			
-		
+
+
 		if node1Col < node2Col and node1Row < node2Row then
 			-- c1 < c2
 			-- r1 < r2
@@ -858,12 +858,12 @@ function unhighlight_box(node, success)
 		color = red
 	end
 	color.w = 1
-	
+	print("Color for letter "..tostring(gui.get_id(node)).." "..tostring(gui.get_color(node)))
 	if not success then
 		if gui.get_color(node) ~= green then
 			gui.animate(node, gui.PROP_COLOR, color, gui.EASING_LINEAR, 0.1, 0.1, resetBoxesToDefaultColor)
 		else 
-			print("== FOUND GREEN BOX")
+			print("== FOUND GREEN BOX "..tostring(gui.get_id(node)))
 			gui.animate(node, gui.PROP_COLOR, green, gui.EASING_LINEAR, 0.3)
 		end
 	else
@@ -875,10 +875,10 @@ function boxToDefaultColor(node, nodesAreValid)
 	local defaultGray = vmath.vector4(0.9, 0.9, 0.9, 1)
 	local green = vmath.vector4(0.1, 1, 0.1, 1)
 	if gui.get_color(node) ~= green then
-		print("=== boxToDefaultColor SETTING NODE: "..tostring(node))
+		print("=== boxToDefaultColor SETTING NODE: "..tostring(gui.get_id(node)))
 		gui.animate(node, gui.PROP_COLOR, defaultGray, gui.EASING_LINEAR, 0.3)
 	else
-		print("== FOUND GREEN BOX: "..tostring(node))
+		print("== FOUND GREEN BOX: "..tostring(gui.get_id(node)))
 		gui.animate(node, gui.PROP_COLOR, green, gui.EASING_LINEAR, 0.3)
 	end
 end
@@ -1134,7 +1134,7 @@ function check_if_valid_nodes()
 		return false
 	end
 
-	
+
 end
 
 function clear_board()
@@ -1164,7 +1164,7 @@ function place_word(wordIndex)
 		print("Size of word bank: "..wordBankSize)
 		return true
 	end
-	
+
 	-- == STEP ONE == first, try to place word
 	local currentWord = wordBank.words[wordIndex]
 	local currentWordLength = string.len(currentWord)
@@ -1413,8 +1413,8 @@ function checkOneDirection(direction, existingString, currentWordLength, col, ro
 			return false
 		end
 	elseif direction == "colRight" then
-	-- check col ( ---> right)
-	--::colRight::
+		-- check col ( ---> right)
+		--::colRight::
 		existingString = ""
 		for i=0, currentWordLength do
 			if col+i > 11 then
@@ -1640,7 +1640,7 @@ function check_all_direction_for_placement(col, row, word)
 	local replaceIndexOne = optionsTable[1]
 	optionsTable[1] = "dnRight"
 	optionsTable[#optionsTable+1] = replaceIndexOne
-	
+
 	for i=1,8 do
 		direction = optionsTable[i]
 		local result = checkOneDirection(direction, existingString, currentWordLength, col, row, word)
@@ -1681,7 +1681,7 @@ function words_match(word, existing)
 		--   if it matches keep looking to next charcater in existing 
 		--   else return false 
 
-		
+
 		for c in word:gmatch("[%z\1-\127\194-\244][\128-\191]*") do
 			wordCurrChar = wordCurrChar+1
 			existCurrChar = 0
@@ -1713,7 +1713,7 @@ function words_match(word, existing)
 					break
 				end
 			end
-			
+
 		end	
 		-- local length = wordLength
 		-- for i=1, length do
@@ -1727,7 +1727,7 @@ function words_match(word, existing)
 		-- 	::continue::
 		-- end
 	end
-	
+
 	return true
 end
 
