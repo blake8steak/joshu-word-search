@@ -10,6 +10,11 @@ local node2Char
 local wordBank
 local wordBankSize = 0
 
+-- very jank but should work
+-- gets set in highlight_box(), which is only ever called for node1
+-- used for if guess is incorrect, setting back to green
+local nodeOneWasGreen
+
 function init(self)
 	-- Add initialization code here
 	-- Learn more: https://defold.com/manuals/script/
@@ -847,12 +852,14 @@ function highlight_box(node)
 	-- print("Highlighting box: "..tostring(gui.get_id(node))..", "..tostring(gui.get_color(node)))
 
 	-- check to see if this node is already green
-	print("*** NEW NODE1 - reset to false.")
-	--if gui.get_color(node) ~= green then
+	nodeOneWasGreen = false
+	print("*** NEW NODE1 - init nodeOneWasGreen to "..tostring(nodeOneWasGreen))
 	if gui.get_color(node).y > 0.95 and gui.get_color(node).x < 0.5 then
-		print("*** bool is now true.")
+		nodeOneWasGreen = true
+		print("*** nodeOneWasGreen is now "..tostring(nodeOneWasGreen))
 	else
-		print("*** bool is now false.")
+		nodeOneWasGreen = false
+		print("*** nodeOneWasGreen is now "..tostring(nodeOneWasGreen))
 	end
 	gui.animate(node, gui.PROP_COLOR, color, gui.EASING_LINEAR, 0.1)
 end
@@ -863,6 +870,14 @@ function unhighlight_box(node, success)
 	local red = vmath.vector4(1, 0.1, 0.1, 1)
 	local color = nil
 	print("=== NODE VALIDITY STATUS: "..tostring(success))
+
+	if node == node1 and nodeOneWasGreen then
+		gui.animate(node, gui.PROP_COLOR, green, gui.EASING_LINEAR, 0.1)
+		-- nodeOneWasGreen = false
+		print("*** nodeOneWasGreen has status "..tostring(nodeOneWasGreen).." - unhighlight_box")
+		return
+	end
+	
 	if success then 
 		color = green
 	else
@@ -871,7 +886,8 @@ function unhighlight_box(node, success)
 	color.w = 1
 	print("Color for letter "..tostring(gui.get_id(node)).." "..tostring(gui.get_color(node)))
 	if not success then
-		if gui.get_color(node) ~= green then
+		--if gui.get_color(node) ~= green then
+		if gui.get_color(node).y < 0.95 or gui.get_color(node).x > 0.5 then
 			gui.animate(node, gui.PROP_COLOR, color, gui.EASING_LINEAR, 0.1, 0.1, resetBoxesToDefaultColor)
 		else 
 			print("== FOUND GREEN BOX "..tostring(gui.get_id(node)))
@@ -885,7 +901,16 @@ end
 function boxToDefaultColor(node, nodesAreValid)
 	local defaultGray = vmath.vector4(0.9, 0.9, 0.9, 1)
 	local green = vmath.vector4(0.1, 1, 0.1, 1)
-	if gui.get_color(node) ~= green then
+
+	if node == node1 and nodeOneWasGreen then
+		gui.animate(node, gui.PROP_COLOR, green, gui.EASING_LINEAR, 0.1)
+		nodeOneWasGreen = false
+		print("*** nodeOneWasGreen is now "..tostring(nodeOneWasGreen).." - boxToDefaultColor")
+		return
+	end
+	
+	--if gui.get_color(node) ~= green then
+	if gui.get_color(node).y < 0.95 or gui.get_color(node).x > 0.5 then
 		print("=== boxToDefaultColor SETTING NODE: "..tostring(gui.get_id(node)))
 		gui.animate(node, gui.PROP_COLOR, defaultGray, gui.EASING_LINEAR, 0.3)
 	else
