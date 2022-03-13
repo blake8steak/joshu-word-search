@@ -9,6 +9,7 @@ local node2Row
 local node2Char
 local wordBank
 local wordBankSize = 0
+local wordHintIndex = 1
 
 -- very jank but should work
 -- gets set in highlight_box(), which is only ever called for node1
@@ -41,11 +42,18 @@ function on_message(self, message_id, message, sender)
 	if message_id == hash("init_tiles") then
 		print("Initializing tiles...")
 		wordBank = message
-		-- print("=== DEFINITION: "..wordBank.def[wordBank.words[1]])
+		--print("=== DEFINITION: "..wordBank.def[wordBank.words[1]])
 		for k in pairs(wordBank.words) do 
 			wordBankSize = wordBankSize + 1
 		end
-		place_word(0)
+		local bank = {}
+		math.randomseed(os.clock()*100000000000)
+		shuffle(wordBank.words)
+		shuffle(wordBank.def)
+		shuffle(wordBank)
+		place_word(0, bank)
+		change_word_hint(0)
+		fill_in_empty_boxes()
 	end
 	if message_id == hash("tile_selected") then
 
@@ -692,9 +700,55 @@ function on_input(self, action_id, action)
 
 	if action.pressed and gui.pick_node(gui.get_node("leftArrow"), action.x, action.y) then
 		print("Left arrow pressed: ")
+		change_word_hint(-1)
 	end
 	if action.pressed and gui.pick_node(gui.get_node("rightArrow"), action.x, action.y) then
 		print("Right arrow pressed")
+		change_word_hint(1)
+	end
+end
+
+function change_word_hint(shiftNum)
+	-- shiftNum in initial call is 0
+	-- else shiftNum is always either +1 or -1
+	
+	-- keep index in bounds
+	if (wordHintIndex+shiftNum) > wordBankSize then
+		wordHintIndex = 1
+	elseif (wordHintIndex+shiftNum) == 0 then
+		wordHintIndex = wordBankSize
+	else 
+		wordHintIndex = (wordHintIndex+shiftNum)
+	end
+
+	-- update gui info
+	gui.set_text(gui.get_node("wordNumber"), "ワード #"..wordHintIndex)
+	gui.set_text(gui.get_node("wordHint"), wordBank.def[wordBank.words[wordHintIndex]])
+end
+
+function fill_in_empty_boxes()
+	-- 82 characters
+	-- create a table of chars, pull from in random order
+	local charString = "アイウエオカキクケコサシスセソタチステトナニヌネノハヒフヘホマミムメモヤユヨラリルレロワヲンーガギグゲゴダヂヅデドバビブベボザジズゼゾパピプペポャュョッァィゥェォヴ"
+	local charTable = {}
+	for c in charString:gmatch("[%z\1-\127\194-\244][\128-\191]*") do
+		table.insert(charTable, c)
+	end
+	shuffle(charTable)
+	print("=== FILL IN BOXES CHARTABLE INDEX 1: "..charTable[1])
+
+	for c=0, 11 do
+		for r=0, 11 do
+			local checkNode = gui.get_node("letter"..c.."-"..r)
+			local text = gui.get_text(checkNode)
+			if text == " " then
+				-- box is empty, fill in with random char
+				-- geenrate random index from 1 to 82
+				gui.set_text(checkNode, charTable[math.random(82)])
+			else
+				-- print("ALREADY TEXT HERE")
+			end
+		end
 	end
 end
 
@@ -1183,7 +1237,7 @@ function clear_board()
 	end
 end
 
-function place_word(wordIndex)
+function place_word(wordIndex, placedBank)
 	-- WORD PLACEMENT ALGO  (recursive)
 	-- place word in random spot where enough room exists (randomize diag, horiz, vert)
 	-- if no place found, go back and re-place previous words
@@ -1196,8 +1250,20 @@ function place_word(wordIndex)
 
 	-- == BASE CASE == all words placed
 	if wordIndex > wordBankSize then
+		print("setting new word bank...")
+		wordBank.words = placedBank
+		local newDefBank = {}
+		for k in pairs(wordBank.words) do 
+			print("=== adding new entry to newDefBank: "..k..wordBank.def[wordBank.words[k]])
+			newDefBank[wordBank.words[k]] = wordBank.def[wordBank.words[k]]
+		end
+		wordBank.def = newDefBank
 		print("Index: "..wordIndex)
-		print("Size of word bank: "..wordBankSize)
+		wordBankSize = 0
+		for k in pairs(wordBank.words) do 
+			wordBankSize = wordBankSize + 1
+		end
+		print("=== NEW size of word bank: "..wordBankSize)
 		return true
 	end
 
@@ -1238,13 +1304,16 @@ function place_word(wordIndex)
 				-- else
 				print("Word placed! \""..currentWord.."\" @ ("..tryCol..", "..tryRow..")")
 				--goto placeAnotherWord
-				place_word(wordIndex)
+				table.insert(placedBank, currentWord)
+				place_word(wordIndex, placedBank)
 				return true
 				--end
 			end
 			-- ::nextCoordinates::
 		end
 	end
+	-- couldn't place this word, so try the next one
+	place_word(wordIndex, placedBank)
 end
 
 function write_word(word, direction, col, row)

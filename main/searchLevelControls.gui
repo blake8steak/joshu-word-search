@@ -18557,7 +18557,7 @@ nodes {
   }
   adjust_mode: ADJUST_MODE_FIT
   line_break: false
-  layer: ""
+  layer: "guiLayer"
   inherit_alpha: true
   alpha: 1.0
   outline_alpha: 1.0
@@ -18586,7 +18586,7 @@ nodes {
     w: 1.0
   }
   size {
-    x: 200.0
+    x: 750.0
     y: 100.0
     z: 0.0
     w: 1.0
@@ -18599,10 +18599,7 @@ nodes {
   }
   type: TYPE_TEXT
   blend_mode: BLEND_MODE_ALPHA
-  text: "\343\202\217\343\201\237\343\201\227\343\201\256\343\201\252\343\201\276\343\201\210\343\201\257\343\201\276\343\202\213\343\201\276\343\202\213\343\201\247\343\201\231\343\200\202\n"
-  "\343\201\233\343\202\223\343\201\227\343\202\205\343\201\206\343\201\256\343\201\227\343\202\205\343\201\206\343\201\276\343\201\244\343\201\257\343\202\217\343\201\237\343\201\227\n"
-  "\343\201\256\343\201\237\343\202\223\343\201\230\343\202\207\343\201\206\343\201\263\343\201\247\343\201\227\343\201\237\343\200\202\n"
-  "\343\202\271\343\202\262\343\203\274\343\201\237\343\201\256\343\201\227\343\201\213\343\201\243\343\201\237\343\201\234\343\200\202"
+  text: "\343\202\217\343\201\237\343\201\227\343\201\256\343\201\252\343\201\276\343\201\210\343\201\257"
   font: "rounded-mgenplus-2pp-light"
   id: "wordHint"
   xanchor: XANCHOR_LEFT
@@ -18621,8 +18618,8 @@ nodes {
     w: 1.0
   }
   adjust_mode: ADJUST_MODE_FIT
-  line_break: false
-  layer: ""
+  line_break: true
+  layer: "guiLayer"
   inherit_alpha: true
   alpha: 1.0
   outline_alpha: 1.0
@@ -18633,7 +18630,7 @@ nodes {
 }
 nodes {
   position {
-    x: 532.0
+    x: 60.0
     y: 830.0
     z: 0.0
     w: 1.0
@@ -18669,7 +18666,7 @@ nodes {
   id: "wordNumber"
   xanchor: XANCHOR_LEFT
   yanchor: YANCHOR_TOP
-  pivot: PIVOT_NE
+  pivot: PIVOT_NW
   outline {
     x: 1.0
     y: 1.0
@@ -18684,7 +18681,7 @@ nodes {
   }
   adjust_mode: ADJUST_MODE_FIT
   line_break: false
-  layer: ""
+  layer: "guiLayer"
   inherit_alpha: true
   alpha: 1.0
   outline_alpha: 1.0

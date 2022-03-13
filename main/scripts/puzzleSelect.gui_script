@@ -14,20 +14,24 @@ function init(self)
 	-- wordBank = {"apple6789098", "pear56789098", "forest789098", "cat484836789", "hellopi87654", "alamohgd98fp", "longhornh721", "howdy82aplsm", "blake091posd", "texaslskjdmu", "austin052lsm", "football2005"}
 
 	-- "longhorn", "royal", "football", "texas", "vince", "mccoy", "applewhite", "basketball", "baseball", "jester", "duren", "kinsolving", "littlefield", "horns", "dobie", "cowboys", "smokey", "bevo", "campbell", "williams", "howdy"
-	wordBank = {"longhorn", "royal", "football", "texas", "vince", "mccoy", "applewhite", "basketball", "baseball", "jester", "duren", "kinsolving"}
+	wordBank = {"longhorn", "royal", "texas", "vince", "mccoy", "applewhite", "jester", "kinsolving","littlefield","horns","dobie","cowboys","smokey","campbell","williams"}
 	wordDef = {
-				["longhorn"]="a bovine animal native to texas", 
-				["royal"]="former coach of texas longhorns football",
-				["football"]="an american sport played with a brown ball with laces",
-				["texas"]="the greatest state in the usa",
-				["vince"]="led the 2005 texas longhorn football team to a historic national championship win against usc",
-				["mccoy"]="led the 2009 texas longhorn football team to an appearance in a national championship against alabama",
-				["applewhite"]="texas qb when ricky williams won the heisman trophy",
-				["basketball"]="sport played with an orange ball, rims, backboards, and nets",
-				["baseball"]="known as \"america\'s pastime\"",
-				["jester"]="name of what used to be the largest dorm in the united states",
-				["duren"]="name of a dorm in north campus, named after a woman who played a big role in integrating different races at ut",
-				["kinsolving"]="name of an all-girls dorm in north campus"
+				["longhorn"]="A bovine animal native to Texas.", 
+				["royal"]="Last name of a former football coach who led the Longhorns to win 3 national titles.",
+				["texas"]="The greatest state in the USA.",
+				["vince"]="Led the 2005 Texas Longhorns to a historic BCS National Championship win against USC.",
+				["mccoy"]="Led the 2009 Texas Longhorns to a BCS National Championship appearance against Alabama.",
+				["applewhite"]="Played QB at Texas when Ricky Williams won the Heisman trophy.",
+				["jester"]="Name of what used to be the largest college dorm in the United States.",
+				["kinsolving"]="Name of an all-female dorm in north campus.",
+				--new words start here
+				["littlefield"]="Family with a lot of history at UT - they have both a mansion and a fountain donning their name on campus.",
+				["horns"]="5-letter word, used in the phrase \"Hook \'em _____.",
+				["dobie"]="Surname of a native Texas writer and folklorist. Has a 27-story apartment building named after him near campus.",
+				["cowboys"]="Name of a men's social org who, prior being suspended, operated the cannon at football games.",
+				["smokey"]="The name of the cannon used at UT football games.",
+				["campbell"]="1977 Heisman trophy winner, retired jersey #20 for the Texas Longhorns.",
+				["williams"]="1998 Heisman trophy winner, retired jersey #34 for the Texas Longhorns."
 			}
 	-- wordBank = {"ナルト", "ルフィ", "ルルーシュヴィブリタニア", "ライト", "ボボボーボボーボボ", "アラジン", "ゴンフリークス", "コナン", "アレンウォーカー", "シロエ", "エドワードエルリック", "ピカチュウ"}
 	-- ナルト ルフィ ルルーシュヴィブリタニア ライト ボボボーボボーボボ アラジン ゴンフリークス コナン アレンウォーカー シロエ エドワードエルリック ピカチュウ
