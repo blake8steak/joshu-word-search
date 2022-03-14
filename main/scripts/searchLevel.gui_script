@@ -54,6 +54,8 @@ function on_message(self, message_id, message, sender)
 		place_word(0, bank)
 		change_word_hint(0)
 		fill_in_empty_boxes()
+		-- set to true for time attack mode
+		set_timer(false)
 	end
 	if message_id == hash("tile_selected") then
 
@@ -1834,6 +1836,52 @@ function words_match(word, existing)
 	end
 
 	return true
+end
+
+function set_timer(isCountdown)
+	-- is countdown specifies if this is time attack mode,
+	-- or normal mode (just counts up, no time limit)
+	if isCountdown then 
+		-- do stuff here
+	else 
+		-- control normal upward timer count
+		-- set to 2 to be around 1 second
+		local timer = timer.delay(2, true, update_timer_label)
+	end
+end
+
+function update_timer_label() 
+	local currentText = gui.get_text(gui.get_node("time"))
+	local colonIndex = string.find(currentText, ":")
+	local seconds = tonumber(string.sub(currentText, -3, -1))
+	local minutes = tonumber(string.sub(currentText, 1, colonIndex-1))
+	local newTimeString = ""
+	-- print("geting text = "..string.sub(currentText, -3, -1))
+
+	if seconds < 59 then
+		seconds = seconds+1
+	else 
+		seconds = 0
+		minutes = minutes + 1
+	end
+
+	if minutes < 10 then
+		newTimeString = "0"..minutes.." : "
+	else 
+		newTimeString = minutes.." : "
+	end
+
+	if seconds < 10 then
+		-- "0 : 00"
+		newTimeString = newTimeString.."0"..seconds
+		--gui.set_text(gui.get_node("time"), minutes.." : 0"..seconds)	
+		--print("new time: 0"..seconds)
+	else
+		newTimeString = newTimeString..seconds 
+		--gui.set_text(gui.get_node("time"), minutes.." : "..seconds)	
+		--print("new time: "..seconds)
+	end
+	gui.set_text(gui.get_node("time"), newTimeString)
 end
 
 function shuffle(t)

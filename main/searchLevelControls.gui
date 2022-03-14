@@ -18536,7 +18536,7 @@ nodes {
   }
   type: TYPE_TEXT
   blend_mode: BLEND_MODE_ALPHA
-  text: "0 : 00\n"
+  text: "00 : 00\n"
   ""
   font: "rounded-mgenplus-2pp-heavy"
   id: "time"
