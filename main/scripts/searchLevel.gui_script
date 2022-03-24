@@ -1846,7 +1846,7 @@ function set_timer(isCountdown)
 	else 
 		-- control normal upward timer count
 		-- set to 2 to be around 1 second
-		local timer = timer.delay(2, true, update_timer_label)
+		local timer = timer.delay(1, true, update_timer_label)
 	end
 end
 

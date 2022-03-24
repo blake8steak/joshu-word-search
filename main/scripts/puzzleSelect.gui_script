@@ -1,12 +1,90 @@
-local wordBank
+
+-- puzzleSelect.gui_script
 
 -- == THIS IS WHERE THE WORD BANKS ARE --
+
+local wordBank
+local categories = {
+	["アニメ"]="konata", 
+	["スポーツ"]="sports",
+	["学校"]="school",
+	["オリンピック"]="olympics",
+	["テニス"]="tennis",
+	["国々"]="earth"
+}
+local categoryIndexTable = {
+	"アニメ", 
+	"スポーツ",
+	"学校",
+	"オリンピック",
+	"テニス",
+	"国々"
+}
+
+local categorySize
+
+local backIndex
+local currentIndex
+local nextIndex
+
+function set_category_nodes()
+	gui.play_flipbook(gui.get_node("backIcon"), categories[categoryIndexTable[backIndex]])
+	gui.play_flipbook(gui.get_node("mainIcon"), categories[categoryIndexTable[currentIndex]])
+	gui.play_flipbook(gui.get_node("forwardIcon"), categories[categoryIndexTable[nextIndex]])
+	gui.set_text(gui.get_node("playButtonText"), categoryIndexTable[currentIndex])
+end
+
+function shift_left()
+	backIndex = backIndex+1
+	currentIndex = currentIndex+1
+	nextIndex = nextIndex+1
+	keep_category_in_bounds()
+	set_category_nodes()
+end
+
+function shift_right()
+	backIndex = backIndex-1
+	currentIndex = currentIndex-1
+	nextIndex = nextIndex-1
+	keep_category_in_bounds()
+	set_category_nodes()
+end
+
+function keep_category_in_bounds()
+	if backIndex > categorySize then
+		backIndex = 1
+	end
+	if backIndex < 1 then
+		backIndex = categorySize
+	end
+	if nextIndex > categorySize then
+		nextIndex = 1
+	end
+	if nextIndex < 1 then
+		nextIndex = categorySize
+	end
+	if currentIndex > categorySize then
+		currentIndex = 1
+	end
+	if currentIndex < 1 then
+		currentIndex = categorySize
+	end
+end
 
 function init(self)
 	-- Add initialization code here
 	-- Learn more: https://defold.com/manuals/script/
 	-- Remove this function if not needed
+
+	categorySize = 0
+	for _ in pairs(categoryIndexTable) do categorySize = categorySize + 1 end
+	
+	backIndex = categorySize -- last elem in table
+	currentIndex = 1
+	nextIndex = 2
+
 	print("PUZZLE SELECT INIT")
+	set_category_nodes()
 	msg.post(".", "acquire_input_focus")
 	-- Working words: "ナルト", "ルフィ", "ライト", "アラジン", "コナン", "シロエ"
 
@@ -64,6 +142,13 @@ function on_input(self, action_id, action)
 		print("IN GUISCRIPT, WORDS: "..wordBank[1])
 		msg.post("/puzzleSelect#puzzleSelect1", "set_word_bank", {words = wordBank})
 		msg.post("/puzzleSelect#puzzleSelect1", "set_word_def", {def = wordDef})
+	end
+	if action.pressed and gui.pick_node(gui.get_node("forwardArrow"), action.x, action.y) then
+		print("Left arrow pressed: ")
+		shift_left()
+	end
+	if action.pressed and gui.pick_node(gui.get_node("backArrow"), action.x, action.y) then
+		shift_right()
 	end
 end
 
