@@ -40,6 +40,7 @@ function shift_left()
 	nextIndex = nextIndex+1
 	keep_category_in_bounds()
 	set_category_nodes()
+	sound.play("/background#select", {delay = 0, gain = 0.5, speed = 1})
 end
 
 function shift_right()
@@ -48,6 +49,7 @@ function shift_right()
 	nextIndex = nextIndex-1
 	keep_category_in_bounds()
 	set_category_nodes()
+	sound.play("/background#select",  {delay = 0, gain = 0.5, speed = 1})
 end
 
 function keep_category_in_bounds()
@@ -76,6 +78,7 @@ function init(self)
 	-- Learn more: https://defold.com/manuals/script/
 	-- Remove this function if not needed
 
+	sound.play("/background#menuMusic", {delay = 0, gain = 0.8, speed = 1})
 	categorySize = 0
 	for _ in pairs(categoryIndexTable) do categorySize = categorySize + 1 end
 	
