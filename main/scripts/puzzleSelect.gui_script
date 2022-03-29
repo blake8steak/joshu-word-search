@@ -23,36 +23,50 @@ local categoryIndexTable = {
 
 local categorySize
 
+local backBackIndex
 local backIndex
 local currentIndex
 local nextIndex
+local nextNextIndex
 
 function set_category_nodes()
+	gui.play_flipbook(gui.get_node("backBackIcon"), categories[categoryIndexTable[backBackIndex]])
 	gui.play_flipbook(gui.get_node("backIcon"), categories[categoryIndexTable[backIndex]])
 	gui.play_flipbook(gui.get_node("mainIcon"), categories[categoryIndexTable[currentIndex]])
 	gui.play_flipbook(gui.get_node("forwardIcon"), categories[categoryIndexTable[nextIndex]])
+	gui.play_flipbook(gui.get_node("forwardForwardIcon"), categories[categoryIndexTable[nextNextIndex]])
 	gui.set_text(gui.get_node("playButtonText"), categoryIndexTable[currentIndex])
 end
 
 function shift_left()
+	backBackIndex = backBackIndex + 1
 	backIndex = backIndex+1
 	currentIndex = currentIndex+1
 	nextIndex = nextIndex+1
+	nextNextIndex = nextNextIndex + 1
 	keep_category_in_bounds()
 	set_category_nodes()
 	sound.play("/background#select", {delay = 0, gain = 0.5, speed = 1})
 end
 
 function shift_right()
+	backBackIndex = backBackIndex - 1
 	backIndex = backIndex-1
 	currentIndex = currentIndex-1
 	nextIndex = nextIndex-1
+	nextNextIndex = nextNextIndex - 1
 	keep_category_in_bounds()
 	set_category_nodes()
 	sound.play("/background#select",  {delay = 0, gain = 0.5, speed = 1})
 end
 
 function keep_category_in_bounds()
+	if backBackIndex > categorySize then
+		backBackIndex = 1
+	end
+	if backBackIndex < 1 then
+		backBackIndex = categorySize
+	end
 	if backIndex > categorySize then
 		backIndex = 1
 	end
@@ -64,6 +78,12 @@ function keep_category_in_bounds()
 	end
 	if nextIndex < 1 then
 		nextIndex = categorySize
+	end
+	if nextNextIndex > categorySize then
+		nextNextIndex = 1
+	end
+	if nextNextIndex < 1 then
+		nextNextIndex = categorySize
 	end
 	if currentIndex > categorySize then
 		currentIndex = 1
@@ -81,10 +101,12 @@ function init(self)
 	sound.play("/background#menuMusic", {delay = 0, gain = 0.8, speed = 1})
 	categorySize = 0
 	for _ in pairs(categoryIndexTable) do categorySize = categorySize + 1 end
-	
+
+	backBackIndex = categorySize-1
 	backIndex = categorySize -- last elem in table
 	currentIndex = 1
 	nextIndex = 2
+	nextNextIndex = 3
 
 	print("PUZZLE SELECT INIT")
 	set_category_nodes()
