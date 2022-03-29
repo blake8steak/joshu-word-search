@@ -1,3 +1,5 @@
+local banks = require("main.scripts.wordBanks")
+
 local node1
 local node2
 
@@ -42,7 +44,24 @@ function on_message(self, message_id, message, sender)
 	if message_id == hash("init_tiles") then
 		print("Initializing tiles...")
 		wordBank = message
+		print("Bank name: "..wordBank.bankName)
 		--print("=== DEFINITION: "..wordBank.def[wordBank.words[1]])
+
+		-- == RETRIEVE BANK FROM LOCAL MODULE == --
+		if wordBank.bankName == "アニメ" then
+			wordBank.words = banks.animeWords
+			wordBank.def = banks.animeDef
+		elseif wordBank.bankName == "アニメ" then
+
+		else
+
+		end
+
+
+
+
+
+		
 		for k in pairs(wordBank.words) do 
 			wordBankSize = wordBankSize + 1
 		end
@@ -724,8 +743,29 @@ function change_word_hint(shiftNum)
 	end
 
 	-- update gui info
+	
 	gui.set_text(gui.get_node("wordNumber"), "ワード #"..wordHintIndex)
-	gui.set_text(gui.get_node("wordHint"), wordBank.def[wordBank.words[wordHintIndex]])
+	gui.set_text(gui.get_node("wordHint"), add_line_breaks(wordBank.def[wordBank.words[wordHintIndex]]))
+end
+
+function add_line_breaks(text)
+	local i = 0
+	local completeString = ""
+	for c in text:gmatch("[%z\1-\127\194-\244][\128-\191]*") do
+		i = i+1
+		if i%20 == 0 then
+			if c == "。" or c == "、" then
+				-- add line break after comma/period
+				completeString = completeString..c.."\n"
+			else
+				-- add line break before char
+				completeString = completeString.."\n"..c
+			end
+		else
+			completeString = completeString..c
+		end
+	end
+	return completeString
 end
 
 function fill_in_empty_boxes()
@@ -1193,6 +1233,10 @@ function handle_valid_highlight()
 	local foundWord = false
 	for i = 1, #wordBank.words do
 		checkWord = wordBank.words[i]
+		-- == COME BACK HERE == --
+		-- very strange thing happens for all words in anime word bank except
+		-- "ルフィ" - characters won't print after them in the console!
+		print("|== checking against valid word from bank: |"..checkWord.."|")
 		if checkWord == nodeStringOne or checkWord == nodeStringTwo then
 			print("=== FOUND VALID WORD! "..checkWord)
 			foundWord = true
@@ -1201,7 +1245,7 @@ function handle_valid_highlight()
 		end
 	end
 	if not foundWord then 
-		print("=== Not a valid word.")
+		print("=== Not a valid word. Strings: |"..nodeStringOne.."|"..nodeStringTwo.."|")
 		-- prevent unhighlight!!
 		return false
 	end

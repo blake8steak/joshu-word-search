@@ -27,6 +27,9 @@ function on_message(self, message_id, message, sender)
 	if message_id == hash("set_word_def") then
 		wordBank.def = message.def
 	end
+	if message_id == hash("set_bank") then
+		wordBank.bankName = message.bankName
+	end
 	if message_id == hash("start_searchLevel") then
 		print("CHANGING TO SEARCH LEVEL (currently on "..self.state..")")
 		if self.state == "PUZZLE_SELECT" then

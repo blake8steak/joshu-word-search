@@ -167,6 +167,7 @@ function on_input(self, action_id, action)
 		print("IN GUISCRIPT, WORDS: "..wordBank[1])
 		msg.post("/puzzleSelect#puzzleSelect1", "set_word_bank", {words = wordBank})
 		msg.post("/puzzleSelect#puzzleSelect1", "set_word_def", {def = wordDef})
+		msg.post("/puzzleSelect#puzzleSelect1", "set_bank", {bankName = categoryIndexTable[currentIndex]})
 	end
 	if action.pressed and gui.pick_node(gui.get_node("forwardArrow"), action.x, action.y) then
 		print("Left arrow pressed: ")
