@@ -27,6 +27,10 @@ textures {
   name: "assets"
   texture: "/main/assets.atlas"
 }
+textures {
+  name: "transparent"
+  texture: "/main/transparent.atlas"
+}
 background_color {
   x: 0.0
   y: 0.0
@@ -120,7 +124,7 @@ nodes {
   }
   type: TYPE_TEXT
   blend_mode: BLEND_MODE_ALPHA
-  text: "\343\201\257\343\201\230\343\202\201\343\202\213"
+  text: "\345\247\213\343\202\201\343\202\213"
   font: "lightSubheading"
   id: "startText"
   xanchor: XANCHOR_NONE
@@ -183,7 +187,7 @@ nodes {
   }
   type: TYPE_BOX
   blend_mode: BLEND_MODE_ALPHA
-  texture: "assets/konata"
+  texture: "transparent/konata"
   id: "mainIcon"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
@@ -237,7 +241,7 @@ nodes {
   }
   type: TYPE_BOX
   blend_mode: BLEND_MODE_ALPHA
-  texture: "assets/earth"
+  texture: "transparent/earth"
   id: "backIcon"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
@@ -291,7 +295,7 @@ nodes {
   }
   type: TYPE_BOX
   blend_mode: BLEND_MODE_ALPHA
-  texture: "assets/sports"
+  texture: "transparent/sports"
   id: "forwardIcon"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
@@ -515,7 +519,7 @@ nodes {
   }
   type: TYPE_BOX
   blend_mode: BLEND_MODE_ALPHA
-  texture: "assets/olympics"
+  texture: "transparent/olympics"
   id: "backBackIcon"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
@@ -569,7 +573,7 @@ nodes {
   }
   type: TYPE_BOX
   blend_mode: BLEND_MODE_ALPHA
-  texture: "assets/school"
+  texture: "transparent/school"
   id: "forwardForwardIcon"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE

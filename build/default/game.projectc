@@ -34,7 +34,7 @@ high_dpi = 0
 samples = 0
 update_frequency = 0
 variable_dt = 0
-vsync = 1
+vsync = 0
 width = 1920
 
 [engine]

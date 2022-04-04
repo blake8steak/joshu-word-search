@@ -15,6 +15,10 @@ textures {
   name: "assets"
   texture: "/main/assets.atlas"
 }
+textures {
+  name: "transparent"
+  texture: "/main/transparent.atlas"
+}
 background_color {
   x: 0.0
   y: 0.0
@@ -108,7 +112,7 @@ nodes {
   }
   type: TYPE_BOX
   blend_mode: BLEND_MODE_ALPHA
-  texture: "assets/joshuLogoPng"
+  texture: "transparent/joshuLogoPng"
   id: "joshuLogo"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE

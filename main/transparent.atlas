@@ -1,25 +1,29 @@
 images {
-  image: "/images/backgroundOrange.png"
+  image: "/images/earth.png"
   sprite_trim_mode: SPRITE_TRIM_MODE_OFF
 }
 images {
-  image: "/images/backgroundWhite.png"
+  image: "/images/konata.png"
   sprite_trim_mode: SPRITE_TRIM_MODE_OFF
 }
 images {
-  image: "/images/startButton.png"
+  image: "/images/olympics.png"
   sprite_trim_mode: SPRITE_TRIM_MODE_OFF
 }
 images {
-  image: "/images/orangeRoundSquare.png"
+  image: "/images/school.png"
   sprite_trim_mode: SPRITE_TRIM_MODE_OFF
 }
 images {
-  image: "/images/rightArrow.png"
+  image: "/images/sports.png"
   sprite_trim_mode: SPRITE_TRIM_MODE_OFF
 }
 images {
-  image: "/images/leftArrow.png"
+  image: "/images/tennis.png"
+  sprite_trim_mode: SPRITE_TRIM_MODE_OFF
+}
+images {
+  image: "/images/joshuLogoPng.png"
   sprite_trim_mode: SPRITE_TRIM_MODE_OFF
 }
 margin: 0

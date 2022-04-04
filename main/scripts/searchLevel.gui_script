@@ -51,9 +51,10 @@ function on_message(self, message_id, message, sender)
 		if wordBank.bankName == "アニメ" then
 			wordBank.words = banks.animeWords
 			wordBank.def = banks.animeDef
-		elseif wordBank.bankName == "アニメ" then
-
-		else
+		elseif wordBank.bankName == "国々" then
+			wordBank.words = banks.countryWords
+			wordBank.def = banks.countryDef
+		elseif wordBank.bankName == "国々" then
 
 		end
 
