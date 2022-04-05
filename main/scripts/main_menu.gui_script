@@ -3,7 +3,7 @@ local function showTitleScreenAndActions(self)
 	print("Executing showTitleScreenAndActions")
 	print("Executing animateLogos")
 	-- Set Animation Delay
-	local d = 0
+	local d = 0.4
 	-- Change Scale to reduce size
 	local start_scale = 0.0001
 
@@ -32,7 +32,7 @@ local function hideLogo(self)
 	--local from_color = gui.get_color(node)
 	local to_color = gui.get_color(self.joshuLogo)
 	to_color.w = 0
-	local delay = 0.5
+	local delay = 1
 
 	-- Animate the alpha value from 1 to 0
 	gui.animate(self.joshuLogo, gui.PROP_COLOR, to_color, gui.EASING_IN, 0.5, delay, showTitleScreenAndActions)
@@ -40,6 +40,7 @@ end
 
 local function splashScreenAnimate(self)
 	print("Executing animateLogos")
+	sound.play("/background#startupSound", {delay = 0.3, gain = 0.5, speed = 1})
 	-- Set Animation Delay
 	local d = 0
 	-- Change Scale to reduce size
