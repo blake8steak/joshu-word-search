@@ -37,19 +37,38 @@ function on_message(self, message_id, message, sender)
 	if message_id == hash("start_puzzleSelect") then
 		print("CHANGING TO PUZZLE SELECT")
 		if self.state == "MAIN_MENU" then
+			print("*** STATE == MAIN_MENU")
 			msg.post("#puzzleSelectProxy", "load")
 			msg.post("#main_menu", "disable")
 			self.state = "PUZZLE_SELECT"
+		elseif self.state == "SEARCH_LEVEL" then
+			print("*** STATE == SEARCH_LEVEL")
+			msg.post("#puzzleSelectProxy", "load")
+			self.state = "PUZZLE_SELECT"
+			--msg.post("#searchLevelProxy", "unload")
 		end
-	-- elseif message_id == hash("proxy_loaded") then
-	-- 	if sender == msg.url("#searchLevelProxy") then
-	-- 		--msg.post(sender, "init")
-	-- 		msg.post(sender, "enable")
-	-- 	end
-	-- end
+	elseif message_id == hash("start_searchLevel") then
+		print("CHANGING TO SEARCH LEVEL (currently on "..self.state..")")
+		if self.state == "PUZZLE_SELECT" then
+			msg.post("#searchLevelProxy", "load")
+			--msg.post("#puzzleSelect", "unload")
+			self.state = "SEARCH_LEVEL"
+			print("** SHOULD BE SEARCH LEVEL (currently on "..self.state..")")
+		end
 	elseif message_id == hash("proxy_loaded") then
 		if sender == msg.url("#puzzleSelectProxy") then
+			print("=== Puzzle select loaded.")
 			msg.post(sender, "enable")
+
+			-- POSSIBILITY FOR ERROR: should not be called from main menu -> puzzle select
+			msg.post("#searchLevelProxy", "disable")
+			msg.post("#searchLevelProxy", "unload")
+		end
+		if sender == msg.url("#searchLevelProxy") then
+			print("=== Search level loaded.")
+			msg.post(sender, "enable")
+			msg.post("#puzzleSelectProxy", "disable")
+			msg.post("#puzzleSelectProxy", "unload")
 		end
 	end
 end

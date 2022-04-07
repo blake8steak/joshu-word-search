@@ -1,6 +1,6 @@
 font: "/main/fonts/rounded-mgenplus-2pp-light.ttf"
 material: "/builtins/fonts/font.material"
-size: 38
+size: 35
 antialias: 1
 alpha: 1.0
 outline_alpha: 0.0
