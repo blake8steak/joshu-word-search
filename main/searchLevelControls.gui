@@ -27,6 +27,10 @@ fonts {
   name: "bigTextHint"
   font: "/main/fonts/bigTextHint.font"
 }
+fonts {
+  name: "wordHintFont"
+  font: "/main/fonts/wordHintFont.font"
+}
 textures {
   name: "assets"
   texture: "/main/assets.atlas"
@@ -732,7 +736,7 @@ nodes {
 nodes {
   position {
     x: 0.0
-    y: -58.0
+    y: -70.0
     z: 0.0
     w: 1.0
   }
@@ -762,8 +766,8 @@ nodes {
   }
   type: TYPE_TEXT
   blend_mode: BLEND_MODE_ALPHA
-  text: "_ _ _ _ _"
-  font: "subtitle"
+  text: "_ _ _ _ _ _ _ _ _ _ _ _"
+  font: "wordHintFont"
   id: "wordToFindText"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
