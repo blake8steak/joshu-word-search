@@ -5,16 +5,20 @@ local function showTitleScreenAndActions(self)
 	-- Set Animation Delay
 	local d = 0.4
 	-- Change Scale to reduce size
-	local start_scale = 0.0001
+	local start_scale = 0.8
+	gui.set_scale(self.startButton, vmath.vector4(start_scale, start_scale, start_scale, 0))
+	gui.set_scale(self.titleText, vmath.vector4(start_scale, start_scale, start_scale, 0))
 
 	-- Get the current color and set alpha to 0 as a basis for fading up
 	local from_color = gui.get_color(self.startButton)
 	local to_color = gui.get_color(self.startButton)
 	from_color.w = 0
 	gui.set_color(self.startButton, from_color)
+	gui.set_color(self.titleText, from_color)
 
 	-- Animate the alpha value from 0 to 1
-	gui.animate(self.startButton, gui.PROP_COLOR, to_color, gui.EASING_IN, 0.5, d)
+	gui.animate(self.startButton, gui.PROP_COLOR, to_color, gui.EASING_IN, 1, d)
+	gui.animate(self.titleText, gui.PROP_COLOR, to_color, gui.EASING_IN, 1, d)
 
 	--gui.set_inherit_alpha(self.titleText, 0.8)
 
@@ -44,8 +48,9 @@ local function splashScreenAnimate(self)
 	-- Set Animation Delay
 	local d = 0
 	-- Change Scale to reduce size
-	local start_scale = 0.0001
+	local start_scale = 0.3
 	gui.set_scale(self.joshuLogo, vmath.vector4(start_scale, start_scale, start_scale, 0))
+	start_scale = 0
 	-- Set titleText and startButton size too!
 	gui.set_scale(self.startButton, vmath.vector4(start_scale, start_scale, start_scale, 0))
 	gui.set_scale(self.titleText, vmath.vector4(start_scale, start_scale, start_scale, 0))
