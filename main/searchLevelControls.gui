@@ -19,6 +19,14 @@ fonts {
   name: "wordSearchFont"
   font: "/main/fonts/wordSearchFont.font"
 }
+fonts {
+  name: "biggerSubtitle"
+  font: "/main/fonts/biggerSubtitle.font"
+}
+fonts {
+  name: "bigTextHint"
+  font: "/main/fonts/bigTextHint.font"
+}
 textures {
   name: "assets"
   texture: "/main/assets.atlas"
@@ -174,7 +182,7 @@ nodes {
   }
   type: TYPE_BOX
   blend_mode: BLEND_MODE_ALPHA
-  texture: "transparent/dog"
+  texture: "transparent/orangeDoor"
   id: "quitButton"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
@@ -198,8 +206,8 @@ nodes {
 }
 nodes {
   position {
-    x: -4.0
-    y: -118.0
+    x: 0.0
+    y: -150.0
     z: 0.0
     w: 1.0
   }
@@ -230,7 +238,7 @@ nodes {
   type: TYPE_TEXT
   blend_mode: BLEND_MODE_ALPHA
   text: "\343\202\204\343\202\201\343\202\213"
-  font: "rounded-mgenplus-2pp-light"
+  font: "biggerSubtitle"
   id: "text"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
@@ -292,7 +300,7 @@ nodes {
   }
   type: TYPE_BOX
   blend_mode: BLEND_MODE_ALPHA
-  texture: "transparent/konata"
+  texture: "transparent/orangeArrow"
   id: "backToGameButton"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
@@ -317,7 +325,7 @@ nodes {
 nodes {
   position {
     x: 0.0
-    y: -124.0
+    y: -161.0
     z: 0.0
     w: 1.0
   }
@@ -348,7 +356,7 @@ nodes {
   type: TYPE_TEXT
   blend_mode: BLEND_MODE_ALPHA
   text: "\346\210\273\343\202\213"
-  font: "rounded-mgenplus-2pp-light"
+  font: "biggerSubtitle"
   id: "text1"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
@@ -19321,6 +19329,130 @@ nodes {
   alpha: 1.0
   template_node_child: false
   size_mode: SIZE_MODE_MANUAL
+}
+nodes {
+  position {
+    x: 0.0
+    y: 0.0
+    z: 0.0
+    w: 1.0
+  }
+  rotation {
+    x: 0.0
+    y: 0.0
+    z: 0.0
+    w: 1.0
+  }
+  scale {
+    x: 1.0
+    y: 1.0
+    z: 1.0
+    w: 1.0
+  }
+  size {
+    x: 0.0
+    y: 0.0
+    z: 0.0
+    w: 1.0
+  }
+  color {
+    x: 1.0
+    y: 1.0
+    z: 1.0
+    w: 1.0
+  }
+  type: TYPE_TEXT
+  blend_mode: BLEND_MODE_ALPHA
+  text: ""
+  font: "bigTextHint"
+  id: "smallerHintFont"
+  xanchor: XANCHOR_NONE
+  yanchor: YANCHOR_NONE
+  pivot: PIVOT_CENTER
+  outline {
+    x: 1.0
+    y: 1.0
+    z: 1.0
+    w: 1.0
+  }
+  shadow {
+    x: 1.0
+    y: 1.0
+    z: 1.0
+    w: 1.0
+  }
+  adjust_mode: ADJUST_MODE_FIT
+  line_break: false
+  layer: ""
+  inherit_alpha: true
+  alpha: 0.0
+  outline_alpha: 1.0
+  shadow_alpha: 1.0
+  template_node_child: false
+  text_leading: 1.0
+  text_tracking: 0.0
+}
+nodes {
+  position {
+    x: 0.0
+    y: 0.0
+    z: 0.0
+    w: 1.0
+  }
+  rotation {
+    x: 0.0
+    y: 0.0
+    z: 0.0
+    w: 1.0
+  }
+  scale {
+    x: 1.0
+    y: 1.0
+    z: 1.0
+    w: 1.0
+  }
+  size {
+    x: 0.0
+    y: 0.0
+    z: 0.0
+    w: 1.0
+  }
+  color {
+    x: 1.0
+    y: 1.0
+    z: 1.0
+    w: 1.0
+  }
+  type: TYPE_TEXT
+  blend_mode: BLEND_MODE_ALPHA
+  text: ""
+  font: "rounded-mgenplus-2pp-light"
+  id: "biggerHintFont"
+  xanchor: XANCHOR_NONE
+  yanchor: YANCHOR_NONE
+  pivot: PIVOT_CENTER
+  outline {
+    x: 1.0
+    y: 1.0
+    z: 1.0
+    w: 1.0
+  }
+  shadow {
+    x: 1.0
+    y: 1.0
+    z: 1.0
+    w: 1.0
+  }
+  adjust_mode: ADJUST_MODE_FIT
+  line_break: false
+  layer: ""
+  inherit_alpha: true
+  alpha: 0.0
+  outline_alpha: 1.0
+  shadow_alpha: 1.0
+  template_node_child: false
+  text_leading: 1.0
+  text_tracking: 0.0
 }
 layers {
   name: "boxLayer"

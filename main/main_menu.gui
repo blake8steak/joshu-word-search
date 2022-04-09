@@ -136,7 +136,7 @@ nodes {
 nodes {
   position {
     x: 960.0
-    y: 729.0
+    y: 650.0
     z: 0.0
     w: 1.0
   }
@@ -166,7 +166,7 @@ nodes {
   }
   type: TYPE_TEXT
   blend_mode: BLEND_MODE_ALPHA
-  text: "\343\203\257\343\203\274\343\203\211\343\202\265\343\203\274\343\203\201"
+  text: "JOSHU\343\202\265\343\203\274\343\203\201"
   font: "rounded-mgenplus-2pp-heavy"
   id: "titleText"
   xanchor: XANCHOR_NONE
