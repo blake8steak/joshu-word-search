@@ -70,7 +70,7 @@ nodes {
   }
   type: TYPE_BOX
   blend_mode: BLEND_MODE_ALPHA
-  texture: "assets/backgroundOrange"
+  texture: "assets/orangeRoundSquare"
   id: "selectPuzzle"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
@@ -318,7 +318,7 @@ nodes {
 }
 nodes {
   position {
-    x: 320.0
+    x: 295.0
     y: 225.0
     z: 0.0
     w: 1.0
@@ -372,7 +372,7 @@ nodes {
 }
 nodes {
   position {
-    x: 1600.0
+    x: 1625.0
     y: 225.0
     z: 0.0
     w: 1.0

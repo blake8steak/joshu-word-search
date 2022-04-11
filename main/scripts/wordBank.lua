@@ -8,6 +8,7 @@ local M = {} -- creates a new table in the local scope
 -- "ナルト", "ルフィ", "ライト", "ボボボーボボーボボ", "アラジン", "ゴンフリークス", "コナン", "アレンウォーカー", "シロエ", "エドワードエルリック", "ピカチュウ"
 M.words = {"error"}
 M.def = {["error"]="error: sorry, please refresh this page and try again."}
+M.type = ""
 M.bankName = ""
 -- 
 -- function M.setWords(newWords)

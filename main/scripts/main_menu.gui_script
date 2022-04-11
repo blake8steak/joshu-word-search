@@ -116,6 +116,7 @@ function on_input(self, action_id, action)
 	-- Learn more: https://defold.com/manuals/input/
 	-- Remove this function if not needed
 	if action.pressed and gui.pick_node(gui.get_node("startButton"), action.x, action.y) then
+		sound.play("/background#buttonSound", {delay = 0, gain = 0.8, speed = 1})
 		print("Start button clicked")
 		--msg.post("/mainMenu#main", "start_searchLevel")
 		msg.post("/mainMenu#main", "start_puzzleSelect")
