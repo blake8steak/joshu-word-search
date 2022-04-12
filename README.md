@@ -1,7 +1,7 @@
 # JOSHU Word Search
 
 ## You can play it here!
-https://laits.utexas.edu/japanese/joshu/games_students/Herrera/JOSHUWordSearch/
+[https://laits.utexas.edu/japanese/joshu/games_students/Herrera/JOSHUWordSearch/](https://laits.utexas.edu/japanese/joshu/games_students/Herrera/JOSHUWordSearch/)
 
 --
 
