@@ -1,8 +1,7 @@
 # JOSHU Word Search
 
 ## You can play it here!
-[go](https://laits.utexas.edu/japanese/joshu/games_students/Herrera/JOSHUWordSearch/){:target="_blank"}.
-
+<a href="https://laits.utexas.edu/japanese/joshu/games_students/Herrera/JOSHUWordSearch/" target="_blank">UT Japanese JOSHU LAITS Website</a>
 --
 
 I created this project for the UT Austin Japanese homework website JOSHU (Japanese Online Self-Help Utility.)
