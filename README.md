@@ -2,6 +2,7 @@
 
 Mini demo:
 <br />
+<br />
 <img src='https://github.com/blake8steak/joshu-word-search/blob/main/joshuDemo.gif' title='Video Walkthrough' width='400' alt='Video Walkthrough' />
 
 ## Play it here!
