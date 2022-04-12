@@ -1,7 +1,7 @@
 # JOSHU Word Search
 
 ## You can play it here!
-[https://laits.utexas.edu/japanese/joshu/games_students/Herrera/JOSHUWordSearch/](https://laits.utexas.edu/japanese/joshu/games_students/Herrera/JOSHUWordSearch/)
+[go](https://laits.utexas.edu/japanese/joshu/games_students/Herrera/JOSHUWordSearch/){:target="_blank"}.
 
 --
 
@@ -13,6 +13,6 @@ I really enjoyed working on this, and I hope you find this helpful!
 
 Blake Herrera, 2021.
 
-[www.blakeherrera.com](http://blakeherrera.com)
+[go](http://blakeherrera.com){:target="_blank"}
 
 ---
