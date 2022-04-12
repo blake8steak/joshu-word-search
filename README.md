@@ -1,4 +1,5 @@
 # JOSHU Word Search
+<img src='https://github.com/blake8steak/joshu-word-search/blob/main/joshuDemo.gif' title='Video Walkthrough' width='400' alt='Video Walkthrough' />
 
 ## Play it here!
 https://laits.utexas.edu/japanese/joshu/games_students/Herrera/JOSHUWordSearch/
