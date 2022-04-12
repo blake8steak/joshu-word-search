@@ -1,7 +1,9 @@
 # JOSHU Word Search
 
-You can play it here!
+## You can play it here!
 https://laits.utexas.edu/japanese/joshu/games_students/Herrera/JOSHUWordSearch/
+
+--
 
 I created this project for the UT Austin Japanese homework website JOSHU (Japanese Online Self-Help Utility.)
 
