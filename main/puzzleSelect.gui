@@ -211,7 +211,7 @@ nodes {
 nodes {
   position {
     x: 420.0
-    y: 780.0
+    y: 650.0
     z: 0.0
     w: 1.0
   }
@@ -265,7 +265,7 @@ nodes {
 nodes {
   position {
     x: 1510.0
-    y: 780.0
+    y: 650.0
     z: 0.0
     w: 1.0
   }
@@ -489,7 +489,7 @@ nodes {
 nodes {
   position {
     x: 110.0
-    y: 860.0
+    y: 675.0
     z: 0.0
     w: 1.0
   }
@@ -543,7 +543,7 @@ nodes {
 nodes {
   position {
     x: 1810.0
-    y: 860.0
+    y: 675.0
     z: 0.0
     w: 1.0
   }
@@ -596,7 +596,7 @@ nodes {
 }
 nodes {
   position {
-    x: 1830.0
+    x: 1695.0
     y: 1010.0
     z: 0.0
     w: 1.0
@@ -650,7 +650,7 @@ nodes {
 }
 nodes {
   position {
-    x: 85.0
+    x: 215.0
     y: 1010.0
     z: 0.0
     w: 1.0
@@ -865,6 +865,60 @@ nodes {
   alpha: 1.0
   template_node_child: false
   size_mode: SIZE_MODE_MANUAL
+}
+nodes {
+  position {
+    x: 950.0
+    y: 1000.0
+    z: 0.0
+    w: 1.0
+  }
+  rotation {
+    x: 0.0
+    y: 0.0
+    z: 0.0
+    w: 1.0
+  }
+  scale {
+    x: 0.4
+    y: 0.4
+    z: 1.0
+    w: 1.0
+  }
+  size {
+    x: 1701.0
+    y: 292.0
+    z: 0.0
+    w: 1.0
+  }
+  color {
+    x: 1.0
+    y: 1.0
+    z: 1.0
+    w: 1.0
+  }
+  type: TYPE_BOX
+  blend_mode: BLEND_MODE_ALPHA
+  texture: "transparent/titleText"
+  id: "box"
+  xanchor: XANCHOR_NONE
+  yanchor: YANCHOR_NONE
+  pivot: PIVOT_CENTER
+  adjust_mode: ADJUST_MODE_FIT
+  layer: ""
+  inherit_alpha: true
+  slice9 {
+    x: 0.0
+    y: 0.0
+    z: 0.0
+    w: 0.0
+  }
+  clipping_mode: CLIPPING_MODE_NONE
+  clipping_visible: true
+  clipping_inverted: false
+  alpha: 1.0
+  template_node_child: false
+  size_mode: SIZE_MODE_AUTO
 }
 layers {
   name: "backLayer"

@@ -39,6 +39,10 @@ fonts {
   name: "cherubTimer"
   font: "/main/fonts/cherubTimer.font"
 }
+fonts {
+  name: "wordNumFont"
+  font: "/main/fonts/wordNumFont.font"
+}
 textures {
   name: "assets"
   texture: "/main/assets.atlas"
@@ -1027,7 +1031,7 @@ nodes {
 nodes {
   position {
     x: 0.0
-    y: 115.0
+    y: 80.0
     z: 0.0
     w: 1.0
   }
@@ -1090,7 +1094,7 @@ nodes {
 nodes {
   position {
     x: -9.0
-    y: 263.0
+    y: 255.0
     z: 0.0
     w: 1.0
   }
@@ -1121,7 +1125,7 @@ nodes {
   type: TYPE_TEXT
   blend_mode: BLEND_MODE_ALPHA
   text: "\343\201\204\343\201\241\343\201\260\343\202\223\343\203\257\343\203\274\343\203\211"
-  font: "subtitle"
+  font: "wordNumFont"
   id: "wordNumber"
   xanchor: XANCHOR_LEFT
   yanchor: YANCHOR_TOP
@@ -1153,7 +1157,7 @@ nodes {
 nodes {
   position {
     x: 0.0
-    y: -70.0
+    y: -85.0
     z: 0.0
     w: 1.0
   }
