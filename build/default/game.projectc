@@ -5,6 +5,7 @@ write_log = 0
 compress_archive = 1
 publisher = Blake Herrera
 developer = unnamed
+title_as_file_name = JOSHUWordSearch
 
 [display]
 width = 1920
@@ -13,6 +14,7 @@ high_dpi = 0
 samples = 0
 fullscreen = 0
 update_frequency = 0
+swap_interval = 1
 vsync = 0
 display_profiles = /builtins/render/default.display_profilesc
 dynamic_orientation = 0
@@ -26,6 +28,7 @@ clear_color_alpha = 0
 
 [physics]
 type = 2D
+use_fixed_timestep = 0
 gravity_y = -10
 debug = 0
 debug_alpha = 0.9
@@ -41,6 +44,8 @@ contact_impulse_limit = 0
 ray_cast_limit_2d = 64
 ray_cast_limit_3d = 128
 trigger_overlap_capacity = 16
+velocity_threshold = 1
+max_fixed_timesteps = 2
 
 [bootstrap]
 main_collection = /main/main.collectionc
@@ -83,9 +88,6 @@ use_accelerometer = 1
 max_count = 128
 subpixels = 1
 
-[spine]
-max_count = 128
-
 [model]
 max_count = 128
 
@@ -121,7 +123,7 @@ localizations = en
 [android]
 version_code = 1
 minimum_sdk_version = 16
-target_sdk_version = 30
+target_sdk_version = 31
 package = com.example.todo
 manifest = /builtins/manifests/android/AndroidManifest.xml
 iap_provider = GooglePlay
@@ -145,6 +147,7 @@ heap_size = 256
 htmlfile = /builtins/manifests/web/engine_template.html
 cssfile = /builtins/manifests/web/light_theme.css
 archive_location_prefix = archive
+wasm_streaming = 0
 show_fullscreen_button = 1
 show_made_with_defold = 0
 show_console_banner = 1
@@ -153,6 +156,7 @@ splash_image = /images/bubbaSplashSmall.png
 
 [particle_fx]
 max_count = 64
+max_emitter_count = 64
 max_particle_count = 1024
 
 [iap]
@@ -185,4 +189,5 @@ max_tile_count = 2048
 
 [engine]
 run_while_iconified = 0
+fixed_update_frequency = 60
 
