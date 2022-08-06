@@ -286,7 +286,7 @@ nodes {
   }
   type: TYPE_TEXT
   blend_mode: BLEND_MODE_ALPHA
-  text: "ver. 20220726"
+  text: "ver. 20220730"
   font: "rounded-mgenplus-2pp-light"
   id: "versionText"
   xanchor: XANCHOR_NONE
