@@ -161,6 +161,26 @@ function on_message(self, message_id, message, sender)
 			wordBank.words = banks.japanPrefectureWords
 			wordBank.def = banks.japanPrefectureDef
 			wordBank.type = banks.japanPrefectureType
+		elseif wordBank.bankName == "Com. & Media" then
+			wordBank.words = banks.commsWords
+			wordBank.def = banks.commsDef
+			wordBank.type = banks.commsType
+		elseif wordBank.bankName == "人生" then
+			wordBank.words = banks.lifeWords
+			wordBank.def = banks.lifeDef
+			wordBank.type = banks.lifeType
+		elseif wordBank.bankName == "旅行" then
+			wordBank.words = banks.travelWords
+			wordBank.def = banks.travelDef
+			wordBank.type = banks.travelType
+		elseif wordBank.bankName == "家" then
+			wordBank.words = banks.houseWords
+			wordBank.def = banks.houseDef
+			wordBank.type = banks.houseType
+		elseif wordBank.bankName == "家具家電" then
+			wordBank.words = banks.furnAndAppWords
+			wordBank.def = banks.furnAndAppDef
+			wordBank.type = banks.furnAndAppType
 		end
 		
 		for k in pairs(wordBank.words) do 
