@@ -33,7 +33,8 @@ local categories = {
 	["人生"]="life",
 	["旅行"]="travel",
 	["家"]="house",
-	["家具家電"]="fan"
+	["家具家電"]="fan",
+	["車"]="car"
 }
 local categoryIndexTable = {
 	-- "アニメ", 
@@ -99,7 +100,8 @@ local groupAll = {
 	"人生",
 	"旅行",
 	"家",
-	"家具家電"
+	"家具家電",
+	"車"
 }
 
 local groupSports = {
@@ -167,7 +169,7 @@ function handle_group_change(indexInc)
 	
 	if puzzleGroups[groupIndex] == "All" then
 		categoryIndexTable = groupAll
-		categorySize = 28
+		categorySize = 29
 	elseif puzzleGroups[groupIndex] == "Sports" then
 		categoryIndexTable = groupSports
 		categorySize = 3

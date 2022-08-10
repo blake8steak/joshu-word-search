@@ -181,6 +181,10 @@ function on_message(self, message_id, message, sender)
 			wordBank.words = banks.furnAndAppWords
 			wordBank.def = banks.furnAndAppDef
 			wordBank.type = banks.furnAndAppType
+		elseif wordBank.bankName == "車" then
+			wordBank.words = banks.carsWords
+			wordBank.def = banks.carsDef
+			wordBank.type = banks.carsType
 		end
 		
 		for k in pairs(wordBank.words) do 
@@ -957,12 +961,22 @@ function add_line_breaks(text)
 				if c == "。" or c == "、" then
 					-- add line break after comma/period
 					completeString = completeString..c.."\n"
+				elseif c == "{" then
+					-- manual line break entry
+					completeString = completeString.."\n"
+					j = 0
 				else
 					-- add line break before char
 					completeString = completeString.."\n"..c
 				end
 			else
-				completeString = completeString..c
+				if c == "{" then
+					-- manual line break entry
+					completeString = completeString.."\n"
+					j = 0
+				else
+					completeString = completeString..c
+				end
 			end
 		end
 	else
@@ -973,12 +987,22 @@ function add_line_breaks(text)
 				if c == "。" or c == "、" then
 					-- add line break after comma/period
 					completeString = completeString..c.."\n"
+				elseif c == "{" then
+					-- manual line break entry
+					completeString = completeString.."\n"
+					j = 0
 				else
 					-- add line break before char
 					completeString = completeString.."\n"..c
 				end
 			else
-				completeString = completeString..c
+				if c == "{" then
+					-- manual line break entry
+					completeString = completeString.."\n"
+					j = 0
+				else
+					completeString = completeString..c
+				end
 			end
 		end
 	end
