@@ -29,12 +29,13 @@ local categories = {
 	["ハリー・ポッター"]="harryPotter",
 	["マスコット"]="helloKitty",
 	["日本の都道府県"]="japan",
-	["Com. & Media"]="tv",
+	["電話/郵便/番組"]="tv",
 	["人生"]="life",
 	["旅行"]="travel",
 	["家"]="house",
 	["家具家電"]="fan",
-	["車"]="car"
+	["車"]="car",
+	["トラフィック"]="traffic"
 }
 local categoryIndexTable = {
 	-- "アニメ", 
@@ -96,12 +97,13 @@ local groupAll = {
 	"ハリー・ポッター",
 	"マスコット",
 	"日本の都道府県",
-	"Com. & Media",
+	"電話/郵便/番組",
 	"人生",
 	"旅行",
 	"家",
 	"家具家電",
-	"車"
+	"車",
+	"トラフィック"
 }
 
 local groupSports = {
@@ -169,7 +171,7 @@ function handle_group_change(indexInc)
 	
 	if puzzleGroups[groupIndex] == "All" then
 		categoryIndexTable = groupAll
-		categorySize = 29
+		categorySize = 30
 	elseif puzzleGroups[groupIndex] == "Sports" then
 		categoryIndexTable = groupSports
 		categorySize = 3

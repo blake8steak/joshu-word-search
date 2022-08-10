@@ -161,7 +161,7 @@ function on_message(self, message_id, message, sender)
 			wordBank.words = banks.japanPrefectureWords
 			wordBank.def = banks.japanPrefectureDef
 			wordBank.type = banks.japanPrefectureType
-		elseif wordBank.bankName == "Com. & Media" then
+		elseif wordBank.bankName == "電話/郵便/番組" then
 			wordBank.words = banks.commsWords
 			wordBank.def = banks.commsDef
 			wordBank.type = banks.commsType
@@ -185,6 +185,10 @@ function on_message(self, message_id, message, sender)
 			wordBank.words = banks.carsWords
 			wordBank.def = banks.carsDef
 			wordBank.type = banks.carsType
+		elseif wordBank.bankName == "トラフィック" then
+			wordBank.words = banks.trafficWords
+			wordBank.def = banks.trafficDef
+			wordBank.type = banks.trafficType
 		end
 		
 		for k in pairs(wordBank.words) do 
