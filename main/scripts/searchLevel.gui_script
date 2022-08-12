@@ -189,6 +189,30 @@ function on_message(self, message_id, message, sender)
 			wordBank.words = banks.trafficWords
 			wordBank.def = banks.trafficDef
 			wordBank.type = banks.trafficType
+		elseif wordBank.bankName == "病気" then
+			wordBank.words = banks.sicknessWords
+			wordBank.def = banks.sicknessDef
+			wordBank.type = banks.sicknessType
+		elseif wordBank.bankName == "趣味" then
+			wordBank.words = banks.hobbiesWords
+			wordBank.def = banks.hobbiesDef
+			wordBank.type = banks.hobbiesType
+		elseif wordBank.bankName == "家族" then
+			wordBank.words = banks.familyWords
+			wordBank.def = banks.familyDef
+			wordBank.type = banks.familyType
+		elseif wordBank.bankName == "食べ物" then
+			wordBank.words = banks.foodWords
+			wordBank.def = banks.foodDef
+			wordBank.type = banks.foodType
+		elseif wordBank.bankName == "買い物" then
+			wordBank.words = banks.shoppingWords
+			wordBank.def = banks.shoppingDef
+			wordBank.type = banks.shoppingType
+		elseif wordBank.bankName == "Majors (601D)" then
+			wordBank.words = banks.majors601DWords
+			wordBank.def = banks.majors601DDef
+			wordBank.type = banks.majors601DType
 		end
 		
 		for k in pairs(wordBank.words) do 
