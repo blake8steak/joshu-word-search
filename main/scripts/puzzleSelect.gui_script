@@ -41,7 +41,7 @@ local categories = {
 	["家族"]="family",
 	["食べ物"]="foodbox",
 	["買い物"]="shopping",
-	["Majors (601D)"]="daigakusei"
+	["Majors (Lv. 1)"]="daigakusei"
 }
 local categoryIndexTable = {
 	-- "アニメ", 
@@ -77,6 +77,10 @@ local puzzleGroups = {
 	"Food",
 	"Characters",
 	"Other",
+	"Level 2",
+	"Level 3",
+	"Level 4",
+	"Level 5"
 }
 
 local groupAll = {
@@ -115,7 +119,7 @@ local groupAll = {
 	"家族",
 	"食べ物",
 	"買い物",
-	"Majors (601D)"
+	"Majors (Lv. 1)"
 }
 
 local groupSports = {
@@ -124,11 +128,13 @@ local groupSports = {
 	"オリンピック"
 }
 
-local groupLivingThings = {
+local groupLivingThings = { --added 2
 	"かわいい動物",
 	"生き物",
 	"犬の種類",
-	"有名な人"
+	"有名な人",
+	"人生",
+	"家"
 }
 
 local groupPlaces = {
@@ -141,7 +147,8 @@ local groupPlaces = {
 local groupFood = {
 	"和食 #1",
 	"和食 #2",
-	"健康的な食べ物"
+	"健康的な食べ物",
+	"食べ物",
 }
 
 local groupCharacters = {
@@ -152,12 +159,71 @@ local groupCharacters = {
 	"フェアリーテール",
 }
 
-local groupMisc = {
+local groupMisc = { --added 9
 	"大学の専攻",
 	"祝日",
 	"外来語",
+	"職業",
+	"買い物",
+	"Majors (Lv. 1)",
+	"家具家電",
+	"車",
+	"トラフィック",
+	"病気",
+	"趣味",
+	"電話/郵便/番組",
+	"旅行"
+}
+
+local group610D = {
+	"趣味",
+	"家族",
+	"食べ物",
+	"買い物",
+	"Majors (Lv. 1)"
+}
+
+local group611D = {
+	"旅行",
+	"家",
+	"家具家電",
+	"車",
+	"トラフィック",
+	"病気"
+}
+
+local group317C = {
+	"電話/郵便/番組",
+	"人生",
 	"職業"
 }
+
+local group320K = {
+	"アニメ", 
+	"スポーツ",
+	"学校",
+	"犬の種類",
+	"テニス",
+	"オリンピック",
+	"有名な人",
+	"フェアリーテール",
+	"国々",
+	"テキサス",
+	"かわいい動物",
+	"生き物",
+	"大学の専攻",
+	"祝日",
+	"外来語",
+	"和食 #1",
+	"和食 #2",
+	"健康的な食べ物",
+	"日本の昔話",
+	"ハリー・ポッター",
+	"マスコット",
+	"日本の都道府県",
+}
+
+
 
 local groupLength = 0 -- number of puzzle groups
 local groupIndex = 1
@@ -189,19 +255,31 @@ function handle_group_change(indexInc)
 		categorySize = 3
 	elseif puzzleGroups[groupIndex] == "Living Things" then
 		categoryIndexTable = groupLivingThings
-		categorySize = 4
+		categorySize = 6
 	elseif puzzleGroups[groupIndex] == "Places" then
 		categoryIndexTable = groupPlaces
 		categorySize = 4
 	elseif puzzleGroups[groupIndex] == "Food" then
 		categoryIndexTable = groupFood
-		categorySize = 3
+		categorySize = 4
 	elseif puzzleGroups[groupIndex] == "Characters" then
 		categoryIndexTable = groupCharacters
 		categorySize = 5
 	elseif puzzleGroups[groupIndex] == "Other" then
 		categoryIndexTable = groupMisc
-		categorySize = 4
+		categorySize = 13
+	elseif puzzleGroups[groupIndex] == "Level 2" then
+		categoryIndexTable = group610D
+		categorySize = 5
+	elseif puzzleGroups[groupIndex] == "Level 3" then
+		categoryIndexTable = group611D
+		categorySize = 6
+	elseif puzzleGroups[groupIndex] == "Level 4" then
+		categoryIndexTable = group317C
+		categorySize = 3
+	elseif puzzleGroups[groupIndex] == "Level 5" then
+		categoryIndexTable = group320K
+		categorySize = 22
 	end
 	sound.play("/background#select", {delay = 0, gain = 0.5, speed = 1})
 	init_group_carousel() 

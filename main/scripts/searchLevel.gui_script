@@ -209,7 +209,7 @@ function on_message(self, message_id, message, sender)
 			wordBank.words = banks.shoppingWords
 			wordBank.def = banks.shoppingDef
 			wordBank.type = banks.shoppingType
-		elseif wordBank.bankName == "Majors (601D)" then
+		elseif wordBank.bankName == "Majors (Lv. 1)" then
 			wordBank.words = banks.majors601DWords
 			wordBank.def = banks.majors601DDef
 			wordBank.type = banks.majors601DType
