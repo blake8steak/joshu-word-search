@@ -19,10 +19,6 @@ images {
   sprite_trim_mode: SPRITE_TRIM_MODE_OFF
 }
 images {
-  image: "/images/joshuLogoPng.png"
-  sprite_trim_mode: SPRITE_TRIM_MODE_OFF
-}
-images {
   image: "/images/dog.png"
   sprite_trim_mode: SPRITE_TRIM_MODE_OFF
 }
@@ -39,19 +35,11 @@ images {
   sprite_trim_mode: SPRITE_TRIM_MODE_OFF
 }
 images {
-  image: "/images/pauseBtn.png"
-  sprite_trim_mode: SPRITE_TRIM_MODE_OFF
-}
-images {
   image: "/images/orangeArrow.png"
   sprite_trim_mode: SPRITE_TRIM_MODE_OFF
 }
 images {
   image: "/images/orangeDoor.png"
-  sprite_trim_mode: SPRITE_TRIM_MODE_OFF
-}
-images {
-  image: "/images/titleText.png"
   sprite_trim_mode: SPRITE_TRIM_MODE_OFF
 }
 images {
@@ -127,10 +115,6 @@ images {
   sprite_trim_mode: SPRITE_TRIM_MODE_OFF
 }
 images {
-  image: "/images/joshuGroupBg.png"
-  sprite_trim_mode: SPRITE_TRIM_MODE_OFF
-}
-images {
   image: "/images/roundedArrow.png"
   sprite_trim_mode: SPRITE_TRIM_MODE_OFF
 }
@@ -186,6 +170,6 @@ images {
   image: "/images/daigakusei.png"
   sprite_trim_mode: SPRITE_TRIM_MODE_OFF
 }
-margin: 0
+margin: 2
 extrude_borders: 2
-inner_padding: 0
+inner_padding: 2

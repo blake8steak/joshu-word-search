@@ -23,10 +23,6 @@ textures {
   name: "assets"
   texture: "/main/assets.atlas"
 }
-textures {
-  name: "transparent"
-  texture: "/main/transparent.atlas"
-}
 background_color {
   x: 0.0
   y: 0.0
@@ -53,8 +49,8 @@ nodes {
     w: 1.0
   }
   size {
-    x: 1920.0
-    y: 1080.0
+    x: 5000.0
+    y: 5000.0
     z: 0.0
     w: 1.0
   }
@@ -83,9 +79,9 @@ nodes {
   clipping_mode: CLIPPING_MODE_NONE
   clipping_visible: true
   clipping_inverted: false
-  alpha: 0.0
+  alpha: 1.0
   template_node_child: false
-  size_mode: SIZE_MODE_AUTO
+  size_mode: SIZE_MODE_MANUAL
   custom_type: 0
 }
 nodes {
@@ -108,8 +104,8 @@ nodes {
     w: 1.0
   }
   size {
-    x: 1086.0
-    y: 366.0
+    x: 771.0
+    y: 260.0
     z: 0.0
     w: 1.0
   }
@@ -121,7 +117,7 @@ nodes {
   }
   type: TYPE_BOX
   blend_mode: BLEND_MODE_ALPHA
-  texture: "transparent/joshuLogoPng"
+  texture: "assets/joshuLogoPng"
   id: "joshuLogo"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
@@ -182,7 +178,7 @@ nodes {
   yanchor: YANCHOR_NONE
   pivot: PIVOT_CENTER
   adjust_mode: ADJUST_MODE_FIT
-  layer: ""
+  layer: "button"
   inherit_alpha: true
   slice9 {
     x: 0.0
@@ -231,13 +227,13 @@ nodes {
   }
   type: TYPE_BOX
   blend_mode: BLEND_MODE_ALPHA
-  texture: "transparent/titleText"
+  texture: "assets/titleText"
   id: "titleText"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE
   pivot: PIVOT_CENTER
   adjust_mode: ADJUST_MODE_FIT
-  layer: ""
+  layer: "button"
   inherit_alpha: true
   slice9 {
     x: 0.0
@@ -286,7 +282,7 @@ nodes {
   }
   type: TYPE_TEXT
   blend_mode: BLEND_MODE_ALPHA
-  text: "ver. 20220817"
+  text: "ver. 20221017"
   font: "rounded-mgenplus-2pp-light"
   id: "versionText"
   xanchor: XANCHOR_NONE
@@ -306,7 +302,7 @@ nodes {
   }
   adjust_mode: ADJUST_MODE_FIT
   line_break: false
-  layer: ""
+  layer: "button"
   inherit_alpha: true
   alpha: 1.0
   outline_alpha: 1.0
